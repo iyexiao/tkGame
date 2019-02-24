@@ -9,8 +9,13 @@ import string
 import xlrd
 import json
 import openpyxl
-reload(sys)
-sys.setdefaultencoding('utf8')
+
+if sys.version_info < (3, 0):
+    reload(sys)
+    sys.setdefaultencoding('utf8')
+else:
+    import importlib
+    importlib.reload(sys)
 
 _errorDes = ["数据错误：","文件名","行数","列数"]
 _isError = False
@@ -143,7 +148,10 @@ def getJsonText(title,pData,pType,pKey):
     return luaFileName,fileStr
 # 写文件
 def writeFile(filePath,fileData):
-    f = open(filePath,"w")
+    if sys.version_info < (3, 0):
+        f = open(filePath,"w")
+    else:
+        f = open(filePath,"w",encoding='utf-8')
     f.write(fileData)
     f.close()
 # 写文件
@@ -180,7 +188,7 @@ def parseExcel(filePath,fileName):
                     # 写入文件
                     write2Json(filePath,filedata[0],filedata[1])
                 else:
-                    print 'excel sheet error'
+                    print('excel sheet error')
                     sys.exit(1)
     else:
         isXls = False
@@ -199,7 +207,7 @@ def parseExcel(filePath,fileName):
                     # 写入文件
                     write2Json(filePath,filedata[0],filedata[1])
                 else:
-                    print 'excel sheet wrong format'
+                    print('excel sheet wrong format')
                     sys.exit(1)
 
 
@@ -211,7 +219,7 @@ if __name__ == "__main__":
     if len(sys.argv) <= 3:
         excelPath = sys.argv[1]
         if not os.path.exists(excelPath):
-            print 'excelPath dir not exit'
+            print('excelPath dir not exit')
             sys.exit(1)
         jsonPath = sys.argv[2]
         # 检查并创建目录
@@ -219,7 +227,7 @@ if __name__ == "__main__":
             os.makedirs(jsonPath)
 
         findAllFile(parseExcel)
-        print 'parse excel success!'
+        print('parse excel success!')
     else:
-        print 'params not right'
+        print('params not right')
         sys.exit(1)
