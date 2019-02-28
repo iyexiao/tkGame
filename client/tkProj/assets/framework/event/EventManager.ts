@@ -6,12 +6,12 @@ interface IEvent {
 } 
 
 export default class EventManager {
-    static singleInstance: EventManager = null;
+    static _instance: EventManager = null;
     static getInstance(): EventManager {
-        if (EventManager.singleInstance == null) {
-            EventManager.singleInstance = new EventManager();
+        if (EventManager._instance == null) {
+            EventManager._instance = new EventManager();
         }
-        return EventManager.singleInstance;
+        return EventManager._instance;
     }
     event_cache: {[key: number]: Array<IEvent>} = null;
 }
