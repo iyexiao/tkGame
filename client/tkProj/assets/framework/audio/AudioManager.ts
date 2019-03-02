@@ -5,9 +5,12 @@
  * @date 2019-2-28 23:38:18
  * 
  */
-import InstanceBase from "./../instance/InstanceBase";
-export default class AudioManager extends InstanceBase{
-    constructor(){
-        super();
+export default class AudioManager {
+    static _instance:AudioManager = null;
+    static getInstance():AudioManager{
+        if( AudioManager._instance == null ){
+            AudioManager._instance = new AudioManager();
+        }
+        return AudioManager._instance;
     }
 }
