@@ -5,7 +5,8 @@
 	3.安装openpyxl插件https://pypi.python.org/pypi/openpyxl   
 ### [win/mac]  
     3.运行python excel2json.py excel json   
-
+### TODO
+	1.配表工具不做多语言校验，因此需要配置人员自己拟定多语言处理，后期会支持id为字符串形式。
 
 ## Client架构  
 ### 一、客户端与战斗服同一套代码  
