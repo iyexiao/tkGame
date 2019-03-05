@@ -9,3 +9,6 @@ import EventManager from './event/EventManager'
 (window[fw] as any).EventManager = EventManager.getInstance();
 import AudioManager from './audio/AudioManager'
 (window[fw] as any).AudioManager = AudioManager.getInstance();
+import Localization from './Localization'
+(window[fw] as any).Localization = Localization.getInstance();
+(window[fw] as any)._T = Localization.getInstance().getText.bind(Localization.getInstance());

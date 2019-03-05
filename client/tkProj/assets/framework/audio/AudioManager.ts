@@ -1,7 +1,7 @@
 /**
  * @class AudioManager
  * @author YeXiao
- * @deprecated y音频音效管理单例
+ * @deprecated 音频音效管理单例
  * @date 2019-2-28 23:38:18
  * 
  */

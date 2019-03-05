@@ -11,4 +11,10 @@ declare module fw {
         export function pushView(name:string,prefab:cc.Prefab,data:any);
         export function popView(deptt?:number);
     }
+    
+    //声明本地化相关方法
+    export module Localization {
+        export function loadText();
+        export function getText(keyStr: string);
+    }
 }
