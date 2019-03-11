@@ -6,11 +6,11 @@
  * 
  */
 export default class RandomBase {
-    m_w:number = 123456789;
-    m_z:number = 987654321;
-    mask:number = 0xffffffff;
-    _ranArr:Array<number> = null;
-    _seed:number = null;
+    private m_w:number = 123456789;
+    private m_z:number = 987654321;
+    private mask:number = 0xffffffff;
+    private _ranArr:Array<number> = null;
+    private _seed:number = null;
     constructor(seed:number){
         this.setRandomSeed(seed);
     }
