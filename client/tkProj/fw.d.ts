@@ -2,8 +2,8 @@
 /**
  * @class fw
  * @author YeXiao
- * @deprecated farmework命名空间
- * @date 2019-2-28 23:38:18
+ * @deprecated farmework解释
+ * @since 2019-3-12 17:15:30
  * 
  */
 declare module fw {

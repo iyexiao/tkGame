@@ -2,7 +2,7 @@
  * @class GameCtrl
  * @author YeXiao
  * @deprecated 游戏总控制器
- * @date 2019年3月11日11:53:01
+ * @since 2019-3-12 17:15:00
  * 
  */
 export default class GameCtrl {

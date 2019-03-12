@@ -2,7 +2,7 @@
  * @class AudioManager
  * @author YeXiao
  * @deprecated 音频音效管理单例
- * @date 2019-2-28 23:38:18
+ * @since 2019-3-12 17:15:30
  * 
  */
 export default class AudioManager {

@@ -2,7 +2,7 @@
  * @class LogicCtrl
  * @author YeXiao
  * @deprecated 游戏逻辑控制器
- * @date 2019年3月11日11:53:01
+ * @since 2019-3-12 17:15:20
  * 
  */
 export default class LogicCtrl {
