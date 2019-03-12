@@ -1,6 +1,7 @@
 import {IBattleInfo} from "../info/BattleInfo"
-import BattleRandom from "../utils/BattleRandom"
+import RandomCtrl from "./RandomCtrl"
 import GameCtrl from "./GameCtrl"
+import LevelCtrl from "./LevelCtrl"
 
 /**
  * @class BattleCtrl
@@ -11,8 +12,9 @@ import GameCtrl from "./GameCtrl"
  */
 export default class BattleCtrl {
     private _batleInfo:IBattleInfo = null;//进战斗数据
-    private _battleRandom:BattleRandom = null;//随机种子处理
-    private _controller:GameCtrl = null;
+    private _randomCtrl:RandomCtrl = null;//随机种子处理
+    private _gameCtrl:GameCtrl = null;
+    private _levelCtrl:LevelCtrl = null;
     
     constructor(bInfo:IBattleInfo)
     {
@@ -20,8 +22,9 @@ export default class BattleCtrl {
     }
     startOneBattle()
     {
-        this._battleRandom = new BattleRandom(this._batleInfo.randomSeed);
-        this._controller = new GameCtrl();
+        this._randomCtrl = new RandomCtrl(this._batleInfo.randomSeed);
+        this._gameCtrl = new GameCtrl();
+        this._levelCtrl = new LevelCtrl(this._batleInfo);
     }
 
     get BattleInfo()

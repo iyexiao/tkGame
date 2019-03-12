@@ -1,5 +1,5 @@
 import GameCtrl from "../controller/GameCtrl"
-import {IHeroInfo} from "../info/BattleInfo"
+import {HeroInfo} from "../info/HeroInfo"
 
 /**
  * @class ModelBase
@@ -10,10 +10,10 @@ import {IHeroInfo} from "../info/BattleInfo"
  */
 export default class ModelBase {
     private _ctrl:GameCtrl = null;
-    private _hero:IHeroInfo = null;
-    constructor(controler:GameCtrl,hero:IHeroInfo)
+    private _heroInfo:HeroInfo = null;
+    constructor(controler:GameCtrl,heroInfo:HeroInfo)
     {
         this._ctrl = controler;
-        this._hero = hero;
+        this._heroInfo = heroInfo;
     }
 }

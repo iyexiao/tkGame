@@ -1,3 +1,6 @@
+import {IBattleInfo} from "../info/BattleInfo"
+import {HeroInfo} from "../info/HeroInfo"
+
 /**
  * @class LevelCtrl
  * @author YeXiao
@@ -6,7 +9,8 @@
  * 
  */
 export default class LevelCtrl {
-    constructor()
+    private _hInfoArr:Array<HeroInfo> = null;
+    constructor(battleInfo:IBattleInfo)
     {
 
     }
