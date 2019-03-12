@@ -1,4 +1,4 @@
-import BattleInfo from "../info/BattleInfo"
+import {IBattleInfo} from "../info/BattleInfo"
 
 /**
  * @class BattleCtrl
@@ -8,10 +8,14 @@ import BattleInfo from "../info/BattleInfo"
  * 
  */
 export default class BattleCtrl {
-    private _batleInfo:BattleInfo = null;
+    private _batleInfo:IBattleInfo = null;
     
-    constructor(bInfo:BattleInfo)
+    constructor(bInfo:IBattleInfo)
     {
-        this._batleInfo = BattleInfo;
+        this._batleInfo = bInfo;
+    }
+    get BattleInfo()
+    {
+        return this._batleInfo;
     }
 }
