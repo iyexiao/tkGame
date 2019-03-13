@@ -28,3 +28,36 @@ export enum ECamp{
     camp1 = 0,
     camp2,
 }
+/**
+ * @enum 属性加成方式
+ */
+export enum EPropType{
+    addSub = 1,     //纯数值
+    percentAge,     //百分比
+}
+/**
+ * @enum 增益还是减益
+ */
+export enum ECreaseType{
+    increase,        //增益
+    decrease,        //减益
+}
+/**
+ * @enum 技能类型
+ */
+export enum ESkillType{
+    small = 0,
+    big,
+    passive, //被动
+}
+/**
+ * @enum 战斗时机
+ */
+export enum EBattleTrigger{
+    atkStart = 0, //技能攻击前
+    atkEnd,         //技能攻击后
+    onHurt,         //受击时
+    propChange,     //属性变化时
+    onDied,         //角色死亡时
+    onKill,         //击杀角色时
+}
