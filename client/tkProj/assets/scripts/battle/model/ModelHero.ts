@@ -12,6 +12,6 @@ import ModelBase from "./ModelBase"
 export default class ModelHero extends ModelBase {
     constructor(controler:GameCtrl,heroInfo:HeroInfo)
     {
-        super(controler,heroInfo)
+        super(controler,heroInfo);
     }
 }

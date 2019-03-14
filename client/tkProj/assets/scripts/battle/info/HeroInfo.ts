@@ -36,20 +36,32 @@ export enum EHeroAttr{
  * @since 2019-3-12 17:15:30
  */
 export class HeroInfo {
-    private _hero:IHeroInfo = null;//战斗基础属性值，用于计算战斗属性值
+    private readonly _hero:IHeroInfo = null;//战斗基础属性值，用于计算战斗属性值
     private readonly _heroInitAttr:IHeroAttr = null;    //初始属性，是不会改变的
     private _heroAttr:IHeroAttr = null;                 //会随着战斗变化而变化的属性
     /**
      *  @deprecated 英雄身上buff(index其实是EBuffType类型)
      */
-    private _buffArr:{[index:number]:Array<BuffInfo>} = null; 
+    private _buffList:{[index:number]:Array<BuffInfo>} = null; 
     
-    constructor(hero:IHeroInfo,heroAttr:IHeroAttr)
+    constructor(hInfo:IHeroInfo)
     {
-        this._hero = hero;
-        this._heroInitAttr = heroAttr;
-        this._heroAttr = heroAttr;
-        this._buffArr = {};
+        this._hero = hInfo;
+        this._heroInitAttr = this.loadHeroInitAttr(hInfo);
+        this._heroAttr = this._heroInitAttr;
+        this._buffList = {};
+    }
+    /**
+     * 
+     * @description 根据属性创建英雄自身的战斗属性值
+     * @param hero 
+     * @returns heroAttr
+     */
+    loadHeroInitAttr(hero:IHeroInfo):IHeroAttr
+    {
+        let heroAttr:IHeroAttr;
+        heroAttr = {hp:100,phyAtk:100,phyDef:100,magicAtk:100,magicDef:100,crit:100,atkSpeed:100,block:10}
+        return heroAttr;
     }
     /**
      * 
@@ -88,20 +100,18 @@ export class HeroInfo {
         }
     }
     /**
-     * @returns 是否可以攻击
+     * @returns 检查是否有不可攻击的buff
      */
-    checkCanAttack()
+    checkHaveUnAttackBuff()
     {
-        let canAttack = true;
         //检查是否有不可攻击的buff
         for(let key in ConstValue.UN_ATK_BUFF_LIST)
         {
-            if(this._buffArr[key] && this._buffArr[key].length > 0 )
+            if(this._buffList[key] && this._buffList[key].length > 0 )
             {
-                canAttack = false;
-                break;
+                return true;
             }
         }
-        return canAttack;
+        return false;
     }
 }
