@@ -28,6 +28,8 @@ export default class BattleCtrl {
         this._levelCtrl = new LevelCtrl(this);
         this._gameCtrl = new GameCtrl(this);
         this._logicCtrl = new LogicCtrl(this);
+        this._gameCtrl.startBattle();
+        console.log("hello====end");
     }
     /**
      * @description 获取进战斗时的数据

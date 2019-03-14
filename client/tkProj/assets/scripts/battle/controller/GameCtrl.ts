@@ -48,4 +48,21 @@ export default class GameCtrl extends BaseCtrl {
         let model = new ModelHero(this,hero);
         return model;
     }
+    /**
+     * @description 开始战斗
+     */
+    startBattle()
+    {
+        this.initAura();
+    }
+    /**
+     * @description 初始化光环
+     */
+    initAura()
+    {
+        for (let index = 0; index < this._modelArr.length; index++) {
+            const element = this._modelArr[index];
+            
+        }
+    }
 }

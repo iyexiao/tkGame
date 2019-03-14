@@ -23,7 +23,7 @@ export interface IUserInfo {
     readonly userType:EUserType,
     readonly camp:ECamp,
     readonly heros:Array<IHeroInfo>,
-    readonly levelId?:number,//当 userType = EUserType.robot时有值
+    readonly robotId?:number,//当 userType = EUserType.robot时有值
 }
 /**
  * @interface 进战斗战场数据
@@ -35,6 +35,7 @@ export interface IBattleInfo {
     readonly userId:number,
     readonly users:Array<IUserInfo>,
 }
+// {"battleId":1,"randomSeed":123456,"gameMode":1,"userId":1000,"users":[{"userId":1000,"userType":1,"camp":1,"heros":[{"hId":1,"level":1,"star":1,"quality":1}]},{"userId":1001,"userType":1,"camp":1,"heros":[{"hId":1,"level":1,"star":1,"quality":1}]}]}
 /**
  * ""
  */
