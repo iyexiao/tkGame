@@ -1,6 +1,8 @@
 import {IHeroInfo} from "../info/BattleInfo"
 import {EPropType} from "../utils/UtilsEnum"
 import {BuffInfo}  from "../info/BuffInfo"
+import {SkillInfo} from "../info/SkillInfo"
+import ISkillAi from "../ai/SkillAiBase"
 import ConstValue from "../ConstValue"
 
 /**
@@ -39,6 +41,7 @@ export class HeroInfo {
     private readonly _hero:IHeroInfo = null;//战斗基础属性值，用于计算战斗属性值
     private readonly _heroInitAttr:IHeroAttr = null;    //初始属性，是不会改变的
     private _heroAttr:IHeroAttr = null;                 //会随着战斗变化而变化的属性
+    private _skillInfo:SkillInfo = null;    
     /**
      *  @deprecated 英雄身上buff(index其实是EBuffType类型)
      */
@@ -50,6 +53,7 @@ export class HeroInfo {
         this._heroInitAttr = this.loadHeroInitAttr(hInfo);
         this._heroAttr = this._heroInitAttr;
         this._buffList = {};
+        this._skillInfo = this.loadHeroSkillAttr(hInfo);
     }
     /**
      * 
@@ -62,6 +66,20 @@ export class HeroInfo {
         let heroAttr:IHeroAttr;
         heroAttr = {hp:100,phyAtk:100,phyDef:100,magicAtk:100,magicDef:100,crit:100,atkSpeed:100,block:10}
         return heroAttr;
+    }
+    /**
+     * @description 根据英雄获取英雄身上技能
+     * @param hero 
+     * @returns skill
+     */
+    loadHeroSkillAttr(hero:IHeroInfo):SkillInfo
+    {
+        let skillAttr:IHeroAttr;
+        let skillAi:ISkillAi;
+        skillAi = {};
+        skillAttr = {skillId:1,skillType:2,skillAtkId:3,skillAi:new ()}
+        let _skillInfo = new SkillInfo(skillAttr);
+        return _skillInfo;
     }
     /**
      * 

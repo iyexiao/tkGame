@@ -7,6 +7,8 @@
  * 
  */
 declare module fw {
+    export function log(msg:string);
+    export function bLog(msg:string);
     export module ViewManager{
         export function pushView(name:string,prefab:cc.Prefab,data:any);
         export function popView(deptt?:number);

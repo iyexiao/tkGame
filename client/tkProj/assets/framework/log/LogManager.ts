@@ -1,11 +1,12 @@
 
-export default class GameLog {
-    static _instance: GameLog = null;
-    static getInstance(): GameLog {
-        if (GameLog._instance == null) {
-            GameLog._instance = new GameLog();
+
+export default class LogManager {
+    static _instance: LogManager = null;
+    static getInstance(): LogManager {
+        if (LogManager._instance == null) {
+            LogManager._instance = new LogManager();
         }
-        return GameLog._instance;
+        return LogManager._instance;
     }
 
     isLog: boolean = true;
@@ -15,7 +16,7 @@ export default class GameLog {
             return;
         }
         var backLog = cc.log || console.log ||  window["log"];
-        backLog.call(GameLog, "%s%s" + cc.js.formatStr.apply(cc, arguments),this._getDateString(), this._stack());
+        backLog.call(LogManager, "%s%s" + cc.js.formatStr.apply(cc, arguments),this._getDateString(), this._stack());
     }
 
     info() {
@@ -23,7 +24,7 @@ export default class GameLog {
             return;
         }
         var backLog = cc.log || console.log || window["log"];
-        backLog.call(GameLog, "%c%s%s:" + cc.js.formatStr.apply(cc, arguments), "color:#00CD00;", this._getDateString(), this._stack());
+        backLog.call(LogManager, "%c%s%s:" + cc.js.formatStr.apply(cc, arguments), "color:#00CD00;", this._getDateString(), this._stack());
     }
 
     log2() {
@@ -31,7 +32,7 @@ export default class GameLog {
             return;
         }
         var backLog = cc.log || console.log ||  window["log"];
-        backLog.call(GameLog, "%c%s%s:" + cc.js.formatStr.apply(cc, arguments), "color:#EED2EE;", this._getDateString(), this._stack());
+        backLog.call(LogManager, "%c%s%s:" + cc.js.formatStr.apply(cc, arguments), "color:#EED2EE;", this._getDateString(), this._stack());
     };
     
     info2() {
@@ -39,7 +40,7 @@ export default class GameLog {
             return;
         }
         var backLog = cc.log || console.log ||  window["log"];
-        backLog.call(GameLog, "%c%s%s:" + cc.js.formatStr.apply(cc, arguments),  "color:#F08080;", this._getDateString(), this._stack());
+        backLog.call(LogManager, "%c%s%s:" + cc.js.formatStr.apply(cc, arguments),  "color:#F08080;", this._getDateString(), this._stack());
     };
     
     info3() {
@@ -47,7 +48,7 @@ export default class GameLog {
             return;
         }
         var backLog = cc.log || console.log ||  window["log"];
-        backLog.call(GameLog, "%c%s%s:" + cc.js.formatStr.apply(cc, arguments), "color:#9B30FF;", this._getDateString(), this._stack());
+        backLog.call(LogManager, "%c%s%s:" + cc.js.formatStr.apply(cc, arguments), "color:#9B30FF;", this._getDateString(), this._stack());
     };
 
 
@@ -56,7 +57,7 @@ export default class GameLog {
             return;
         }
         var backLog = cc.log || console.log ||  window["log"];
-        backLog.call(GameLog, "%c%s%s:" + cc.js.formatStr.apply(cc, arguments), "color:#ee7700;", this._getDateString(), this._stack());
+        backLog.call(LogManager, "%c%s%s:" + cc.js.formatStr.apply(cc, arguments), "color:#ee7700;", this._getDateString(), this._stack());
     };
 
     error() {
@@ -64,7 +65,7 @@ export default class GameLog {
             return;
         }
         var backLog = cc.log || console.log ||  window["log"];
-        backLog.call(GameLog, "%c%s%s:" + cc.js.formatStr.apply(cc, arguments), "color:red", this._getDateString(), this._stack());
+        backLog.call(LogManager, "%c%s%s:" + cc.js.formatStr.apply(cc, arguments), "color:red", this._getDateString(), this._stack());
     };
 
     _stack() {

@@ -46,9 +46,11 @@ export enum ECreaseType{
  * @enum 技能类型
  */
 export enum ESkillType{
-    small = 0,
-    big,
-    passive, //被动
+    normal = 0, //普攻
+    small,      //小技能
+    big,        //大招
+    passive,    //被动技能
+    aura,       //光环技能
 }
 /**
  * @enum 战斗时机

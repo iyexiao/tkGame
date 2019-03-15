@@ -16,4 +16,8 @@ export default class ModelBase {
         this._ctrl = controler;
         this._heroInfo = heroInfo;
     }
+    get HeroInfo()
+    {
+
+    }
 }

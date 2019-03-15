@@ -3,6 +3,7 @@ import RandomCtrl from "./RandomCtrl"
 import GameCtrl from "./GameCtrl"
 import LevelCtrl from "./LevelCtrl"
 import LogicCtrl from "./LogicCtrl";
+import ConstValue from "../ConstValue";
 
 /**
  * @class BattleCtrl
@@ -24,12 +25,12 @@ export default class BattleCtrl {
     }
     startOneBattle()
     {
+        console.log("====>>>>>>>BattleCtrl.startOneBattle");
         this._randomCtrl = new RandomCtrl(this._batleInfo.randomSeed);
         this._levelCtrl = new LevelCtrl(this);
         this._gameCtrl = new GameCtrl(this);
         this._logicCtrl = new LogicCtrl(this);
         this._gameCtrl.startBattle();
-        console.log("hello====end");
     }
     /**
      * @description 获取进战斗时的数据
