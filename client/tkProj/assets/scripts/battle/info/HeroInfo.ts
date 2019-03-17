@@ -1,9 +1,9 @@
 import {IHeroInfo} from "../info/BattleInfo"
 import {EPropType} from "../utils/UtilsEnum"
 import {BuffInfo}  from "../info/BuffInfo"
-import {SkillInfo} from "../info/SkillInfo"
-import ISkillAi from "../ai/SkillAiBase"
+import {SkillInfo,ISkillAttr} from "../info/SkillInfo"
 import ConstValue from "../ConstValue"
+import AiConst from "../ai/AiConst";
 
 /**
  * @interface 英雄战斗属性
@@ -41,7 +41,7 @@ export class HeroInfo {
     private readonly _hero:IHeroInfo = null;//战斗基础属性值，用于计算战斗属性值
     private readonly _heroInitAttr:IHeroAttr = null;    //初始属性，是不会改变的
     private _heroAttr:IHeroAttr = null;                 //会随着战斗变化而变化的属性
-    private _skillInfo:SkillInfo = null;    
+    private _skillList:Array<SkillInfo> = null;    
     /**
      *  @deprecated 英雄身上buff(index其实是EBuffType类型)
      */
@@ -53,13 +53,13 @@ export class HeroInfo {
         this._heroInitAttr = this.loadHeroInitAttr(hInfo);
         this._heroAttr = this._heroInitAttr;
         this._buffList = {};
-        this._skillInfo = this.loadHeroSkillAttr(hInfo);
+        this._skillList = this.loadHeroSkillList(hInfo);
     }
     /**
      * 
      * @description 根据属性创建英雄自身的战斗属性值
      * @param hero 
-     * @returns heroAttr
+     * @returns IHeroAttr
      */
     loadHeroInitAttr(hero:IHeroInfo):IHeroAttr
     {
@@ -70,16 +70,18 @@ export class HeroInfo {
     /**
      * @description 根据英雄获取英雄身上技能
      * @param hero 
-     * @returns skill
+     * @returns Array<SkillInfo>
      */
-    loadHeroSkillAttr(hero:IHeroInfo):SkillInfo
+    loadHeroSkillList(hero:IHeroInfo):Array<SkillInfo>
     {
-        let skillAttr:IHeroAttr;
-        let skillAi:ISkillAi;
-        skillAi = {};
-        skillAttr = {skillId:1,skillType:2,skillAtkId:3,skillAi:new ()}
+        let skillAttr:ISkillAttr;
+        let skillAi = new AiConst["SKILL_AI_TEST2"]();
+        skillAi.printInfo();
+        skillAttr = {skillId:1,skillType:2,skillAtkId:3,skillAi:skillAi}
         let _skillInfo = new SkillInfo(skillAttr);
-        return _skillInfo;
+        let skillArr = new Array<SkillInfo>();
+        skillArr.push(_skillInfo);
+        return skillArr;
     }
     /**
      * 

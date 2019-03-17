@@ -18,6 +18,6 @@ export default class ModelBase {
     }
     get HeroInfo()
     {
-
+        return this._heroInfo;
     }
 }
