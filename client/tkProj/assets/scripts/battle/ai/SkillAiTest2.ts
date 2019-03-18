@@ -11,8 +11,8 @@ export default class SkillAiTest2 extends SkillAiBase{
     constructor(){
         super("SkillAiTest2");
     }
-    onHeroAttackStart(model:ModelBase):void{
-
+    onAttackStart(model:ModelBase):void{
+        super.onAttackStart(model);
     }
     onHeroDead(model:ModelBase):void{
 
