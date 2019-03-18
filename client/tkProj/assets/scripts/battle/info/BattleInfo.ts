@@ -20,6 +20,7 @@ export interface IHeroInfo {
  */
 export interface IUserInfo {
     readonly userId:number,
+    readonly userName:string,
     readonly userType:EUserType,
     readonly camp:ECamp,
     readonly heros:Array<IHeroInfo>,

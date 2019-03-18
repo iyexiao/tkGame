@@ -1,5 +1,6 @@
 import {ESkillType,ECreaseType} from "../utils/UtilsEnum"
 import SkillAi from "../ai/SkillAiBase"
+import {AttackInfo} from "./AttackInfo"
 /**
  * @interface 技能属性
  */
@@ -21,5 +22,12 @@ export class SkillInfo {
     constructor(skillAttr:ISkillAttr)
     {
         this._skillAttr = skillAttr;
+    }
+    get SkillInfo():ISkillAttr{
+        return this._skillAttr;
+    }
+    getAttackInfo():AttackInfo{
+        let atkInfo = new AttackInfo(this._skillAttr.skillAtkId);
+        return atkInfo;
     }
 }

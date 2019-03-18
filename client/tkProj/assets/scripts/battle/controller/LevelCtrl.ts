@@ -30,14 +30,14 @@ export default class LevelCtrl extends BaseCtrl {
     {
         let _battleInfo = this.BattleCtrl.BattleInfo;
         for (let index = 0; index < _battleInfo.users.length; index++) {
-            const v = _battleInfo.users[index];
-            let camp = v.camp
+            const user = _battleInfo.users[index];
+            let camp = user.camp
             if (!this._heroList[camp]) {
                 this._heroList[camp] = new Array<HeroInfo>();
             }
-            for (let j = 0; j < v.heros.length; j++) {
-                const vv = v.heros[j];
-                let heroInfo = new HeroInfo(vv);
+            for (let j = 0; j < user.heros.length; j++) {
+                const hero = user.heros[j];
+                let heroInfo = new HeroInfo(user,hero);
                 this._heroList[camp].push(heroInfo);
             }
         }

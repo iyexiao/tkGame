@@ -1,3 +1,7 @@
+import ModelBase from "../model/ModelBase";
+import { SkillInfo } from "../info/SkillInfo";
+import { IDamageInfo } from "../info/DamageInfo";
+
 /**
  * @class FormulaManager
  * @author YeXiao
@@ -13,4 +17,11 @@ export default class FormulaManager {
         }
         return FormulaManager._instance;
     }
+    /**
+     * 获取技能伤害值
+     */
+    getSkillDamage(atkerMd:ModelBase,deferMd:ModelBase,skill:SkillInfo):IDamageInfo{
+        let dmgInfo:IDamageInfo = {damage:10,isCrit:false,isHit:true,isKilled:false};
+        return dmgInfo;
+	}
 }

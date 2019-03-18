@@ -53,16 +53,16 @@ export default class GameCtrl extends BaseCtrl {
      */
     startBattle()
     {
-        this.initAura();
+        this.initModelsAura();
     }
     /**
      * @description 初始化光环
      */
-    initAura()
+    initModelsAura()
     {
+        console.log("======>>>>>>初始化光环技能")
         for (let index = 0; index < this._modelArr.length; index++) {
-            const element = this._modelArr[index];
-            
+            this._modelArr[index].initAura();
         }
     }
 }

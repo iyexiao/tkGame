@@ -10,8 +10,8 @@ export default abstract class SkillAiBase{
     constructor(nameStr:string){
         this._skillName = nameStr;
     }
-    printInfo(){
-        console.log("name----:",this._skillName);
+    get SkillName():string{
+        return this._skillName;
     }
     /**
      * @description 当一个英雄开始攻击时

@@ -1,6 +1,6 @@
-import {IHeroInfo} from "../info/BattleInfo"
-import {EPropType} from "../utils/UtilsEnum"
-import {BuffInfo}  from "../info/BuffInfo"
+import {IHeroInfo, IUserInfo} from "../info/BattleInfo"
+import {EPropType,ECamp} from "../utils/UtilsEnum"
+import {BuffInfo, EBuffType}  from "../info/BuffInfo"
 import {SkillInfo,ISkillAttr} from "../info/SkillInfo"
 import ConstValue from "../ConstValue"
 import AiConst from "../ai/AiConst";
@@ -17,6 +17,7 @@ export interface IHeroAttr{
     crit:number,        //暴击
     atkSpeed:number,    //攻速
     block:number,       //格挡
+    camp:ECamp,         //阵营
 }
 /**
  * @enum 角色战斗属性值，与IHeroAttr一一对应
@@ -38,22 +39,53 @@ export enum EHeroAttr{
  * @since 2019-3-12 17:15:30
  */
 export class HeroInfo {
+    private readonly _user:IUserInfo;       //角色信息
     private readonly _hero:IHeroInfo = null;//战斗基础属性值，用于计算战斗属性值
     private readonly _heroInitAttr:IHeroAttr = null;    //初始属性，是不会改变的
     private _heroAttr:IHeroAttr = null;                 //会随着战斗变化而变化的属性
+    get HeroAttr():IHeroAttr{
+        return this._heroAttr;
+    }
+    /**
+     * @description 英雄身上的技能信息
+     */
     private _skillList:Array<SkillInfo> = null;    
+    get SkillList():Array<SkillInfo>{
+        return this._skillList;
+    }
     /**
      *  @deprecated 英雄身上buff(index其实是EBuffType类型)
      */
-    private _buffList:{[index:number]:Array<BuffInfo>} = null; 
+    private _buffList:{[index:number]:Array<BuffInfo>} = null;
+    /**
+     * @description 返回符合类型的buff数组
+     * @param buffType EBuffType类型
+     */
+    getBuffListByEBuffType(buffType:EBuffType):Array<BuffInfo>
+    {
+        if (this._buffList[buffType]) {
+            return this._buffList[buffType];
+        }
+        return null;
+    }
     
-    constructor(hInfo:IHeroInfo)
+    constructor(user:IUserInfo,hInfo:IHeroInfo)
     {
         this._hero = hInfo;
-        this._heroInitAttr = this.loadHeroInitAttr(hInfo);
+        this._user = user;
+        this._heroInitAttr = this.loadHeroInitAttr(user,hInfo);
         this._heroAttr = this._heroInitAttr;
         this._buffList = {};
         this._skillList = this.loadHeroSkillList(hInfo);
+    }
+    printLogInfo(){
+        let _str:string = "name:" + this._user.userName + " ";
+        
+        for (let index = 0; index < this._skillList.length; index++) {
+            const skillInfo:SkillInfo = this._skillList[index];
+            _str += "skill:" + skillInfo.SkillInfo.skillAi.SkillName + " ";
+        }
+        console.log(_str);
     }
     /**
      * 
@@ -61,10 +93,10 @@ export class HeroInfo {
      * @param hero 
      * @returns IHeroAttr
      */
-    loadHeroInitAttr(hero:IHeroInfo):IHeroAttr
+    loadHeroInitAttr(user:IUserInfo,hero:IHeroInfo):IHeroAttr
     {
         let heroAttr:IHeroAttr;
-        heroAttr = {hp:100,phyAtk:100,phyDef:100,magicAtk:100,magicDef:100,crit:100,atkSpeed:100,block:10}
+        heroAttr = {hp:100,phyAtk:100,phyDef:100,magicAtk:100,magicDef:100,crit:100,atkSpeed:100,block:10,camp:user.camp};
         return heroAttr;
     }
     /**
@@ -74,10 +106,7 @@ export class HeroInfo {
      */
     loadHeroSkillList(hero:IHeroInfo):Array<SkillInfo>
     {
-        let skillAttr:ISkillAttr;
-        let skillAi = new AiConst["SKILL_AI_TEST2"]();
-        skillAi.printInfo();
-        skillAttr = {skillId:1,skillType:2,skillAtkId:3,skillAi:skillAi}
+        let skillAttr:ISkillAttr = {skillId:1,skillType:2,skillAtkId:3,skillAi:new AiConst["SKILL_AI_TEST2"]()};
         let _skillInfo = new SkillInfo(skillAttr);
         let skillArr = new Array<SkillInfo>();
         skillArr.push(_skillInfo);

@@ -14,6 +14,3 @@ import Localization from './Localization'
 (window[fw] as any)._T = Localization.getInstance().getText.bind(Localization.getInstance());
 import LogManager from "./log/LogManager"
 (window[fw] as any).log = LogManager.getInstance().log.bind(LogManager.getInstance());
-
-import BattleFuncManager from "../scripts/battle/utils/BattleFuncManager"
-(window[fw] as any).bLog = BattleFuncManager.getInstance().bLog.bind(BattleFuncManager.getInstance());
