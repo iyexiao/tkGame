@@ -28,11 +28,4 @@ export default class ModelHero extends ModelBase {
             }
         }
     }
-    /**
-     * @description 获取英雄对应阵营
-     * @returns ECamp
-     */
-    getHeroCamp():ECamp{
-        return this.HeroInfo.HeroAttr.camp;
-    }
 }

@@ -3,6 +3,7 @@ import BaseCtrl from './BaseCtrl'
 import {ECamp} from '../utils/UtilsEnum'
 import {HeroInfo} from '../info/HeroInfo'
 import ModelHero from '../model/ModelHero'
+import ConstValue from '../ConstValue';
 /**
  * @class GameCtrl
  * @extends BaseCtrl
@@ -12,10 +13,13 @@ import ModelHero from '../model/ModelHero'
  * 
  */
 export default class GameCtrl extends BaseCtrl {
+    private _modelArr:Array<ModelHero> = null;
     /**
      * @description 战场上的英雄数组
      */
-    private _modelArr:Array<ModelHero> = null;
+    get ModelArr(){
+        return this._modelArr;
+    }
     constructor(ctrl:BattleCtrl)
     {
         super(ctrl);
@@ -54,6 +58,7 @@ export default class GameCtrl extends BaseCtrl {
     startBattle()
     {
         this.initModelsAura();
+        this.startGameLoop();
     }
     /**
      * @description 初始化光环
@@ -63,6 +68,28 @@ export default class GameCtrl extends BaseCtrl {
         console.log("======>>>>>>初始化光环技能")
         for (let index = 0; index < this._modelArr.length; index++) {
             this._modelArr[index].initAura();
+        }
+    }
+    /**
+     * @description 开始游戏轮询
+     */
+    startGameLoop()
+    {
+        this.BattleCtrl.HandleCtrl.sortModelHandle();
+        for (let index = 0; index < ConstValue.GAME_TOTAL_FRAM; index++) {
+            let tmpArr = this.BattleCtrl.HandleCtrl.getCurrentAttackModel();
+            if (tmpArr.length > 0 ) {
+                this.BattleCtrl.LogicCtrl.doAttackByHeroList(tmpArr);
+            }
+            this.updateModelFrame();
+        }
+    }
+    /**
+     * @description 更新战场上所有英雄的攻击时间
+     */
+    updateModelFrame(){
+        for (let index = 0; index < this._modelArr.length; index++) {
+            this._modelArr[index].updateHeroFrame();
         }
     }
 }

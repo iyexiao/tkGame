@@ -60,6 +60,13 @@ export enum EBattleTrigger{
     atkEnd,         //技能攻击后
     onHurt,         //受击时
     propChange,     //属性变化时
-    onDied,         //角色死亡时
+    onDead,         //角色死亡时
     onKill,         //击杀角色时
+}
+/**
+ * @enum 选敌行列方式
+ */
+export enum ERCType{
+    row = 0,        //行
+    column,         //列
 }

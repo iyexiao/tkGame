@@ -43,6 +43,16 @@ export class HeroInfo {
     private readonly _hero:IHeroInfo = null;//战斗基础属性值，用于计算战斗属性值
     private readonly _heroInitAttr:IHeroAttr = null;    //初始属性，是不会改变的
     private _heroAttr:IHeroAttr = null;                 //会随着战斗变化而变化的属性
+    private _currAtkFrame:number = null;                //当前攻速
+    /**
+     * @returns 返回当前攻速
+     */
+    get CurrAtkFrame(){
+        return this._currAtkFrame;
+    }
+    set CurrAtkFrame(atkFrame:number){
+        this._currAtkFrame = atkFrame;
+    }
     get HeroAttr():IHeroAttr{
         return this._heroAttr;
     }
@@ -95,6 +105,7 @@ export class HeroInfo {
      */
     loadHeroInitAttr(user:IUserInfo,hero:IHeroInfo):IHeroAttr
     {
+        //test
         let heroAttr:IHeroAttr;
         heroAttr = {hp:100,phyAtk:100,phyDef:100,magicAtk:100,magicDef:100,crit:100,atkSpeed:100,block:10,camp:user.camp};
         return heroAttr;
@@ -106,10 +117,12 @@ export class HeroInfo {
      */
     loadHeroSkillList(hero:IHeroInfo):Array<SkillInfo>
     {
-        let skillAttr:ISkillAttr = {skillId:1,skillType:2,skillAtkId:3,skillAi:new AiConst["SKILL_AI_TEST2"]()};
-        let _skillInfo = new SkillInfo(skillAttr);
+        //test
+        let skillAi = new AiConst["SKILL_AI_TEST1"]();
+        let skillAttr:ISkillAttr = {skillId:1,skillType:2,skillAtkId:3,filterId:1,skillAi:skillAi};
+        let skillInfo = new SkillInfo(skillAttr);
         let skillArr = new Array<SkillInfo>();
-        skillArr.push(_skillInfo);
+        skillArr.push(skillInfo);
         return skillArr;
     }
     /**

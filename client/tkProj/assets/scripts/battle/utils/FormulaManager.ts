@@ -1,5 +1,5 @@
 import ModelBase from "../model/ModelBase";
-import { SkillInfo } from "../info/SkillInfo";
+import {SkillInfo} from "../info/SkillInfo";
 import { IDamageInfo } from "../info/DamageInfo";
 
 /**

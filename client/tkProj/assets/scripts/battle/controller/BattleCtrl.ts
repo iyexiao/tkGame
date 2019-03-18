@@ -4,6 +4,7 @@ import GameCtrl from "./GameCtrl"
 import LevelCtrl from "./LevelCtrl"
 import LogicCtrl from "./LogicCtrl";
 import ConstValue from "../ConstValue";
+import HandleCtrl from "./HandleCtrl";
 
 /**
  * @class BattleCtrl
@@ -18,6 +19,7 @@ export default class BattleCtrl {
     private _gameCtrl:GameCtrl = null;
     private _levelCtrl:LevelCtrl = null;
     private _logicCtrl:LogicCtrl = null;
+    private _handleCtrl:HandleCtrl = null;
     
     constructor(bInfo:IBattleInfo)
     {
@@ -30,6 +32,7 @@ export default class BattleCtrl {
         this._levelCtrl = new LevelCtrl(this);
         this._gameCtrl = new GameCtrl(this);
         this._logicCtrl = new LogicCtrl(this);
+        this._handleCtrl = new HandleCtrl(this);
         this._gameCtrl.startBattle();
     }
     /**
@@ -71,5 +74,12 @@ export default class BattleCtrl {
     get RandomCtrl()
     {
         return this._randomCtrl;
+    }
+    /**
+     * @description 获取出手控制器
+     * @returns _handleCtrl
+     */
+    get HandleCtrl(){
+        return this._handleCtrl;
     }
 }
