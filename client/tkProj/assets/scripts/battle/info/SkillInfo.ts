@@ -10,7 +10,8 @@ export interface ISkillAttr{
     skillAtkId:number,              //技能对应的攻击包
     skillAi:SkillAi,                //技能ai脚本
     filterId:number,                //技能选敌id
-    beforeFrame?:number,              //技能前摇帧数(此阶段可以被打断)
+    beforeFrame?:number,            //技能前摇帧数(此阶段可以被打断)
+    totalFrame?:number,             //技能释放总时长
 }
 /**
  * @interface 攻击包的选敌方式

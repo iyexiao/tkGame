@@ -30,7 +30,7 @@ export default class LogicCtrl extends BaseCtrl {
             let skillInfo = model.getPlaySkillInfo();
             if (skillInfo) {
                 //设置释放的技能
-                model.CurrSkill = skillInfo;
+                model.setCurrSkill(skillInfo);
             }
         }
     }

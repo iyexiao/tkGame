@@ -1,7 +1,8 @@
 import GameCtrl from "../controller/GameCtrl"
 import {HeroInfo} from "../info/HeroInfo"
-import { ECamp } from "../utils/UtilsEnum";
+import { ECamp, EBattleTrigger } from "../utils/UtilsEnum";
 import { SkillInfo } from "../info/SkillInfo";
+import EventManager from "../../../framework/event/EventManager";
 
 /**
  * @class ModelBase
@@ -17,7 +18,11 @@ export default class ModelBase {
     get CurrSkill(){
         return this._currSkill;
     }
-    set CurrSkill(skillInfo:SkillInfo){
+    /**
+     * @description 设置当前释放的技能(技能释放结束后会置空)
+     * @param skillInfo 技能信息
+     */
+    setCurrSkill(skillInfo:SkillInfo){
         this._currSkill = skillInfo;
     }
     constructor(controler:GameCtrl,heroInfo:HeroInfo)
@@ -40,8 +45,19 @@ export default class ModelBase {
      */
     updateHeroFrame(){
         this._heroInfo.CurrAtkFrame = this._heroInfo.CurrAtkFrame <= 0 ? 0 : this._heroInfo.CurrAtkFrame - 1;
-        if (this._currSkill && this._currSkill.SkillInfo.beforeFrame && this._currSkill.SkillInfo.beforeFrame > 0) {
-            this._currSkill.SkillInfo.beforeFrame = this._heroInfo.CurrAtkFrame - 1;
+        if (this._currSkill){
+            if(this._currSkill.SkillInfo.beforeFrame && this._currSkill.SkillInfo.beforeFrame > 0) {
+                this._currSkill.SkillInfo.beforeFrame -= 1;
+            }
+            if(this._currSkill.SkillInfo.totalFrame && this._currSkill.SkillInfo.totalFrame > 0)
+            {
+                this._currSkill.SkillInfo.totalFrame -= 1 ;
+                if (this._currSkill.SkillInfo.totalFrame == 0){
+                    //技能释放结束
+                    this.setCurrSkill(null);
+                    EventManager.getInstance().dispatchEvent(EBattleTrigger.onSkillEnd,{model:this});
+                }
+            }
         }
     }
     /**

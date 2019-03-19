@@ -53,15 +53,15 @@ export enum ESkillType{
     aura,       //光环技能
 }
 /**
- * @enum 战斗时机
+ * @enum 战斗时机事件
  */
 export enum EBattleTrigger{
-    atkStart = 0, //技能攻击前
-    atkEnd,         //技能攻击后
-    onHurt,         //受击时
-    propChange,     //属性变化时
-    onDead,         //角色死亡时
-    onKill,         //击杀角色时
+    onSkillStart = "onSkillStart",  //技能攻击前
+    onSkillEnd = "onSkillEnd",      //技能攻击后
+    onHurt = "onHurt",              //受击时
+    onPropChange = "onHurt",        //属性变化时
+    onDead = "onPropChange",        //角色死亡时
+    onKill = "onKill",              //击杀角色时
 }
 /**
  * @enum 选敌行列方式

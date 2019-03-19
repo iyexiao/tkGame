@@ -1,4 +1,6 @@
 import ModelBase from "../model/ModelBase"
+import EventManager from "../../../framework/event/EventManager";
+import { EBattleTrigger } from "../utils/UtilsEnum";
 /**
  * @class SkillAiBase
  * @author YeXiao
@@ -9,6 +11,7 @@ export default abstract class SkillAiBase{
     private _skillName:string = null;
     constructor(nameStr:string){
         this._skillName = nameStr;
+        EventManager.getInstance().addEventListener(EBattleTrigger.onSkillEnd,this.onSkillEnd);
     }
     get SkillName():string{
         return this._skillName;
@@ -23,6 +26,11 @@ export default abstract class SkillAiBase{
      * @param model 攻击的英雄
      */
     onAttackEnd(model:ModelBase):void{};
+    /**
+     * - 当一个英雄技能释放完毕
+     * @param model 释放技能的英雄
+     */
+    onSkillEnd(model:ModelBase):void{};
     /**
      * @description 当一个英雄受到攻击时
      * @param model 受击的英雄

@@ -17,4 +17,7 @@ export default class SkillAiTest1 extends SkillAiBase{
     onHeroDead(model:ModelBase):void{
 
     }
+    onSkillEnd(model:ModelBase):void{
+        console.log("技能释放完毕");
+    }
 }
