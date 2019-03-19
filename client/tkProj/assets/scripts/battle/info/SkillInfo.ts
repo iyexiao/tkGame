@@ -37,9 +37,20 @@ export class SkillInfo {
     get SkillInfo():ISkillAttr{
         return this._skillAttr;
     }
+    /**
+     * - 返回攻击包信息
+     * @returns AttackInfo
+     */
     getAttackInfo():AttackInfo{
         //test
         let atkInfo = new AttackInfo(this._skillAttr.skillAtkId);
         return atkInfo;
+    }
+    /**
+     * - 获取技能脚本
+     * @returns 技能脚本
+     */
+    getSkillAi():SkillAi{
+        return this._skillAttr.skillAi;
     }
 }

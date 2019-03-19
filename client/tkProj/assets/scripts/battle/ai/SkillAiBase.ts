@@ -9,12 +9,33 @@ import { EBattleTrigger } from "../utils/UtilsEnum";
  */
 export default abstract class SkillAiBase{
     private _skillName:string = null;
+    private _playerModel:ModelBase = null;
     constructor(nameStr:string){
         this._skillName = nameStr;
-        EventManager.getInstance().addEventListener(EBattleTrigger.onSkillEnd,this.onSkillEnd);
+        EventManager.getInstance().addEventListener(EBattleTrigger.onSkillStart,this.onSkillStart,this);
+        EventManager.getInstance().addEventListener(EBattleTrigger.onSkillEnd,this.onSkillEnd,this);
+    }
+    /**
+     * - 设置技能的释放者
+     * @param model 设置技能释放者
+     */
+    setPlayerModel(model:ModelBase):void{
+        this._playerModel = model;
+    }
+    get PlayerModel(){
+        return this._playerModel;
     }
     get SkillName():string{
         return this._skillName;
+    }
+    checkIsSelfModel(otherModel:ModelBase):boolean{
+        if (!otherModel || !this._playerModel) {
+            return false
+        }
+        if (otherModel == this._playerModel) {
+            return true;
+        }
+        return false;
     }
     /**
      * @description 当一个英雄开始攻击时
@@ -27,10 +48,15 @@ export default abstract class SkillAiBase{
      */
     onAttackEnd(model:ModelBase):void{};
     /**
-     * - 当一个英雄技能释放完毕
-     * @param model 释放技能的英雄
+     * - 当一个英雄释放一个技能
+     * @param {model}  释放技能的英雄
      */
-    onSkillEnd(model:ModelBase):void{};
+    onSkillStart(param:any):void{};
+    /**
+     * - 当一个英雄技能释放完毕
+     * @param {model} 释放技能的英雄
+     */
+    onSkillEnd(param:any):void{};
     /**
      * @description 当一个英雄受到攻击时
      * @param model 受击的英雄

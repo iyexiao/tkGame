@@ -17,7 +17,16 @@ export default class SkillAiTest1 extends SkillAiBase{
     onHeroDead(model:ModelBase):void{
 
     }
-    onSkillEnd(model:ModelBase):void{
-        console.log("技能释放完毕");
+    onSkillStart(param:any):void{
+        if(!super.checkIsSelfModel(param.model)){
+            return;
+        }
+        console.log("阵营：" + this.PlayerModel.getHeroCamp() + " 英雄：" + this.PlayerModel.getHeroName() + " 释放技能");
+    }
+    onSkillEnd(param:any):void{
+        if(!super.checkIsSelfModel(param.model)){
+            return;
+        }
+        console.log("阵营：" + this.PlayerModel.getHeroCamp() + " 英雄：" + this.PlayerModel.getHeroName() + " 释放技能结束");
     }
 }

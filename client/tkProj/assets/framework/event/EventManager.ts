@@ -1,6 +1,7 @@
 interface IEvent {
     eventType: string,
-    callback: (data) => void
+    thisObject?:any,
+    callback: (data:any) => void
 } 
 
 export default class EventManager {
@@ -21,7 +22,7 @@ export default class EventManager {
      * @param eventType 事件类型
      * @param callback 回调方法
      */
-    addEventListener(eventType: string, callback: any) {
+    addEventListener(eventType: string, callback: any,thisObject?:any) {
         if (!eventType || !callback) { 
             return;
         }
@@ -33,6 +34,7 @@ export default class EventManager {
         } 
         let ievent: IEvent = {
             eventType: eventType,
+            thisObject: thisObject,
             callback: callback
         };
         tmpArr.push(ievent);
@@ -48,7 +50,12 @@ export default class EventManager {
         let tmpArr: Array<IEvent> = this._eventList[eventType] || [];
         for (let i = 0; i < tmpArr.length; i++) {
             let ievent = tmpArr[i];
-            ievent.callback(params);
+            if (ievent.thisObject) {
+                //在回调的时候, 不要直接func(agrs) 而是改成 func.call(目标对象, args)
+                ievent.callback.call(ievent.thisObject,params);
+            }else{
+                ievent.callback(params);
+            }
         }
     }
     /**

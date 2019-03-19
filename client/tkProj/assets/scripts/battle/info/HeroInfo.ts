@@ -3,7 +3,8 @@ import {EPropType,ECamp} from "../utils/UtilsEnum"
 import {BuffInfo, EBuffType}  from "../info/BuffInfo"
 import {SkillInfo,ISkillAttr} from "../info/SkillInfo"
 import ConstValue from "../ConstValue"
-import AiConst from "../ai/AiConst";
+import AiConst from "../ai/AiConst"
+import DBManager, {IDBHero} from "../../db/DBManager"
 
 /**
  * @interface 英雄战斗属性
@@ -42,31 +43,48 @@ export class HeroInfo {
     private readonly _user:IUserInfo;       //角色信息
     private readonly _hero:IHeroInfo = null;//战斗基础属性值，用于计算战斗属性值
     private readonly _heroInitAttr:IHeroAttr = null;    //初始属性，是不会改变的
+    private readonly _heroDB:IDBHero = null;            //英雄配表数据
     private _heroAttr:IHeroAttr = null;                 //会随着战斗变化而变化的属性
     private _currAtkFrame:number = null;                //当前攻速
+    private _skillList:Array<SkillInfo> = null;         //英雄身上的技能信息
+    private _buffList:{[index:number]:Array<BuffInfo>} = null;//英雄身上buff(index其实是EBuffType类型)
     /**
-     * @returns 返回当前攻速
+     * - 创建一个英雄模型数据
+     * @param user 
+     * @param hInfo 
      */
+    constructor(user:IUserInfo,hInfo:IHeroInfo)
+    {
+        this._hero = hInfo;
+        this._user = user;
+        this._heroInitAttr = this.loadHeroInitAttr(user,hInfo);
+        this._heroAttr = this._heroInitAttr;
+        this._buffList = {};
+        this._skillList = this.loadHeroSkillList(hInfo);
+        this._heroDB = DBManager.getInstance().getDBHeroByNameAndId(hInfo.hId);;
+    }
+    get HeroDB(){
+        return this._heroDB;
+    }
+    get HeroInfo(){
+        return this._hero;
+    }
     get CurrAtkFrame(){
         return this._currAtkFrame;
     }
-    set CurrAtkFrame(atkFrame:number){
-        this._currAtkFrame = atkFrame;
-    }
     get HeroAttr():IHeroAttr{
         return this._heroAttr;
-    }
-    /**
-     * @description 英雄身上的技能信息
-     */
-    private _skillList:Array<SkillInfo> = null;    
+    }   
     get SkillList():Array<SkillInfo>{
         return this._skillList;
     }
     /**
-     *  @deprecated 英雄身上buff(index其实是EBuffType类型)
+     * - 设置英雄当前攻速
+     * @param atkFrame 
      */
-    private _buffList:{[index:number]:Array<BuffInfo>} = null;
+    setCurrAtkFrame(atkFrame:number){
+        this._currAtkFrame = atkFrame;
+    }
     /**
      * @description 返回符合类型的buff数组
      * @param buffType EBuffType类型
@@ -77,16 +95,6 @@ export class HeroInfo {
             return this._buffList[buffType];
         }
         return null;
-    }
-    
-    constructor(user:IUserInfo,hInfo:IHeroInfo)
-    {
-        this._hero = hInfo;
-        this._user = user;
-        this._heroInitAttr = this.loadHeroInitAttr(user,hInfo);
-        this._heroAttr = this._heroInitAttr;
-        this._buffList = {};
-        this._skillList = this.loadHeroSkillList(hInfo);
     }
     printLogInfo(){
         let _str:string = "name:" + this._user.userName + " ";
@@ -119,7 +127,7 @@ export class HeroInfo {
     {
         //test
         let skillAi = new AiConst["SKILL_AI_TEST1"]();
-        let skillAttr:ISkillAttr = {skillId:1,skillType:2,skillAtkId:3,filterId:1,skillAi:skillAi};
+        let skillAttr:ISkillAttr = {skillId:1,skillType:2,skillAtkId:3,filterId:1,skillAi:skillAi,totalFrame:5};
         let skillInfo = new SkillInfo(skillAttr);
         let skillArr = new Array<SkillInfo>();
         skillArr.push(skillInfo);
