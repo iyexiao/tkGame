@@ -20,6 +20,10 @@ export default class ModelBase {
     {
         this._ctrl = controler;
         this._heroInfo = heroInfo;
+        //绑定技能对象数据
+        this._heroInfo.SkillList.forEach(element => {
+            element.getSkillAi().setPlayerModel(this);
+        });
     }
     get CurrSkill(){
         return this._currSkill;
@@ -30,6 +34,9 @@ export default class ModelBase {
     }
     getGameCurrFrame(){
         return this._ctrl.CurrentFrame;
+    }
+    get Ctrl(){
+        return this._ctrl;
     }
     /**
      * @description 更新英雄出手帧数、前摇帧数等
@@ -100,7 +107,6 @@ export default class ModelBase {
         this._lastChooseModelList = defList;
         //设置释放的技能
         this._currSkill = skillInfo;
-        this._currSkill.getSkillAi().setPlayerModel(this);
         EventManager.getInstance().dispatchEvent(EBattleTrigger.onSkillStart,{model:this});
         //如果技能没有释放时间、则直接技能释放结束
         if (!this._currSkill.SkillInfo.totalFrame) {

@@ -58,9 +58,9 @@ export class SkillInfo {
      * - 获取技能的攻击对象数组(有可能为0)
      * @returns Array<ModelBase>
      */
-    getChooseModelList(onwer:ModelBase):Array<ModelBase>{
-        let _list:Array<ModelBase> = new Array<ModelBase>();
-
-        return _list;
+    getChooseModelList(owner:ModelBase):Array<ModelBase>{
+        // let _list:Array<ModelBase> = new Array<ModelBase>();
+        let campList = owner.Ctrl.getModelListByCamp(owner.getHeroCamp() == ECamp.camp1 ? ECamp.camp2:ECamp.camp1);
+        return campList;
     }
 }

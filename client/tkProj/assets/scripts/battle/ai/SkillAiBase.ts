@@ -14,9 +14,10 @@ export default abstract class SkillAiBase{
         this._skillName = nameStr;
         EventManager.getInstance().addEventListener(EBattleTrigger.onSkillStart,this.onSkillStart,this);
         EventManager.getInstance().addEventListener(EBattleTrigger.onSkillEnd,this.onSkillEnd,this);
+        console.log("初始化脚本:" + this._skillName);
     }
     /**
-     * - 设置技能的释放者
+     * - 设置技能的释放者(在model创建的时候设置)
      * @param model 设置技能释放者
      */
     setPlayerModel(model:ModelBase):void{
