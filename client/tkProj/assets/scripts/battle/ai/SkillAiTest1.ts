@@ -8,8 +8,12 @@ import SkillAiBase from "./SkillAiBase"
  * @since 2019-3-15 15:58:13
  */
 export default class SkillAiTest1 extends SkillAiBase{
-    constructor(){
+    private _skillArr:Array<string> = null;
+    constructor(skillArr?:Array<string>){
         super("SkillAiTest1");
+        if (skillArr) {
+            this._skillArr = skillArr;
+        }
     }
     onAttackStart(model:ModelBase):void{
         super.onAttackStart(model);

@@ -4,7 +4,7 @@ import {BuffInfo, EBuffType}  from "../info/BuffInfo"
 import {SkillInfo,ISkillAttr} from "../info/SkillInfo"
 import ConstValue from "../ConstValue"
 import AiConst from "../ai/AiConst"
-import DBManager, {IDBHero} from "../../db/DBManager"
+import {DBHero,IDBHero} from "../../db/DBHero"
 
 /**
  * @interface 英雄战斗属性
@@ -60,8 +60,8 @@ export class HeroInfo {
         this._heroInitAttr = this.loadHeroInitAttr(user,hInfo);
         this._heroAttr = this._heroInitAttr;
         this._buffList = {};
+        this._heroDB = DBHero.getInstance().getDBHeroById(hInfo.hId);
         this._skillList = this.loadHeroSkillList(hInfo);
-        this._heroDB = DBManager.getInstance().getDBHeroByNameAndId(hInfo.hId);;
     }
     get HeroDB(){
         return this._heroDB;
@@ -126,6 +126,7 @@ export class HeroInfo {
     loadHeroSkillList(hero:IHeroInfo):Array<SkillInfo>
     {
         //test
+        //this._heroDB.normalSkill 这里根据技能及等级及解锁条件处理技能
         let skillAi = new AiConst["SKILL_AI_TEST1"]();
         let skillAttr:ISkillAttr = {skillId:1,skillType:2,skillAtkId:3,filterId:1,skillAi:skillAi,totalFrame:5};
         let skillInfo = new SkillInfo(skillAttr);
