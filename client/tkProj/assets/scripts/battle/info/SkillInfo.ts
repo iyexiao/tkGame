@@ -1,6 +1,7 @@
 import {ESkillType,ECamp,ERCType} from "../utils/UtilsEnum"
 import SkillAi from "../ai/SkillAiBase"
 import {AttackInfo} from "./AttackInfo"
+import ModelBase from "../model/ModelBase";
 /**
  * @interface 技能属性
  */
@@ -52,5 +53,14 @@ export class SkillInfo {
      */
     getSkillAi():SkillAi{
         return this._skillAttr.skillAi;
+    }
+    /**
+     * - 获取技能的攻击对象数组(有可能为0)
+     * @returns Array<ModelBase>
+     */
+    getChooseModelList(onwer:ModelBase):Array<ModelBase>{
+        let _list:Array<ModelBase> = new Array<ModelBase>();
+
+        return _list;
     }
 }

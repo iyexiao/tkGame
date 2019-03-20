@@ -5,6 +5,7 @@ import {SkillInfo,ISkillAttr} from "../info/SkillInfo"
 import ConstValue from "../ConstValue"
 import AiConst from "../ai/AiConst"
 import {DBHero,IDBHero} from "../../db/DBHero"
+import { IDBSkill ,DBSkill} from "../../db/DBSkill";
 
 /**
  * @interface 英雄战斗属性
@@ -60,7 +61,7 @@ export class HeroInfo {
         this._heroInitAttr = this.loadHeroInitAttr(user,hInfo);
         this._heroAttr = this._heroInitAttr;
         this._buffList = {};
-        this._heroDB = DBHero.getInstance().getDBHeroById(hInfo.hId);
+        this._heroDB = DBHero.getInstance().getDBHeroById(<string><null>hInfo.hId);
         this._skillList = this.loadHeroSkillList(hInfo);
     }
     get HeroDB(){
@@ -125,9 +126,10 @@ export class HeroInfo {
      */
     loadHeroSkillList(hero:IHeroInfo):Array<SkillInfo>
     {
-        //test
-        //this._heroDB.normalSkill 这里根据技能及等级及解锁条件处理技能
-        let skillAi = new AiConst["SKILL_AI_TEST1"]();
+        //test 需要根据登记组装所有的技能及参数
+        let _skillDB:IDBSkill = DBSkill.getInstance().getDBSkillById(<string><null>this._heroDB.normalSkill);
+        let skillAi = new AiConst[_skillDB.extScript](_skillDB.extInfo);
+
         let skillAttr:ISkillAttr = {skillId:1,skillType:2,skillAtkId:3,filterId:1,skillAi:skillAi,totalFrame:5};
         let skillInfo = new SkillInfo(skillAttr);
         let skillArr = new Array<SkillInfo>();

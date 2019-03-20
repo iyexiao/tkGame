@@ -8,21 +8,20 @@ import SkillAiBase from "./SkillAiBase"
  * @since 2019-3-15 15:58:13
  */
 export default class SkillAiTest2 extends SkillAiBase{
-    // private _playerModel:ModelBase = null;
     constructor(){
         super("SkillAiTest2");
     }
-    // /**
-    //  * - 设置技能的释放者
-    //  * @param model 设置技能释放者
-    //  */
-    // setPlayerModel(model:ModelBase):void{
-    //     this._playerModel = model;
-    // }
-    onAttackStart(model:ModelBase):void{
-        super.onAttackStart(model);
+    onSkillStart(param:any):void{
+        if(!super.checkIsSelfModel(param.model)){
+            return;
+        }
+        console.log("在第：" + this.PlayerModel.getGameCurrFrame() + "帧,阵营：" + this.PlayerModel.getHeroCamp() + " 英雄：" + 
+                    this.PlayerModel.getHeroName() + " 释放技能:" + this.SkillName + " 攻击阵营：" + param.model.getHeroCamp() + " 的：" + param.model.getHeroName());
     }
-    onHeroDead(model:ModelBase):void{
-
+    onSkillEnd(param:any):void{
+        if(!super.checkIsSelfModel(param.model)){
+            return;
+        }
+        console.log("在第：" + this.PlayerModel.getGameCurrFrame() + "帧,阵营：" + this.PlayerModel.getHeroCamp() + " 英雄：" + this.PlayerModel.getHeroName() + " 释放技能结束");
     }
 }

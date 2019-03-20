@@ -15,6 +15,7 @@ export default class ModelHero extends ModelBase {
     constructor(controler:GameCtrl,heroInfo:HeroInfo)
     {
         super(controler,heroInfo);
+        console.log("初始化阵营:" + heroInfo.HeroAttr.camp + " " + heroInfo.HeroDB.name + " 英雄的英雄数据");
         // heroInfo.printLogInfo();
     }
     /**

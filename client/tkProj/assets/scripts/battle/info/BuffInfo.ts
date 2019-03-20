@@ -1,4 +1,5 @@
 import {EPropType,ECreaseType} from "../utils/UtilsEnum"
+import ModelBase from "../model/ModelBase";
 /**
  * @interface buff属性
  */
@@ -34,9 +35,11 @@ export enum EBuffType{
  * @since 2019-3-13 14:26:39
  */
 export class BuffInfo {
-    private readonly _buffAttr:IBuffAttr = null;
-    constructor(buffAttr:IBuffAttr)
+    private readonly _buffAttr:IBuffAttr = null;   //buff属性
+    private readonly _ownerModel:ModelBase = null; //buff释放者
+    constructor(buffAttr:IBuffAttr,ownerModel:ModelBase)
     {
         this._buffAttr = buffAttr;
+        this._ownerModel = ownerModel;
     }
 }

@@ -29,7 +29,7 @@ export default class LogicCtrl extends BaseCtrl {
             // 如果有前摇，需要记录下来，要是被打断，需要取消这个技能释放伤害
             let skillInfo = model.getPlaySkillInfo();
             if (skillInfo) {
-                model.giveOutOneSkill(skillInfo);
+                model.prepareGiveOutOneSkill(skillInfo);
             }
         }
     }

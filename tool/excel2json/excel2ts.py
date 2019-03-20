@@ -104,7 +104,7 @@ def parseInterface(title,pType,pKey):
         elif pType[col] == dataType[1]: #string
             tmp += "%s:string,"%pKey[col]
         elif pType[col] == dataType[2]:#array
-            tmp += "%s:Array<number>,"%pKey[col]
+            tmp += "%s:Array<string>,"%pKey[col]
         ret = ret + tmp + lineStr
     ret = ret + "}" + lineStr
     return ret

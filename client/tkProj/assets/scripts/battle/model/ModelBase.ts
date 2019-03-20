@@ -15,6 +15,7 @@ export default class ModelBase {
     private _ctrl:GameCtrl = null;
     private _heroInfo:HeroInfo = null;
     private _currSkill:SkillInfo = null; //英雄当前释放的技能
+    private _lastChooseModelList:Array<ModelBase> = null;   //上次技能选中的敌人
     constructor(controler:GameCtrl,heroInfo:HeroInfo)
     {
         this._ctrl = controler;
@@ -26,6 +27,9 @@ export default class ModelBase {
     get HeroInfo()
     {
         return this._heroInfo;
+    }
+    getGameCurrFrame(){
+        return this._ctrl.CurrentFrame;
     }
     /**
      * @description 更新英雄出手帧数、前摇帧数等
@@ -82,12 +86,18 @@ export default class ModelBase {
         EventManager.getInstance().dispatchEvent(EBattleTrigger.onSkillEnd,{model:this});
     }
     /**
-     * - 释放某一技能
+     * - 准备释放某一技能
      */
-    giveOutOneSkill(skillInfo:SkillInfo){
+    prepareGiveOutOneSkill(skillInfo:SkillInfo){
         if (!skillInfo) {
             return;
         }
+        //技能做选敌逻辑
+        let defList = skillInfo.getChooseModelList(this);
+        if(defList.length <= 0){
+            return;
+        }
+        this._lastChooseModelList = defList;
         //设置释放的技能
         this._currSkill = skillInfo;
         this._currSkill.getSkillAi().setPlayerModel(this);

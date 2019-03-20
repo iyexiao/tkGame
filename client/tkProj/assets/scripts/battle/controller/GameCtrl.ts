@@ -4,6 +4,7 @@ import {ECamp} from '../utils/UtilsEnum'
 import {HeroInfo} from '../info/HeroInfo'
 import ModelHero from '../model/ModelHero'
 import ConstValue from '../ConstValue';
+import ModelBase from '../model/ModelBase';
 /**
  * @class GameCtrl
  * @extends BaseCtrl
@@ -13,18 +14,19 @@ import ConstValue from '../ConstValue';
  * 
  */
 export default class GameCtrl extends BaseCtrl {
-    private _modelArr:Array<ModelHero> = null;
-    /**
-     * @description 战场上的英雄数组
-     */
-    get ModelArr(){
-        return this._modelArr;
-    }
+    private _modelArr:Array<ModelHero> = null;//战场上的英雄数组
+    private _currFrame:number = null; //当前运行的帧数
     constructor(ctrl:BattleCtrl)
     {
         super(ctrl);
         this._modelArr = new Array<ModelHero>();
         this.initModelList();
+    }
+    get ModelArr(){
+        return this._modelArr;
+    }
+    get CurrentFrame(){
+        return this._currFrame;
     }
     /**
      * @description 初始化战场上模型
@@ -77,6 +79,7 @@ export default class GameCtrl extends BaseCtrl {
     {
         this.BattleCtrl.HandleCtrl.sortModelHandle();
         for (let index = 0; index < ConstValue.GAME_TOTAL_FRAM; index++) {
+            this._currFrame = index;
             let tmpArr = this.BattleCtrl.HandleCtrl.getCurrentAttackModel();
             if (tmpArr.length > 0 ) {
                 this.BattleCtrl.LogicCtrl.doAttackByHeroList(tmpArr);
@@ -91,5 +94,19 @@ export default class GameCtrl extends BaseCtrl {
         for (let index = 0; index < this._modelArr.length; index++) {
             this._modelArr[index].updateHeroFrame();
         }
+    }
+    /**
+     * - 根据阵营获取归属当前阵营的英雄
+     * @returns Array<ModelBase>
+     * @param camp 阵营
+     */
+    getModelListByCamp(camp:ECamp):Array<ModelBase>{
+        let tmpList = new Array<ModelBase>();
+        this._modelArr.forEach(element => {
+            if (element.getHeroCamp() == camp) {
+                tmpList.push(element);
+            }
+        });
+        return tmpList;
     }
 }
