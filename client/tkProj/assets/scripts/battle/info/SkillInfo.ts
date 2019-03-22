@@ -2,6 +2,7 @@ import {ESkillType,ECamp,ERCType} from "../utils/UtilsEnum"
 import SkillAi from "../ai/SkillAiBase"
 import {AttackInfo} from "./AttackInfo"
 import ModelBase from "../model/ModelBase";
+import { IFilterInfo } from "./FilterInfo";
 /**
  * @interface 技能属性
  */
@@ -13,14 +14,6 @@ export interface ISkillAttr{
     filterId:number,                //技能选敌id
     beforeFrame?:number,            //技能前摇帧数(此阶段可以被打断)
     totalFrame?:number,             //技能释放总时长
-}
-/**
- * @interface 攻击包的选敌方式
- */
-export interface IFilterInfo{
-    camp:ECamp,                     //选择阵营
-    atkNum:number,                  //选敌人数
-    rcType:ERCType,                  //选敌行、列类型
 }
 /**
  * @class SkillInfo
