@@ -1,5 +1,8 @@
-import SkillAiTest1 from "./SkillAiTest1"
-import SkillAiTest2 from "./SkillAiTest2"
+import Skill_CC_Normal from "./Skill_CC_Normal"
+import Skill_CC_Small from "./Skill_CC_Small"
+import Skill_CC_Aura from "./Skill_CC_Aura"
+import Skill_CC_Big from "./Skill_CC_Big"
+import Skill_CC_Passive from "./Skill_CC_Passive"
 
 /**
  * @class AiConst
@@ -8,6 +11,9 @@ import SkillAiTest2 from "./SkillAiTest2"
  * @since 2019-3-17 11:57:12
  */
 export default class AiConst {
-    public static readonly SKILL_AI_TEST1 = SkillAiTest1; 
-    public static readonly SKILL_AI_TEST2 = SkillAiTest2;
+    public static readonly Skill_CC_Normal = Skill_CC_Normal; 
+    public static readonly Skill_CC_Small = Skill_CC_Small;
+    public static readonly Skill_CC_Aura = Skill_CC_Aura;
+    public static readonly Skill_CC_Big = Skill_CC_Big;
+    public static readonly Skill_CC_Passive = Skill_CC_Passive;
 }

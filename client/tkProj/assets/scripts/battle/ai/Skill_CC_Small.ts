@@ -2,15 +2,15 @@ import ModelBase from "../model/ModelBase"
 import SkillAiBase from "./SkillAiBase"
 
 /**
- * @class SkilllAi_CC_Skill1
+ * @class Skill_CC_Small
  * @author YeXiao
- * @deprecated 曹操技能1
+ * @deprecated 曹操小技能
  * @since 2019-3-23 22:04:26
  */
-export default class SkilllAi_CC_Skill1 extends SkillAiBase{
+export default class Skill_CC_Small extends SkillAiBase{
     private _skillArr:Array<string> = null;
     constructor(skillArr?:Array<string>){
-        super("SkilllAi_CC_Skill1");
+        super("Skill_CC_Small");
         if (skillArr) {
             this._skillArr = skillArr;
         }
