@@ -20,9 +20,10 @@ export interface IHeroAttr{
     atkSpeed:number,    //攻速
     block:number,       //格挡
     camp:ECamp,         //阵营
+    posIdx:number,      //当前站位
 }
 /**
- * @enum 角色战斗属性值，与IHeroAttr一一对应
+ * @enum 角色战斗属性值，在IHeroAttr中必须有值
  */
 export enum EHeroAttr{
     hp = "hp",
@@ -61,7 +62,7 @@ export class HeroInfo {
         this._heroInitAttr = this.loadHeroInitAttr(user,hInfo);
         this._heroAttr = this._heroInitAttr;
         this._buffList = {};
-        this._heroDB = DBHero.getInstance().getDBHeroById(<string><null>hInfo.hId);
+        this._heroDB = DBHero.getInstance().getDBHeroById(<null>hInfo.hId);
         this._skillList = this.loadHeroSkillList(hInfo);
     }
     get HeroDB(){
@@ -116,7 +117,7 @@ export class HeroInfo {
     {
         //test
         let heroAttr:IHeroAttr;
-        heroAttr = {hp:100,phyAtk:100,phyDef:100,magicAtk:100,magicDef:100,crit:100,atkSpeed:100,block:10,camp:user.camp};
+        heroAttr = {hp:100,phyAtk:100,phyDef:100,magicAtk:100,magicDef:100,crit:100,atkSpeed:100,block:10,camp:user.camp,posIdx:hero.posIdx};
         return heroAttr;
     }
     /**
@@ -128,6 +129,7 @@ export class HeroInfo {
     {
         //test 需要根据登记组装所有的技能及参数
         let _skillDB:IDBSkill = DBSkill.getInstance().getDBSkillById(<string><null>this._heroDB.normalSkill);
+        console.log("bbb===" + _skillDB.extScript);
         let skillAi = new AiConst[_skillDB.extScript](_skillDB.extInfo);
 
         let skillAttr:ISkillAttr = {skillId:1,skillType:2,skillAtkId:3,filterId:1,skillAi:skillAi,totalFrame:5};

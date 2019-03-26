@@ -12,4 +12,14 @@ export default class ConstValue {
     public static readonly GAME_FRAME_RATE = 30; //游戏每秒逻辑帧数
     public static readonly UN_ATK_BUFF_LIST = [EBuffType.forzen,EBuffType.stun];//不可攻击buff
     public static readonly GAME_TOTAL_FRAM = 7200;//游戏总帧数、4*60*60 单场不超过4分钟，否则太久了
+    //阵营坐标系
+    //  8 7 6
+    //  5 4 3
+    //  2 1 0
+    // -------
+    //  0 1 2
+    //  3 4 5
+    //  6 7 8
+    public static readonly GAME_ROW_LIST = [[0,1,2],[3,4,5],[6,7,8]];//行对应的坐标
+    public static readonly GAME_COL_LIST = [[0,3,6],[1,4,7],[2,5,8]];//列对应的坐标
 }

@@ -77,6 +77,13 @@ export default class ModelBase {
         return this.HeroInfo.HeroAttr.camp;
     }
     /**
+     * - 获取英雄的位置信息
+     * @returns posIdx 位置信息
+     */
+    getHeroPosIndex():number{
+        return this.HeroInfo.HeroAttr.posIdx;
+    }
+    /**
      * 获取可以释放的技能(返回空说明没有可释放的技能)
      * @returns SkillInfo 将要播放的技能
      */

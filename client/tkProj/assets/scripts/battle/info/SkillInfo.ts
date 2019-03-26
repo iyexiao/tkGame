@@ -1,8 +1,9 @@
 import {ESkillType,ECamp,ERCType} from "../utils/UtilsEnum"
-import SkillAi from "../ai/SkillAiBase"
+import SkillAi from "../ai/AiBase"
 import {AttackInfo} from "./AttackInfo"
 import ModelBase from "../model/ModelBase";
-import { IFilterInfo } from "./FilterInfo";
+import { IDBFilter, DBFilter } from "../../db/DBFilter";
+import ConstValue from "../ConstValue";
 /**
  * @interface 技能属性
  */
@@ -23,10 +24,11 @@ export interface ISkillAttr{
  */
 export class SkillInfo {
     private readonly _skillAttr:ISkillAttr = null;
-    private readonly _filterInfo:IFilterInfo = null;
+    private readonly _filterDB:IDBFilter = null;
     constructor(skillAttr:ISkillAttr)
     {
         this._skillAttr = skillAttr;
+        this._filterDB = DBFilter.getInstance().getDBFilterById(<null>skillAttr.filterId);
     }
     get SkillInfo():ISkillAttr{
         return this._skillAttr;
@@ -52,8 +54,19 @@ export class SkillInfo {
      * @returns Array<ModelBase>
      */
     getChooseModelList(owner:ModelBase):Array<ModelBase>{
-        // let _list:Array<ModelBase> = new Array<ModelBase>();
-        let campList = owner.Ctrl.getModelListByCamp(owner.getHeroCamp() == ECamp.camp1 ? ECamp.camp2:ECamp.camp1);
-        return campList;
+
+        let camp = owner.getHeroCamp();
+        //选敌方阵营
+        if (this._filterDB.camp == ECamp.camp2) {
+            camp = camp == ECamp.camp1 ? ECamp.camp2:ECamp.camp1
+        }
+        let campList = owner.Ctrl.getModelListByCamp(camp);
+        let _list:Array<ModelBase> = new Array<ModelBase>();
+        let sTypeList = ConstValue.GAME_ROW_LIST;//默认按行选敌
+        if (this._filterDB.sType == ERCType.column) {
+            sTypeList = ConstValue.GAME_COL_LIST;
+        }
+
+        return _list;
     }
 }

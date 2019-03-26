@@ -14,6 +14,7 @@ export interface IHeroInfo {
     readonly level:number,
     readonly star:number,
     readonly quality:number,
+    readonly posIdx:number, //对应的位置
 }
 /**
  * @interface 进战斗玩家数据

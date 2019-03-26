@@ -1,4 +1,4 @@
-import SkillAiBase from "./SkillAiBase"
+import SkillAiBase from "./AiBase"
 
 /**
  * @class Skill_CC_Aura
