@@ -45,15 +45,9 @@ export default class ModelBase {
         let tmpFrame = this._heroInfo.CurrAtkFrame <= 0 ? 0 : this._heroInfo.CurrAtkFrame - 1;
         this._heroInfo.setCurrAtkFrame(tmpFrame);
         if (this._currSkill){
-            if(this._currSkill.SkillInfo.beforeFrame && this._currSkill.SkillInfo.beforeFrame > 0) {
-                this._currSkill.SkillInfo.beforeFrame -= 1;
-            }
-            if(this._currSkill.SkillInfo.totalFrame && this._currSkill.SkillInfo.totalFrame > 0)
-            {
-                this._currSkill.SkillInfo.totalFrame -= 1 ;
-                if (this._currSkill.SkillInfo.totalFrame == 0){
-                    this.giveOutOneSkillEnd();
-                }
+            let isEnd =  this._currSkill.updateSkillAttr();
+            if (isEnd) {
+                this.giveOutOneSkillEnd();
             }
         }
     }
@@ -95,29 +89,58 @@ export default class ModelBase {
      * - 技能释放结束
      */
     giveOutOneSkillEnd(){
+        EventManager.getInstance().dispatchEvent(EBattleTrigger.onSkillEnd,{model:this});
+        console.log("在第：" + this.getGameCurrFrame() + "帧,阵营：" + this.getHeroCamp() +" 的" + this.getHeroPosIndex()+ " 号位英雄：" + 
+        this.getHeroName() + " 技能:" + this._currSkill.getSkillAi().SkillName + "释放结束");
         //重置技能
         this._currSkill = null;
-        EventManager.getInstance().dispatchEvent(EBattleTrigger.onSkillEnd,{model:this});
+        this._lastChooseModelList = null;
+    }
+    /**
+     * - 真正释放一个技能
+     */
+    realGiveOneSkill(){
+        //真正释放一个技能
+        EventManager.getInstance().dispatchEvent(EBattleTrigger.onSkillStart,{model:this});
+        //如果技能没有释放时间、则直接技能释放结束
+        if (this._currSkill.SkillDB.totalFrame == 0) {
+            this.giveOutOneSkillEnd();
+        }
+        console.log("在第：" + this.getGameCurrFrame() + "帧,阵营：" + this.getHeroCamp() +" 的" + this.getHeroPosIndex()+ " 号位英雄：" + 
+        this.getHeroName() + " 释放技能:" + this._currSkill.getSkillAi().SkillName);
+
     }
     /**
      * - 准备释放某一技能
      */
     prepareGiveOutOneSkill(skillInfo:SkillInfo){
+        //先将英雄从队列里面删除掉，然后重置攻击间隔、然后再加入队列里面
+        this._ctrl.BattleCtrl.HandleCtrl.delModelHandle(this);
+        this._heroInfo.setCurrAtkFrame(this._heroInfo.getAttackCDFrame());
+        this._ctrl.BattleCtrl.HandleCtrl.addModelHandle(this);
         if (!skillInfo) {
+            console.log("没有可释放的技能");
+            return;
+        }
+        if(this._currSkill){
+            console.log("有技能在释放中");
             return;
         }
         //技能做选敌逻辑
         let defList = skillInfo.getChooseModelList(this);
         if(defList.length <= 0){
+            console.log("未存在选敌逻辑")
             return;
         }
+        //设置选中的敌人
         this._lastChooseModelList = defList;
         //设置释放的技能
         this._currSkill = skillInfo;
-        EventManager.getInstance().dispatchEvent(EBattleTrigger.onSkillStart,{model:this});
-        //如果技能没有释放时间、则直接技能释放结束
-        if (!this._currSkill.SkillInfo.totalFrame) {
-            this.giveOutOneSkillEnd();
+        //设置技能释放者
+        this._currSkill.updateSkillAttr(this);
+        //若技能没有前摇动作，则直接释放
+        if (skillInfo.SkillDB.beforeFrame == 0) {
+            this.realGiveOneSkill();
         }
     }
 }

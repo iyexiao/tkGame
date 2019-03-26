@@ -41,7 +41,7 @@ export default class RandomBase {
         return 0;
     }
     // 根据给予的数组随机返回数组内一个数
-    getOneRandomInArray(_arr:Array<number>)
+    getOneRandomInArray(_arr:Array<any>)
     {
         let ran = Math.floor(this.getNext() * _arr.length + 1) - 1;
         return _arr[ran];

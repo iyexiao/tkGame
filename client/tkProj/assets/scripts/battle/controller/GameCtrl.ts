@@ -100,11 +100,18 @@ export default class GameCtrl extends BaseCtrl {
      * @returns Array<ModelBase>
      * @param camp 阵营
      */
-    getModelListByCamp(camp:ECamp):Array<ModelBase>{
-        let tmpList = new Array<ModelBase>();
+    getModelListByCamp(camp:ECamp,protList:Array<Array<number>>):Array<Array<ModelBase>>{
+        let tmpList = [[],[],[]];
         this._modelArr.forEach(element => {
+            let posIdx = element.getHeroPosIndex();
             if (element.getHeroCamp() == camp) {
-                tmpList.push(element);
+                for (let index = 0; index < protList.length; index++) {
+                    const posIdxList = protList[index];
+                    if(posIdxList.indexOf(posIdx) >= 0){
+                        tmpList[index].push(element);
+                        break;
+                    }
+                }
             }
         });
         return tmpList;

@@ -15,4 +15,23 @@ export default class RandomCtrl extends RandomBase{
     {
         super(seed);
     }
+    /**
+     * 返回数组内N个随机数
+     * @param _arr 数组
+     * @param count 个数
+     */
+    getRandomsInArrayByCount(_arr:Array<any>,count:number)
+    {
+        if (count >= _arr.length) {
+            return _arr;
+        }
+        let _tmpArr = [];
+        let sourceArr = _arr.slice();
+        for (let index = 0; index < count; index++) {
+            let ran = Math.floor(this.getNext() * sourceArr.length + 1) - 1;
+            _tmpArr.push(sourceArr[ran]);
+            sourceArr.splice(ran,1);
+        }
+        return _tmpArr;
+    }
 }

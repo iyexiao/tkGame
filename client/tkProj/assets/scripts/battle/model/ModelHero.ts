@@ -22,11 +22,9 @@ export default class ModelHero extends ModelBase {
      * 初始化英雄的光环技能
      */
     initAura(){
-        for (let index = 0; index < this.HeroInfo.SkillList.length; index++) {
-            const skillInfo:SkillInfo = this.HeroInfo.SkillList[index];
-            if (skillInfo.SkillInfo.skillType == ESkillType.aura) {
-                console.log("=====>>>>阵营: " + this.getHeroCamp() +" 的光环技能：" + skillInfo.SkillInfo.skillId + " 生效！");
-            }
+        let skillInfo = this.HeroInfo.SkillList[ESkillType.aura];
+        if (skillInfo) {
+            console.log("=====>>>>阵营: " + this.getHeroCamp() +" 的光环技能：" + skillInfo.SkillDB.id + " 生效！");
         }
     }
 }

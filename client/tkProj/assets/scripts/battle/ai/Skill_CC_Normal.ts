@@ -30,6 +30,5 @@ export default class Skill_CC_Normal extends SkillAiBase{
         if(super.checkIsSelfModel(param.model)){
             return;
         }
-        console.log("在第：" + this.PlayerModel.getGameCurrFrame() + "帧,阵营：" + this.PlayerModel.getHeroCamp() + " 英雄：" + this.PlayerModel.getHeroName() + " 释放技能结束");
     }
 }

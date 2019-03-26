@@ -1,9 +1,8 @@
 import {IHeroInfo, IUserInfo} from "../info/BattleInfo"
-import {EPropType,ECamp} from "../utils/UtilsEnum"
+import {EPropType,ECamp, ESkillType} from "../utils/UtilsEnum"
 import {BuffInfo, EBuffType}  from "../info/BuffInfo"
-import {SkillInfo,ISkillAttr} from "../info/SkillInfo"
+import {SkillInfo} from "../info/SkillInfo"
 import ConstValue from "../ConstValue"
-import AiConst from "../ai/AiConst"
 import {DBHero,IDBHero} from "../../db/DBHero"
 import { IDBSkill ,DBSkill} from "../../db/DBSkill";
 
@@ -64,6 +63,7 @@ export class HeroInfo {
         this._buffList = {};
         this._heroDB = DBHero.getInstance().getDBHeroById(<null>hInfo.hId);
         this._skillList = this.loadHeroSkillList(hInfo);
+        this.setCurrAtkFrame(this.getAttackCDFrame());
     }
     get HeroDB(){
         return this._heroDB;
@@ -82,10 +82,16 @@ export class HeroInfo {
     }
     /**
      * - 设置英雄当前攻速
-     * @param atkFrame 
+     * @param atkFrame 不传代表重新取值
      */
     setCurrAtkFrame(atkFrame:number){
         this._currAtkFrame = atkFrame;
+    }
+    /**
+     * 获取攻击间隔
+     */
+    getAttackCDFrame():number{
+        return this._heroDB.atkSpeed;
     }
     /**
      * @description 返回符合类型的buff数组
@@ -97,15 +103,6 @@ export class HeroInfo {
             return this._buffList[buffType];
         }
         return null;
-    }
-    printLogInfo(){
-        let _str:string = "name:" + this._user.userName + " ";
-        
-        for (let index = 0; index < this._skillList.length; index++) {
-            const skillInfo:SkillInfo = this._skillList[index];
-            _str += "skill:" + skillInfo.SkillInfo.skillAi.SkillName + " ";
-        }
-        console.log(_str);
     }
     /**
      * 
@@ -129,13 +126,9 @@ export class HeroInfo {
     {
         //test 需要根据登记组装所有的技能及参数
         let _skillDB:IDBSkill = DBSkill.getInstance().getDBSkillById(<string><null>this._heroDB.normalSkill);
-        console.log("bbb===" + _skillDB.extScript);
-        let skillAi = new AiConst[_skillDB.extScript](_skillDB.extInfo);
-
-        let skillAttr:ISkillAttr = {skillId:1,skillType:2,skillAtkId:3,filterId:1,skillAi:skillAi,totalFrame:5};
-        let skillInfo = new SkillInfo(skillAttr);
-        let skillArr = new Array<SkillInfo>();
-        skillArr.push(skillInfo);
+        let skillInfo = new SkillInfo(_skillDB);
+        let skillArr = [,,,];//技能根据普攻、小技能、大招、被动、光环顺序存储
+        skillArr[skillInfo.SkillDB.skillType] = skillInfo;
         return skillArr;
     }
     /**

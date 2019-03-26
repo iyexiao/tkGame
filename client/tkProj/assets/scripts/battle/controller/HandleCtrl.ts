@@ -30,6 +30,14 @@ export default class HandleCtrl extends BaseCtrl {
             }
             return 0;
         });
+        if (this._handleArr.length <= 0) {
+            return;
+        }
+        //排序完成之后，需要设置攻击间隔
+        let tmpFrame = this._handleArr[0].HeroInfo.CurrAtkFrame;
+        this._handleArr.forEach(element => {
+            element.HeroInfo.setCurrAtkFrame(element.HeroInfo.CurrAtkFrame - tmpFrame);
+        });
     }
     /**
      * 从出手队列里面移除某个英雄
@@ -76,8 +84,6 @@ export default class HandleCtrl extends BaseCtrl {
             const model = this._handleArr[index];
             if (model.HeroInfo.CurrAtkFrame == 0 ) {
                 tmpArr.push(model);
-                //返回出手的英雄后需要从队列里面删除掉
-                this.delModelHandle(model);
             }else{
                 break;
             }
