@@ -78,13 +78,4 @@ export default abstract class SkillAiBase{
      * @param model 被击杀的英雄
      */
     onKill(model:ModelBase):void{};
-
-
-    /**
-     * - 以下方法都是打印日志用
-     */
-    printOnSkillStartLog(param:any){
-        console.log("在第：" + this.PlayerModel.getGameCurrFrame() + "帧,阵营：" + this.PlayerModel.getHeroCamp() + " 英雄：" + 
-        this.PlayerModel.getHeroName() + " 释放技能:" + this.SkillName + " 攻击阵营：" + param.model.getHeroCamp() + " 的：" + param.model.getHeroName());
-    }
 }
