@@ -1,16 +1,16 @@
-import ModelBase from "../model/ModelBase"
-import SkillAiBase from "./AiBase"
+import ModelBase from "../../model/ModelBase"
+import SkillAiBase from "../AiBase"
 
 /**
- * @class Skill_CC_Normal
+ * @class Skill_XHY_Normal
  * @author YeXiao
- * @deprecated 曹操普攻技能
- * @since 2019-3-23 22:04:26
+ * @deprecated 夏侯渊攻技能
+ * @since 2019-4-1 17:17:49
  */
-export default class Skill_CC_Normal extends SkillAiBase{
+export default class Skill_XHY_Normal extends SkillAiBase{
     private _skillArr:Array<string> = null;
     constructor(skillArr?:Array<string>){
-        super("Skill_CC_Normal");
+        super("Skill_XHY_Normal");
         if (skillArr) {
             this._skillArr = skillArr;
         }

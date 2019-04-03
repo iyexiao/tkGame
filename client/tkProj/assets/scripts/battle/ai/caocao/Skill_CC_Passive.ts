@@ -1,15 +1,15 @@
-import SkillAiBase from "./AiBase"
+import SkillAiBase from "../AiBase"
 
 /**
- * @class Skill_CC_Aura
+ * @class Skill_CC_Passive
  * @author YeXiao
- * @deprecated 曹操光环
+ * @deprecated 曹操被动
  * @since 2019-3-25 11:07:00
  */
-export default class Skill_CC_Aura extends SkillAiBase{
+export default class Skill_CC_Passive extends SkillAiBase{
     private _skillArr:Array<string> = null;
     constructor(skillArr?:Array<string>){
-        super("Skill_CC_Aura");
+        super("Skill_CC_Passive");
         if (skillArr) {
             this._skillArr = skillArr;
         }

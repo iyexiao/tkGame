@@ -34,6 +34,7 @@ export class SkillInfo {
     {
         this._skillDB = skillDB;
         this._filterDB = DBFilter.getInstance().getDBFilterById(<string><null>skillDB.filter);
+        // console.log("name:" + skillDB.extScript);
         this._skillAi = new AiConst[skillDB.extScript](skillDB.extInfo);
     }
     get SkillDB():IDBSkill{

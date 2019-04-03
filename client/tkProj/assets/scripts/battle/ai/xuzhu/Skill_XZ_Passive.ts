@@ -1,4 +1,4 @@
-import SkillAiBase from "./AiBase"
+import SkillAiBase from "../AiBase"
 
 /**
  * @class Skill_XZ_Passive

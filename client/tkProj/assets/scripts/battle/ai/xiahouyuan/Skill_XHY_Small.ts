@@ -1,5 +1,5 @@
-import ModelBase from "../model/ModelBase"
-import SkillAiBase from "./AiBase"
+import ModelBase from "../../model/ModelBase"
+import SkillAiBase from "../AiBase"
 
 /**
  * @class Skill_XHY_Small
