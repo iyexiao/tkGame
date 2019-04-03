@@ -3,6 +3,7 @@ import {HeroInfo} from "../info/HeroInfo"
 import ModelBase from "./ModelBase"
 import {SkillInfo} from "../info/SkillInfo"
 import {ESkillType, ECamp} from "../utils/UtilsEnum"
+import LogsManager from "../utils/LogsManager";
 
 /**
  * @class ModelHero
@@ -15,7 +16,8 @@ export default class ModelHero extends ModelBase {
     constructor(controler:GameCtrl,heroInfo:HeroInfo)
     {
         super(controler,heroInfo);
-        console.log("初始化阵营:" + heroInfo.HeroAttr.camp + " " + heroInfo.HeroDB.name + " 英雄的英雄数据");
+        
+        LogsManager.getInstance().log("初始化阵营:" + heroInfo.HeroAttr.camp + " " + heroInfo.HeroDB.name + " 英雄的英雄数据");
         // heroInfo.printLogInfo();
     }
     /**
@@ -24,7 +26,8 @@ export default class ModelHero extends ModelBase {
     initAura(){
         let skillInfo = this.HeroInfo.SkillList[ESkillType.aura];
         if (skillInfo) {
-            console.log("=====>>>>阵营: " + this.getHeroCamp() +" 的光环技能：" + skillInfo.SkillDB.id + " 生效！");
+            let logStr="=====>>>>阵营: " + this.getHeroCamp() +" 的光环技能：" + skillInfo.SkillDB.id + " 生效！";
+            LogsManager.getInstance().log(logStr);
         }
     }
 }

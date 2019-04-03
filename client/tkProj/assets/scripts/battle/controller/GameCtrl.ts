@@ -5,6 +5,7 @@ import {HeroInfo} from '../info/HeroInfo'
 import ModelHero from '../model/ModelHero'
 import ConstValue from '../ConstValue';
 import ModelBase from '../model/ModelBase';
+import LogsManager from '../utils/LogsManager';
 /**
  * @class GameCtrl
  * @extends BaseCtrl
@@ -67,7 +68,7 @@ export default class GameCtrl extends BaseCtrl {
      */
     initModelsAura()
     {
-        console.log("======>>>>>>初始化光环技能")
+        LogsManager.getInstance().log("======>>>>>>初始化光环技能");
         for (let index = 0; index < this._modelArr.length; index++) {
             this._modelArr[index].initAura();
         }

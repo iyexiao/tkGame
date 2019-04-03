@@ -5,6 +5,7 @@ import LevelCtrl from "./LevelCtrl"
 import LogicCtrl from "./LogicCtrl";
 import ConstValue from "../ConstValue";
 import HandleCtrl from "./HandleCtrl";
+import LogsManager from "../utils/LogsManager";
 
 /**
  * @class BattleCtrl
@@ -27,12 +28,14 @@ export default class BattleCtrl {
     }
     startOneBattle()
     {
-        console.log("====>>>>>>>BattleCtrl.startOneBattle");
+        LogsManager.getInstance().log("开始一场战斗----->>BattleCtrl.startOneBattle");
         this._randomCtrl = new RandomCtrl(this._batleInfo.randomSeed);
         this._levelCtrl = new LevelCtrl(this);
         this._gameCtrl = new GameCtrl(this);
         this._logicCtrl = new LogicCtrl(this);
         this._handleCtrl = new HandleCtrl(this);
+        //在日志控制器里面装载battleCtrl
+        LogsManager.getInstance().setBattleCtrl(this);
         this._gameCtrl.startBattle();
     }
     /**

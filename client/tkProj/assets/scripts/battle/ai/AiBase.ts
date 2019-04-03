@@ -1,6 +1,7 @@
 import ModelBase from "../model/ModelBase"
 import EventManager from "../../../framework/event/EventManager";
 import { EBattleTrigger } from "../utils/UtilsEnum";
+import LogsManager from "../utils/LogsManager";
 /**
  * @class SkillAiBase
  * @author YeXiao
@@ -14,7 +15,7 @@ export default abstract class SkillAiBase{
         this._skillName = nameStr;
         EventManager.getInstance().addEventListener(EBattleTrigger.onSkillStart,this.onSkillStart,this);
         EventManager.getInstance().addEventListener(EBattleTrigger.onSkillEnd,this.onSkillEnd,this);
-        console.log("初始化脚本:" + this._skillName);
+        LogsManager.getInstance().log("初始化脚本：" + this._skillName);
     }
     /**
      * - 设置技能的释放者(在model创建的时候设置)
