@@ -118,6 +118,29 @@ export class HeroInfo {
         return heroAttr;
     }
     /**
+     * - 检查技能是否解锁
+     * @param hero 英雄属性
+     * @param skillArr 技能参数列表
+     */
+    private checkSkillIsOpen(hero:IHeroInfo,skillArr:Array<string>):boolean{
+        let lv = <number><null>skillArr[1];
+        let qty = <number><null>skillArr[2];
+        let star = <number><null>skillArr[2];
+        if(hero.level >= lv && hero.quality >= qty && hero.level >= star){
+            return true;
+        }
+        return false;
+    }
+    /**
+     * - 获取某个技能
+     * @param skillId 
+     */
+    private getOneSkillById(skillId:string):SkillInfo{
+        let _skillDB:IDBSkill = DBSkill.getInstance().getDBSkillById(skillId);
+        let skillInfo = new SkillInfo(_skillDB);
+        return skillInfo;
+    }
+    /**
      * @description 根据英雄获取英雄身上技能
      * @param hero 
      * @returns Array<SkillInfo>
@@ -125,10 +148,34 @@ export class HeroInfo {
     loadHeroSkillList(hero:IHeroInfo):Array<SkillInfo>
     {
         //test 需要根据登记组装所有的技能及参数
-        let _skillDB:IDBSkill = DBSkill.getInstance().getDBSkillById(<string><null>this._heroDB.normalSkill);
-        let skillInfo = new SkillInfo(_skillDB);
         let skillArr = [,,,];//技能根据普攻、小技能、大招、被动、光环顺序存储
+        //普攻
+        let skillInfo = this.getOneSkillById(<string><null>this._heroDB.normalSkill);
         skillArr[skillInfo.SkillDB.skillType] = skillInfo;
+        //小技能 [等级、品阶、星级、技能id]
+        let tmpArr = this._heroDB.smallSkill;
+        if (this.checkSkillIsOpen(hero,tmpArr)) {
+            let skillInfo = this.getOneSkillById(tmpArr[4]);
+            skillArr[skillInfo.SkillDB.skillType] = skillInfo;
+        }
+        //大招
+        tmpArr = this._heroDB.bigSkill;
+        if (this.checkSkillIsOpen(hero,tmpArr)) {
+            let skillInfo = this.getOneSkillById(tmpArr[4]);
+            skillArr[skillInfo.SkillDB.skillType] = skillInfo;
+        }
+        //被动
+        tmpArr = this._heroDB.passiveSkill;
+        if (this.checkSkillIsOpen(hero,tmpArr)) {
+            let skillInfo = this.getOneSkillById(tmpArr[4]);
+            skillArr[skillInfo.SkillDB.skillType] = skillInfo;
+        }
+        //光环
+        tmpArr = this._heroDB.auraSkill;
+        if (this.checkSkillIsOpen(hero,tmpArr)) {
+            let skillInfo = this.getOneSkillById(tmpArr[4]);
+            skillArr[skillInfo.SkillDB.skillType] = skillInfo;
+        }
         return skillArr;
     }
     /**

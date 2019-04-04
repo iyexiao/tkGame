@@ -21,6 +21,7 @@ export default class GameCtrl extends BaseCtrl {
     {
         super(ctrl);
         this._modelArr = new Array<ModelHero>();
+        this._currFrame = 0;
         this.initModelList();
     }
     get ModelArr(){
@@ -60,6 +61,7 @@ export default class GameCtrl extends BaseCtrl {
      */
     startBattle()
     {
+        LogsManager.getInstance().log("开始一场战斗----->>GameCtrl.startBattle");
         this.initModelsAura();
         this.startGameLoop();
     }

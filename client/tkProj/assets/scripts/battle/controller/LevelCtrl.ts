@@ -1,5 +1,4 @@
-import {IBattleInfo,IHeroInfo} from "../info/BattleInfo"
-import {HeroInfo,IHeroAttr} from "../info/HeroInfo"
+import {HeroInfo} from "../info/HeroInfo"
 import {ECamp} from "../utils/UtilsEnum"
 import BattleCtrl from './BattleCtrl'
 import BaseCtrl from "./BaseCtrl";

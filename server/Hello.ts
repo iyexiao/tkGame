@@ -41,14 +41,14 @@ let battleInfo = '                                              \
             "level": 1,                                         \
             "star": 1,                                          \
             "quality": 1,                                       \
-            "posIdx": 1                                         \
+            "posIdx": 5                                         \
           },                                                    \
           {                                                     \
             "hId": 4,                                           \
             "level": 1,                                         \
             "star": 1,                                          \
             "quality": 1,                                       \
-            "posIdx": 1                                         \
+            "posIdx": 7                                         \
           }                                                     \
         ]                                                       \
       }                                                         \

@@ -95,7 +95,7 @@ export class SkillInfo {
 
         let camp = owner.getHeroCamp();
         //选敌方阵营
-        if (this._filterDB.camp == ECamp.camp2) {
+        if (this._filterDB.camp == ECamp.camp1) {
             camp = camp == ECamp.camp1 ? ECamp.camp2:ECamp.camp1
         }
         let protList = []

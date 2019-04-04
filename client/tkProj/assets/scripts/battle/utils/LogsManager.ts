@@ -35,7 +35,7 @@ export default class LogsManager {
      * @param log 需要存储或者打印的log
      */
     log(log:string){
-        if (!this._battleCtrl) {
+        if (!this._battleCtrl || !this._battleCtrl.GameCtrl) {
             console.log("还未初始化battleCtrl")
             return;
         }
@@ -47,10 +47,6 @@ export default class LogsManager {
         console.log("frame:" + frame + " " + log);
     }
     skilllog(trigger:EBattleTrigger,model:ModelBase){
-        if (!this._battleCtrl) {
-            console.log("还未初始化battleCtrl")
-            return;
-        }
         let logStr = '';
         switch (trigger) {
             case EBattleTrigger.onSkillStart:
