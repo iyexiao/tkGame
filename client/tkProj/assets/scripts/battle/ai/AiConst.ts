@@ -18,6 +18,7 @@ import Skill_XZ_Small from "./xuzhu/Skill_XZ_Small"
 import Skill_XZ_Aura from "./xuzhu/Skill_XZ_Aura"
 import Skill_XZ_Big from "./xuzhu/Skill_XZ_Big"
 import Skill_XZ_Passive from "./xuzhu/Skill_XZ_Passive"
+import Skill_CR_Normal from "./caoren/Skill_CR_Normal"
 
 /**
  * @class AiConst
@@ -50,4 +51,6 @@ export default class AiConst {
     public static readonly Skill_XZ_Aura = Skill_XZ_Aura;
     public static readonly Skill_XZ_Big = Skill_XZ_Big;
     public static readonly Skill_XZ_Passive = Skill_XZ_Passive;
+    //曹仁技能
+    public static readonly Skill_CR_Normal = Skill_CR_Normal;
 }
