@@ -20,6 +20,9 @@ import Skill_XZ_Big from "./xuzhu/Skill_XZ_Big"
 import Skill_XZ_Passive from "./xuzhu/Skill_XZ_Passive"
 import Skill_CR_Normal from "./caoren/Skill_CR_Normal"
 import Skill_CR_Small from "./caoren/Skill_CR_Small"
+import Skill_CR_Big from "./caoren/Skill_CR_Big"
+import Skill_CR_Aura from "./caoren/Skill_CR_Aura"
+import Skill_CR_Passive from "./caoren/Skill_CR_Passive"
 
 /**
  * @class AiConst
@@ -55,4 +58,7 @@ export default class AiConst {
     //曹仁技能
     public static readonly Skill_CR_Normal = Skill_CR_Normal;
     public static readonly Skill_CR_Small = Skill_CR_Small;
+    public static readonly Skill_CR_Aura = Skill_CR_Aura;
+    public static readonly Skill_CR_Big = Skill_CR_Big;
+    public static readonly Skill_CR_Passive = Skill_CR_Passive;
 }
