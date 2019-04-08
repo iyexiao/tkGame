@@ -1,53 +1,53 @@
 interface IEvent {
-    eventType: string,
-    thisObject?:any,
-    callback: (data:any) => void
-} 
+    eventType: string;
+    thisObject?: any;
+    callback: (data: any) => void;
+}
 
 export default class EventManager {
-    static _instance: EventManager = null;
-    static getInstance(): EventManager {
-        if (EventManager._instance == null) {
-            EventManager._instance = new EventManager();
+    public static getInstance(): EventManager {
+        if (EventManager.instance == null) {
+            EventManager.instance = new EventManager();
         }
-        return EventManager._instance;
+        return EventManager.instance;
     }
-    _eventList: {[key: number]: Array<IEvent>} = null;
+    private static instance: EventManager = null;
+    private eventList: {[key: number]: IEvent[]} = null;
 
     constructor() {
-        this._eventList = {};
+        this.eventList = {};
     }
     /**
      * - 添加一个事件监听
      * @param eventType 事件类型
      * @param callback 回调方法
      */
-    addEventListener(eventType: string, callback: any,thisObject?:any) {
-        if (!eventType || !callback) { 
+    public addEventListener(eventType: string, callback: any, thisObject?: any) {
+        if (!eventType || !callback) {
             return;
         }
-        let tmpArr: Array<IEvent> = this._eventList[eventType] || [];
-        for (let i = 0; i < tmpArr.length; i++) {
-            if (tmpArr[i].callback === callback) {
+        const tmpArr: IEvent[] = this.eventList[eventType] || [];
+        for (const iterator of tmpArr) {
+            if (iterator.callback === callback) {
                 return;
             }
-        } 
-        let ievent: IEvent = {
-            eventType: eventType,
-            thisObject: thisObject,
-            callback: callback
+        }
+        const ievent: IEvent = {
+            eventType,
+            thisObject,
+            callback,
         };
         tmpArr.push(ievent);
-        this._eventList[eventType] = tmpArr;
+        this.eventList[eventType] = tmpArr;
     } 
     /**
      * - 事件分发
      */
-    dispatchEvent(eventType: string, params?: any) {
+    public dispatchEvent(eventType: string, params?: any) {
         if (!eventType) {
             return;
         }
-        let tmpArr: Array<IEvent> = this._eventList[eventType] || [];
+        let tmpArr: Array<IEvent> = this.eventList[eventType] || [];
         for (let i = 0; i < tmpArr.length; i++) {
             let ievent = tmpArr[i];
             if (ievent.thisObject) {
@@ -63,11 +63,11 @@ export default class EventManager {
      * @param eventType 
      * @param callback 
      */
-    removeEventListener(eventType: string, callback: any) {
+    public removeEventListener(eventType: string, callback: any) {
         if (!eventType || !callback) {
             return;
          }
-         let tmpArr: Array<IEvent>  = this._eventList[eventType] || [];
+         let tmpArr: Array<IEvent>  = this.eventList[eventType] || [];
 
          for (let i = 0; i < tmpArr.length; i++) {
              if (tmpArr[i].callback === callback) {
@@ -76,7 +76,7 @@ export default class EventManager {
              }
          }
          if (tmpArr.length == 0) {
-             delete this._eventList[eventType];
+             delete this.eventList[eventType];
          }
     }
 }

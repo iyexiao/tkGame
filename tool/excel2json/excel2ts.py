@@ -153,8 +153,7 @@ def parseData(title,pData,pType,pKey):
                     tmp = '%s: []' % (pKey[col])
             item.append(str(tmp))
         # print ','.join(item) + '\n'
-        tmpStr = '   // tslint:disable-next-line: max-line-length\r'
-        fileItem = tmpStr + idStr + '{%s},'%(', '.join(item))
+        fileItem = idStr + '{%s},'%(', '.join(item))
         ret = ret + fileItem + lineStr
     # ret = '[%s]'%(ret[:-1])
     ret = ret + "};" + lineStr
