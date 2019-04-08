@@ -10,58 +10,59 @@ import { EBattleTrigger } from "./UtilsEnum";
  * 
  */
 export default class LogsManager {
-    static _instance:LogsManager = null;
-    private _logInfo:Array<any> = null;
-    private _battleCtrl:BattleCtrl = null;
-    static getInstance():LogsManager{
-        if( LogsManager._instance == null ){
-            LogsManager._instance = new LogsManager();
-            LogsManager._instance._logInfo = [];
+    public static getInstance(): LogsManager{
+        if( LogsManager.instance == null ){
+            LogsManager.instance = new LogsManager();
+            LogsManager.instance.logInfo = [];
         }
-        return LogsManager._instance;
+        return LogsManager.instance;
     }
-    setBattleCtrl(battleCtrl:BattleCtrl){
-        this._battleCtrl = battleCtrl;
+    private static instance: LogsManager = null;
+    private logInfo: any[] = null;
+    private battleCtrl: BattleCtrl = null;
+    public setBattleCtrl(battleCtrl: BattleCtrl){
+        this.battleCtrl = battleCtrl;
     }
     /**
      * - 清空所有日志
      */
-    clearAllLog(){
-        this._logInfo = [];
-        this._battleCtrl = null;
+    public clearAllLog(){
+        this.logInfo = [];
+        this.battleCtrl = null;
     }
     /**
      * - 战斗日志打印
      * @param log 需要存储或者打印的log
      */
-    log(log:string){
-        if (!this._battleCtrl || !this._battleCtrl.GameCtrl) {
+    public log(log: string){
+        if (!this.battleCtrl || !this.battleCtrl.GameCtrl) {
+// tslint:disable-next-line: no-console
             console.log("还未初始化battleCtrl")
             return;
         }
-        let frame = this._battleCtrl.GameCtrl.CurrentFrame;
-        if (!this._logInfo[frame]) {
-            this._logInfo[frame] = [];
+        const frame = this.battleCtrl.GameCtrl.CurrentFrame;
+        if (!this.logInfo[frame]) {
+            this.logInfo[frame] = [];
         }
-        this._logInfo[frame].push(log);
+        this.logInfo[frame].push(log);
+// tslint:disable-next-line: no-console
         console.log("frame:" + frame + " " + log);
     }
-    skilllog(trigger:EBattleTrigger,model:ModelBase){
-        let logStr = '';
+    public skilllog(trigger: EBattleTrigger,model: ModelBase){
+        let logStr = "";
         switch (trigger) {
             case EBattleTrigger.onSkillStart:
-                //获取技能释放对象
+                // 获取技能释放对象
                 let tmpStr = "  对";
-                for (let index = 0; index < model.LastChooseModelList.length; index++) {
-                    const element = model.LastChooseModelList[index];
-                    tmpStr  = tmpStr + " 阵营:" + element.getHeroCamp() + " 的 " + element.getHeroPosIndex()+ " 号位英雄：" + element.getHeroName();
+                for (const element of model.LastChooseModelList) {
+                    tmpStr  = tmpStr + " 阵营:" + element.getHeroCamp() + " 的 " + element.getHeroPosIndex() + " 号位英雄：" + element.getHeroName();
                 }
-                logStr = "阵营：" + model.getHeroCamp() +" 的" + model.getHeroPosIndex()+ " 号位英雄：" + 
-                            model.getHeroName() + tmpStr + " 释放技能:" + model.CurrSkill.getSkillAi().SkillName;
+                logStr = "阵营：" + model.getHeroCamp() + " 的" + model.getHeroPosIndex() + " 号位英雄："
+                            + model.getHeroName() + tmpStr + " 释放技能:" + model.CurrSkill.getSkillAi().SkillName;
                 break;
             case EBattleTrigger.onSkillEnd:
-                logStr = "阵营：" + model.getHeroCamp() +" 的" + model.getHeroPosIndex()+ " 号位英雄：" + 
-                            model.getHeroName() + " 技能:" + model.CurrSkill.getSkillAi().SkillName + "释放结束";
+                logStr = "阵营：" + model.getHeroCamp() + " 的" + model.getHeroPosIndex() + " 号位英雄："
+                           + model.getHeroName() + " 技能:" + model.CurrSkill.getSkillAi().SkillName + "释放结束";
                 break;
             default:
                 break;

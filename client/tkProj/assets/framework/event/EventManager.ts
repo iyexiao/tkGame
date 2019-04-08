@@ -47,35 +47,34 @@ export default class EventManager {
         if (!eventType) {
             return;
         }
-        let tmpArr: Array<IEvent> = this.eventList[eventType] || [];
-        for (let i = 0; i < tmpArr.length; i++) {
-            let ievent = tmpArr[i];
-            if (ievent.thisObject) {
-                //在回调的时候, 不要直接func(agrs) 而是改成 func.call(目标对象, args)
-                ievent.callback.call(ievent.thisObject,params);
-            }else{
-                ievent.callback(params);
+        const tmpArr: IEvent[] = this.eventList[eventType] || [];
+        for (const iterator of tmpArr) {
+            if (iterator.thisObject) {
+                // 在回调的时候, 不要直接func(agrs) 而是改成 func.call(目标对象, args)
+                iterator.callback.call(iterator.thisObject,params);
+            } else{
+                iterator.callback(params);
             }
         }
     }
     /**
      * - 移除一个事件监听
-     * @param eventType 
-     * @param callback 
+     * @param eventType
+     * @param callback
      */
     public removeEventListener(eventType: string, callback: any) {
         if (!eventType || !callback) {
             return;
          }
-         let tmpArr: Array<IEvent>  = this.eventList[eventType] || [];
+        const tmpArr: IEvent[]  = this.eventList[eventType] || [];
 
-         for (let i = 0; i < tmpArr.length; i++) {
+        for (let i = 0; i < tmpArr.length; i++) {
              if (tmpArr[i].callback === callback) {
                 tmpArr.splice(i, 1);
                 break;
              }
          }
-         if (tmpArr.length == 0) {
+        if (tmpArr.length === 0) {
              delete this.eventList[eventType];
          }
     }

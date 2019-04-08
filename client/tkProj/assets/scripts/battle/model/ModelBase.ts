@@ -1,9 +1,9 @@
-import GameCtrl from "../controller/GameCtrl"
-import {HeroInfo} from "../info/HeroInfo"
-import { ECamp, EBattleTrigger } from "../utils/UtilsEnum";
-import { SkillInfo } from "../info/SkillInfo";
 import EventManager from "../../../framework/event/EventManager";
+import GameCtrl from "../controller/GameCtrl";
+import {HeroInfo} from "../info/HeroInfo";
+import { SkillInfo } from "../info/SkillInfo";
 import LogsManager from "../utils/LogsManager";
+import { EBattleTrigger, ECamp } from "../utils/UtilsEnum";
 
 /**
  * @class ModelBase
@@ -94,7 +94,7 @@ export default class ModelBase {
      */
     giveOutOneSkillEnd(){
         EventManager.getInstance().dispatchEvent(EBattleTrigger.onSkillEnd,{model:this});
-        LogsManager.getInstance().skilllog(EBattleTrigger.onSkillEnd,this);
+        LogsManager.getInstance().skilllog({ trigger: EBattleTrigger.onSkillEnd, model: this });
         //重置技能
         this._currSkill = null;
         this._lastChooseModelList = null;
@@ -105,7 +105,7 @@ export default class ModelBase {
     realGiveOneSkill(){
         //真正释放一个技能
         EventManager.getInstance().dispatchEvent(EBattleTrigger.onSkillStart,{model:this});
-        LogsManager.getInstance().skilllog(EBattleTrigger.onSkillStart,this);
+        LogsManager.getInstance().skilllog({ trigger: EBattleTrigger.onSkillStart, model: this });
         //如果技能没有释放时间、则直接技能释放结束
         if (this._currSkill.SkillDB.totalFrame == 0) {
             this.giveOutOneSkillEnd();

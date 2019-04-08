@@ -1,95 +1,99 @@
 
 
 export default class LogManager {
-    static _instance: LogManager = null;
-    static getInstance(): LogManager {
-        if (LogManager._instance == null) {
-            LogManager._instance = new LogManager();
+    public static getInstance(): LogManager {
+        if (LogManager.instance == null) {
+            LogManager.instance = new LogManager();
         }
-        return LogManager._instance;
+        return LogManager.instance;
     }
+    private static instance: LogManager = null;
 
-    isLog: boolean = true;
+    private isLog: boolean = true;
 
-    log() {
+    public log() {
         if (!this.isLog) {
             return;
         }
-        var backLog = cc.log || console.log ||  window["log"];
+// tslint:disable-next-line: no-string-literal no-console
+        const backLog = cc.log || console.log ||  window["log"];
         backLog.call(LogManager, "%s%s" + cc.js.formatStr.apply(cc, arguments),this._getDateString(), this._stack());
     }
 
-    info() {
+    public info() {
         if (!this.isLog) {
             return;
         }
-        var backLog = cc.log || console.log || window["log"];
+// tslint:disable-next-line: no-string-literal no-console
+        const backLog = cc.log || console.log || window["log"];
         backLog.call(LogManager, "%c%s%s:" + cc.js.formatStr.apply(cc, arguments), "color:#00CD00;", this._getDateString(), this._stack());
     }
 
-    log2() {
+    public log2() {
         if (!this.isLog) {
             return;
         }
-        var backLog = cc.log || console.log ||  window["log"];
+// tslint:disable-next-line: no-string-literal no-console
+        const backLog = cc.log || console.log || window["log"];
         backLog.call(LogManager, "%c%s%s:" + cc.js.formatStr.apply(cc, arguments), "color:#EED2EE;", this._getDateString(), this._stack());
-    };
-    
-    info2() {
+    }
+
+    public info2() {
         if (!this.isLog) {
             return;
         }
-        var backLog = cc.log || console.log ||  window["log"];
+// tslint:disable-next-line: no-string-literal no-console
+        const backLog = cc.log || console.log || window["log"];
         backLog.call(LogManager, "%c%s%s:" + cc.js.formatStr.apply(cc, arguments),  "color:#F08080;", this._getDateString(), this._stack());
-    };
-    
-    info3() {
+    }
+
+    public info3() {
         if (!this.isLog) {
             return;
         }
-        var backLog = cc.log || console.log ||  window["log"];
+// tslint:disable-next-line: no-string-literal no-console
+        const backLog = cc.log || console.log || window["log"];
         backLog.call(LogManager, "%c%s%s:" + cc.js.formatStr.apply(cc, arguments), "color:#9B30FF;", this._getDateString(), this._stack());
-    };
+    }
 
-
-    warn() {
+    public warn() {
         if (!this.isLog) {
             return;
         }
-        var backLog = cc.log || console.log ||  window["log"];
+// tslint:disable-next-line: no-string-literal no-console
+        const backLog = cc.log || console.log || window["log"];
         backLog.call(LogManager, "%c%s%s:" + cc.js.formatStr.apply(cc, arguments), "color:#ee7700;", this._getDateString(), this._stack());
-    };
+    }
 
-    error() {
+    public error() {
         if (!this.isLog) {
             return;
         }
-        var backLog = cc.log || console.log ||  window["log"];
+// tslint:disable-next-line: no-string-literal no-console
+        const backLog = cc.log || console.log || window["log"];
         backLog.call(LogManager, "%c%s%s:" + cc.js.formatStr.apply(cc, arguments), "color:red", this._getDateString(), this._stack());
-    };
-
-    _stack() {
-        var e = new Error();
-        var lines = e.stack.split("\n");
+    }
+    private _stack() {
+        const e = new Error();
+        const lines = e.stack.split("\n");
         lines.shift();
-        var result = [];
+        const result = [];
         lines.forEach((line) => {
             line = line.substring(7);
-            var lineBreak = line.split(" ");
+            const lineBreak = line.split(" ");
             if (lineBreak.length < 2) {
                 result.push(lineBreak[0]);
             } else {
                 result.push({[lineBreak[0]]: lineBreak[1]});
             }
         });
-    
-    
-        var list = [];
-    
+
+// tslint:disable-next-line: variable-name
         let result_idx = -1;
-        for (var i = 0; i < result.length; i++) {
-            for (var a in result[i]) {
-                var l = a.split(".");
+        for (let i = 0; i < result.length; i++) {
+// tslint:disable-next-line: forin
+            for (let a in result[i]) {
+                let l = a.split(".");
                 if (l[0] !== "GameLog") {
                     result_idx = i;
                     break;
@@ -100,15 +104,16 @@ export default class LogManager {
             }
         }
 
-        let result_list  = Object["values"](result[2])[0].split("/");
+// tslint:disable-next-line: variable-name no-string-literal
+        const result_list  = Object["values"](result[2])[0].split("/");
 
         return result_list[result_list.length - 1];
     }
 
-    _getDateString(): string {
-        var d = new Date();
-        var str = d.getHours() + "";
-        var timeStr = "";
+    private _getDateString(): string {
+        const d = new Date();
+        let str = d.getHours() + "";
+        let timeStr = "";
         timeStr += (str.length === 1 ? ("0" + str) : str) + ":";
 
         str = d.getMinutes() + "";
@@ -118,11 +123,11 @@ export default class LogManager {
         timeStr += (str.length === 1 ? ("0" + str) : str) + ".";
 
         str = d.getMilliseconds() + "";
-        if (str.length === 1) str = "00" + str;
-        if (str.length === 2) str = "0" + str;
+        if (str.length === 1) { str = "00" + str; }
+        if (str.length === 2) { str = "0" + str; }
         timeStr += str;
 
-        timeStr = '[' + timeStr + ']';
+        timeStr = "[" + timeStr + "]";
 
         return timeStr;
     }

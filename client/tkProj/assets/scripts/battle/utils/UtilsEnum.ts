@@ -1,72 +1,72 @@
-/** 
+/**
  * @enum 游戏模式
-*/
-export enum EGameMode{
+ */
+export enum EGameMode {
     pve = 1,
     pvp,
 }
-/** 
+/**
  * @enum 游戏阶段
-*/
-export enum EGameStep{
+ */
+export enum EGameStep {
     wait = 1,
     ready,
     battle,
     result,
 }
-/** 
+/**
  * @enum 玩家类型
-*/
-export enum EUserType{
+ */
+export enum EUserType {
     user = 1,
     robot,
 }
-/** 
+/**
  * @enum 玩家所属阵营
-*/
-export enum ECamp{
+ */
+export enum ECamp {
     camp1 = 0,
     camp2,
 }
 /**
  * @enum 属性加成方式
  */
-export enum EPropType{
-    addSub = 1,     //纯数值
-    percentAge,     //百分比
+export enum EPropType {
+    addSub = 1,     // 纯数值
+    percentAge,     // 百分比
 }
 /**
  * @enum 增益还是减益
  */
-export enum ECreaseType{
-    increase,        //增益
-    decrease,        //减益
+export enum ECreaseType {
+    increase,        // 增益
+    decrease,        // 减益
 }
 /**
  * @enum 技能类型
  */
-export enum ESkillType{
-    normal = 0, //普攻
-    small,      //小技能
-    big,        //大招
-    passive,    //被动技能
-    aura,       //光环技能
+export enum ESkillType {
+    normal = 0, // 普攻
+    small,      // 小技能
+    big,        // 大招
+    passive,    // 被动技能
+    aura,       // 光环技能
 }
 /**
  * @enum 战斗时机事件
  */
-export enum EBattleTrigger{
-    onSkillStart = "onSkillStart",  //技能攻击前
-    onSkillEnd = "onSkillEnd",      //技能攻击后
-    onHurt = "onHurt",              //受击时
-    onPropChange = "onHurt",        //属性变化时
-    onDead = "onPropChange",        //角色死亡时
-    onKill = "onKill",              //击杀角色时
+export enum EBattleTrigger {
+    onSkillStart = "onSkillStart",  // 技能攻击前
+    onSkillEnd = "onSkillEnd",      // 技能攻击后
+    onHurt = "onHurt",              // 受击时
+    onPropChange = "onHurt",        // 属性变化时
+    onDead = "onPropChange",        // 角色死亡时
+    onKill = "onKill",              // 击杀角色时
 }
 /**
  * @enum 选敌行列方式
  */
-export enum ERCType{
-    row = 0,        //行
-    column,         //列
+export enum ERCType {
+    row = 0,        // 行
+    column,         // 列
 }
