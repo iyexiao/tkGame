@@ -100,27 +100,27 @@ def parseInterface(title,pType,pKey):
     for col in range(len(pType)):
         tmp = '     '
         if pType[col] == dataType[0]: #int
-            tmp += "%s:number,"%pKey[col]
+            tmp += "%s: number ;"%pKey[col]
         elif pType[col] == dataType[1]: #string
-            tmp += "%s:string,"%pKey[col]
+            tmp += "%s: string ;"%pKey[col]
         elif pType[col] == dataType[2]:#array
-            tmp += "%s:Array<string>,"%pKey[col]
+            tmp += "%s: string[] ;"%pKey[col]
         ret = ret + tmp + lineStr
     ret = ret + "}" + lineStr
     return ret
 
 # 将excel行数据整理成tpyescript数据
 def parseData(title,pData,pType,pKey):
-    ret = "let tmpDb:{[index:string]:IDB%s} = {"%(title.capitalize()) + lineStr
+    ret = "const tmpDb: {[index: string ]: IDB%s } = {"%(title.capitalize()) + lineStr
     # print pData
     # print pType
     for row in range(len(pData)):
         item=[]
         idStr = '   '
         if pType[0] == dataType[0]: #int
-            idStr += '\"%s\":'%( int(pData[row][0]))
+            idStr += '%s: '%( int(pData[row][0]))
         elif pType[0] == dataType[1]: #string
-            idStr += '\"%s\":'%( str(pData[row][0]))
+            idStr += '%s: '%( str(pData[row][0]))
         for col in range(len(pType)):
             tmp = pData[row][col]
             if tmp == None or tmp == '':
@@ -130,13 +130,13 @@ def parseData(title,pData,pType,pKey):
                     tmp = int(tmp)
                 else:
                     tmp = 0
-                tmp = "%s:%s"%(pKey[col],tmp)
+                tmp = "%s: %s"%(pKey[col],tmp)
             elif pType[col] == dataType[1]: #string
                 if tmp != '':
                     tmp= "\"%s\"" % (tmp.replace('\"','\\\"'))
                 else:
                     tmp = '\"\"'
-                tmp = "%s:%s"%(pKey[col],tmp)
+                tmp = "%s: %s"%(pKey[col],tmp)
             elif pType[col] == dataType[2]:#array
                 if tmp != '':
                     rrr = []
@@ -144,16 +144,17 @@ def parseData(title,pData,pType,pKey):
                     if len(vtmp)>0:
                         vvtmp = ''
                         for i in range(len(vtmp)-1):
-                            vvtmp += "\"%s\","%(vtmp[i].replace('\"','\\\"'))
-                        vvtmp = vvtmp[:-1] #删除最后一个,
-                        tmp = '%s:[%s]' % (pKey[col],vvtmp)
+                            vvtmp += "\"%s\", "%(vtmp[i].replace('\"','\\\"'))
+                        vvtmp = vvtmp[:-2] #删除最后一个,
+                        tmp = '%s: [%s]' % (pKey[col],vvtmp)
                     else:
-                        tmp = '%s:[]' % (pKey[col])
+                        tmp = '%s: []' % (pKey[col])
                 else:
-                    tmp = '%s:[]' % (pKey[col])
+                    tmp = '%s: []' % (pKey[col])
             item.append(str(tmp))
         # print ','.join(item) + '\n'
-        fileItem = idStr + '{%s},'%(','.join(item))
+        tmpStr = '   // tslint:disable-next-line: max-line-length\r'
+        fileItem = tmpStr + idStr + '{%s},'%(', '.join(item))
         ret = ret + fileItem + lineStr
     # ret = '[%s]'%(ret[:-1])
     ret = ret + "};" + lineStr
@@ -164,35 +165,31 @@ def parseData(title,pData,pType,pKey):
 def getTSFunc(title):
     tmp = title.capitalize()
     ret = 'export class DB%s {\r\
-    static _instance:DB%s;\r\
-    static getInstance():DB%s{\r\
-        if( DB%s._instance == null ){\r\
-            DB%s._instance = new DB%s();\r\
+    public static getInstance(): DB%s {\r\
+        if ( DB%s.instance == null ) {\r\
+            DB%s.instance = new DB%s();\r\
         }\r\
-        return DB%s._instance;\r\
+        return DB%s.instance;\r\
     }\r\
-    private readonly _db:{[index:string]:IDB%s} = null;\r\
-    constructor(){\r\
-        this._db = tmpDb;\r\
+    private static instance: DB%s;\r\
+    private readonly db: {[index: string]: IDB%s} = null;\r\
+    constructor() {\r\
+        this.db = tmpDb;\r\
     }\r\
-    getDB%sById(id:string):IDB%s{\r\
-        return this._db[id];\r\
+    public getDB%sById(id: string): IDB%s {\r\
+        return this.db[id];\r\
     }\r\
-    getAllDB%s(){\r\
-        return this._db;\r\
+    public getAllDB%s() {\r\
+        return this.db;\r\
     }\r\
-}\r'%(tmp,tmp,tmp,tmp,tmp,tmp,tmp,tmp,tmp,tmp,tmp)
+}\n'%(tmp,tmp,tmp,tmp,tmp,tmp,tmp,tmp,tmp,tmp,tmp)
     
     return ret
 
 # 构造输出TypeScript
 def getTypeScriptText(title,pData,pType,pKey):
     luaFileName = "%s" % (title.capitalize())
-    autorStr = '/**\r\
- * @author python2ts.py\r\
- * @description auto built\r\
- * \r\
- */\r'
+    autorStr = '// auto build by python script\r'
     # 接口数据内容
     itfStr = parseInterface(title,pType,pKey)
     funcStr = getTSFunc(title)
