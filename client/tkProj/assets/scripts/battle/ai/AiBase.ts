@@ -1,40 +1,40 @@
-import ModelBase from "../model/ModelBase"
 import EventManager from "../../../framework/event/EventManager";
-import { EBattleTrigger } from "../utils/UtilsEnum";
+import ModelBase from "../model/ModelBase";
 import LogsManager from "../utils/LogsManager";
+import { EBattleTrigger } from "../utils/UtilsEnum";
 /**
  * @class SkillAiBase
  * @author YeXiao
  * @deprecated 英雄战斗技能AI接口,添加新技能ai脚本的时候，需要在AiConst.ts里面声明
  * @since 2019-3-15 15:58:13
  */
-export default abstract class SkillAiBase{
-    private _skillName:string = null;
-    private _playerModel:ModelBase = null;
-    constructor(nameStr:string){
-        this._skillName = nameStr;
-        EventManager.getInstance().addEventListener(EBattleTrigger.onSkillStart,this.onSkillStart,this);
-        EventManager.getInstance().addEventListener(EBattleTrigger.onSkillEnd,this.onSkillEnd,this);
-        LogsManager.getInstance().log("初始化脚本：" + this._skillName);
+export default abstract class SkillAiBase {
+    private skillName: string = null;
+    private playerModel: ModelBase = null;
+    constructor(nameStr: string) {
+        this.skillName = nameStr;
+        EventManager.getInstance().addEventListener(EBattleTrigger.onSkillStart, this.onSkillStart, this);
+        EventManager.getInstance().addEventListener(EBattleTrigger.onSkillEnd, this.onSkillEnd, this);
+        LogsManager.getInstance().log("初始化脚本：" + this.skillName);
     }
     /**
      * - 设置技能的释放者(在model创建的时候设置)
      * @param model 设置技能释放者
      */
-    setPlayerModel(model:ModelBase):void{
-        this._playerModel = model;
+    public setPlayerModel(model: ModelBase): void {
+        this.playerModel = model;
     }
-    get PlayerModel(){
-        return this._playerModel;
+    get PlayerModel() {
+        return this.playerModel;
     }
-    get SkillName():string{
-        return this._skillName;
+    get SkillName(): string {
+        return this.skillName;
     }
-    checkIsSelfModel(otherModel:ModelBase):boolean{
-        if (!otherModel || !this._playerModel) {
-            return false
+    public checkIsSelfModel(otherModel: ModelBase): boolean {
+        if (!otherModel || !this.playerModel) {
+            return false;
         }
-        if (otherModel == this._playerModel) {
+        if (otherModel === this.playerModel) {
             return true;
         }
         return false;
@@ -43,40 +43,40 @@ export default abstract class SkillAiBase{
      * @description 当一个英雄开始攻击时
      * @param model 攻击的英雄
      */
-    onAttackStart(model:ModelBase):void{};
+    public onAttackStart(model: ModelBase): void {}
     /**
      * @description 当一个英雄攻击结束时
      * @param model 攻击的英雄
      */
-    onAttackEnd(model:ModelBase):void{};
+    public onAttackEnd(model: ModelBase): void {}
     /**
      * - 当一个英雄释放一个技能
      * @param {model}  释放技能的英雄
      */
-    onSkillStart(param:any):void{};
+    public onSkillStart(param: any): void {}
     /**
      * - 当一个英雄技能释放完毕
      * @param {model} 释放技能的英雄
      */
-    onSkillEnd(param:any):void{};
+    public onSkillEnd(param: any): void {}
     /**
      * @description 当一个英雄受到攻击时
      * @param model 受击的英雄
      */
-    onDefend(model:ModelBase):void{};
+    public onDefend(model: ModelBase): void { }
     /**
      * @description 当有英雄属性变化时
      * @param model 属性变化的英雄
      */
-    onPropChange(model:ModelBase):void{};
+    public onPropChange(model: ModelBase): void { }
     /**
      * @description 当一个英雄死亡时
      * @param model 死亡的英雄
      */
-    onDead(model:ModelBase):void{};
+    public onDead(model: ModelBase): void { }
     /**
      * @description 当一个英雄被击杀时
      * @param model 被击杀的英雄
      */
-    onKill(model:ModelBase):void{};
+    public onKill(model: ModelBase): void { }
 }

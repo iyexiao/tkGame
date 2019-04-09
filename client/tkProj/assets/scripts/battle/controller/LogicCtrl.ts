@@ -1,6 +1,6 @@
-import BattleCtrl from './BattleCtrl'
-import BaseCtrl from './BaseCtrl';
-import ModelBase from '../model/ModelBase';
+import ModelBase from "../model/ModelBase";
+import BaseCtrl from "./BaseCtrl";
+import BattleCtrl from "./BattleCtrl";
 /**
  * @class LogicCtrl
  * @extends BaseCtrl
@@ -11,19 +11,17 @@ import ModelBase from '../model/ModelBase';
  */
 export default class LogicCtrl extends BaseCtrl {
 
-    constructor(ctrl:BattleCtrl)
-    {
+    constructor(ctrl: BattleCtrl) {
         super(ctrl);
     }
-    //做角色上去攻击
-    doAttackByHeroList(arr:Array<ModelBase>){
+    // 做角色上去攻击
+    public doAttackByHeroList(arr: ModelBase[]) {
         if (arr.length <= 0) {
             return;
         }
-        //按顺序攻击
-        for (let index = 0; index < arr.length; index++) {
-            const model = arr[index];
-            let skillInfo = model.getPlaySkillInfo();
+        // 按顺序攻击
+        for (const model of arr) {
+            const skillInfo = model.getPlaySkillInfo();
             if (skillInfo) {
                 model.prepareGiveOutOneSkill(skillInfo);
             }

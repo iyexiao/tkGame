@@ -6,22 +6,21 @@
  * 
  */
 export default class Localization {
-    static _instance: Localization = null;
-    static getInstance(): Localization {
-        if (Localization._instance == null) {
-            Localization._instance = new Localization();
+    public static getInstance(): Localization {
+        if (Localization.instance == null) {
+            Localization.instance = new Localization();
         }
-        return Localization._instance;
+        return Localization.instance;
     }
-    jsonData:Object = null;
-    constructor(){
-        this.jsonData = {};
+    private static instance: Localization = null;
+    private jsonData: any[] = null;
+    constructor() {
+        this.jsonData = [];
     }
-    loadText(){
-        //初始化多语言文件
+    public loadText() {
+        // 初始化多语言文件
     }
-    getText(keyStr:string)
-    {
+    public getText(keyStr: string) {
         return this.jsonData[keyStr];
     }
 }

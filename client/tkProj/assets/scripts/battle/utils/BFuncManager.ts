@@ -1,4 +1,3 @@
-import ConstValue from '../ConstValue'
 /**
  * @class BattleFuncManager
  * @author YeXiao
@@ -7,11 +6,11 @@ import ConstValue from '../ConstValue'
  * 
  */
 export default class BFuncManager {
-    static _instance:BFuncManager;
-    static getInstance():BFuncManager{
-        if( BFuncManager._instance == null ){
-            BFuncManager._instance = new BFuncManager();
+    public static getInstance(): BFuncManager {
+        if( BFuncManager.instance == null ){
+            BFuncManager.instance = new BFuncManager();
         }
-        return BFuncManager._instance;
+        return BFuncManager.instance;
     }
+    private static instance:BFuncManager;
 }

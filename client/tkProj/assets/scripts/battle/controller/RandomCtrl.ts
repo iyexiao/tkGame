@@ -1,4 +1,4 @@
-import RandomBase from "../../../framework/utils/RandomBase"
+import RandomBase from "../../../framework/utils/RandomBase";
 
 /**
  * @class RandomCtrl
@@ -9,29 +9,27 @@ import RandomBase from "../../../framework/utils/RandomBase"
  * 
  */
 
-export default class RandomCtrl extends RandomBase{
-    
-    constructor(seed:number)
-    {
+export default class RandomCtrl extends RandomBase {
+
+    constructor(seed: number) {
         super(seed);
     }
     /**
      * 返回数组内N个随机数
-     * @param _arr 数组
+     * @param arr 数组
      * @param count 个数
      */
-    getRandomsInArrayByCount(_arr:Array<any>,count:number)
-    {
-        if (count >= _arr.length) {
-            return _arr;
+    public getRandomsInArrayByCount(arr: any[], count: number) {
+        if (count >= arr.length) {
+            return arr;
         }
-        let _tmpArr = [];
-        let sourceArr = _arr.slice();
+        const tmpArr = [];
+        const sourceArr = arr.slice();
         for (let index = 0; index < count; index++) {
-            let ran = Math.floor(this.getNext() * sourceArr.length + 1) - 1;
-            _tmpArr.push(sourceArr[ran]);
-            sourceArr.splice(ran,1);
+            const ran = Math.floor(this.getNext() * sourceArr.length + 1) - 1;
+            tmpArr.push(sourceArr[ran]);
+            sourceArr.splice(ran, 1 );
         }
-        return _tmpArr;
+        return tmpArr;
     }
 }

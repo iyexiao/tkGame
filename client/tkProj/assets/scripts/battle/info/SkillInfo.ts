@@ -1,18 +1,18 @@
-import {ESkillType,ECamp,ERCType} from "../utils/UtilsEnum"
-import SkillAi from "../ai/AiBase"
-import {AttackInfo} from "./AttackInfo"
-import ModelBase from "../model/ModelBase";
-import { IDBFilter, DBFilter } from "../../db/DBFilter";
-import ConstValue from "../ConstValue";
+import { DBFilter, IDBFilter } from "../../db/DBFilter";
 import { IDBSkill } from "../../db/DBSkill";
+import SkillAi from "../ai/AiBase";
 import AiConst from "../ai/AiConst";
+import ConstValue from "../ConstValue";
+import ModelBase from "../model/ModelBase";
+import {ECamp, ERCType} from "../utils/UtilsEnum";
+import {AttackInfo} from "./AttackInfo";
 
 /**
  * - 战斗内技能需要改变的值
  */
-interface ISkillAttr{
-    beforeFrame?:number,            //技能前摇帧数(此阶段可以被打断)
-    totalFrame?:number,             //技能释放总时长
+interface ISkillAttr {
+    beforeFrame?: number;            // 技能前摇帧数(此阶段可以被打断)
+    totalFrame?: number;             // 技能释放总时长
 }
 /**
  * @class SkillInfo
@@ -25,46 +25,45 @@ interface ISkillAttr{
 
 // let skillAttr:ISkillAttr = {skillId:1,skillType:2,skillAtkId:3,filterId:1,skillAi:skillAi,totalFrame:5};
 export class SkillInfo {
-    private readonly _skillDB:IDBSkill = null;
-    private readonly _filterDB:IDBFilter = null;
-    private readonly _skillAi:SkillAi = null;
-    private _skillAttr:ISkillAttr = null;
-    private _owner:ModelBase = null;
-    constructor(skillDB:IDBSkill)
-    {
-        this._skillDB = skillDB;
-        this._filterDB = DBFilter.getInstance().getDBFilterById(<string><null>skillDB.filter);
-        this._skillAi = new AiConst[skillDB.extScript](skillDB.extInfo);
+    private readonly skillDB: IDBSkill = null;
+    private readonly filterDB: IDBFilter = null;
+    private readonly skillAi: SkillAi = null;
+    private skillAttr: ISkillAttr = null;
+    private owner: ModelBase = null;
+    constructor(skillDB: IDBSkill) {
+        this.skillDB = skillDB;
+        this.filterDB = DBFilter.getInstance().getDBFilterById(skillDB.filter as null as string);
+        this.skillAi = new AiConst[skillDB.extScript](skillDB.extInfo);
     }
-    get SkillDB():IDBSkill{
-        return this._skillDB;
+    get SkillDB(): IDBSkill {
+        return this.skillDB;
     }
-    get SkillAttr():ISkillAttr{
-        return this._skillAttr;
+    get SkillAttr(): ISkillAttr {
+        return this.skillAttr;
     }
     /**
      * 更新技能释放信息
      * @param isInit 
      * @returns 是否是技能释放结束
      */
-    updateSkillAttr(target?:ModelBase):boolean{
+    public updateSkillAttr(target?: ModelBase): boolean {
         if (target) {
-            this._owner = target;
-            this._skillAttr = {beforeFrame:this._skillDB.beforeFrame,totalFrame:this._skillDB.totalFrame};
-        }else{
-            if (this._skillAttr.beforeFrame > 0) {
-                this._skillAttr.beforeFrame = this._skillAttr.beforeFrame - 1;
-                if (this._skillAttr.beforeFrame == 0) {
-                    //技能释放出去 TODO:检查释放着死亡了没有
-                    if(this._owner){
-                        this._owner.realGiveOneSkill();
+            this.owner = target;
+            this.skillAttr = {beforeFrame: this.skillDB.beforeFrame, totalFrame: this.skillDB.totalFrame};
+        } else {
+            if (this.skillAttr.beforeFrame > 0) {
+                this.skillAttr.beforeFrame = this.skillAttr.beforeFrame - 1;
+                if (this.skillAttr.beforeFrame == 0) {
+                    // 技能释放出去 TODO:检查释放着死亡了没有
+                    if (this.owner) {
+                        this.owner.realGiveOneSkill();
                     }
                 }
             }
-            if (this._skillAttr.totalFrame > 0) {
-                this._skillAttr.totalFrame = this._skillAttr.totalFrame - 1;
-                if (this._skillAttr.totalFrame == 0) {
-                    this._skillAttr = null;
+            if (this.skillAttr.totalFrame > 0) {
+                this.skillAttr.totalFrame = this.skillAttr.totalFrame - 1;
+                if (this.skillAttr.totalFrame === 0) {
+                    this.skillAttr = null;
                     return true;
                 }
             }
@@ -75,73 +74,71 @@ export class SkillInfo {
      * - 返回攻击包信息
      * @returns AttackInfo
      */
-    getAttackInfo():AttackInfo{
-        //test
-        let atkInfo = new AttackInfo(this._skillDB.atk);
+    public getAttackInfo(): AttackInfo {
+        // test
+        const atkInfo = new AttackInfo(this.skillDB.atk);
         return atkInfo;
     }
     /**
      * - 获取技能脚本
      * @returns 技能脚本
      */
-    getSkillAi():SkillAi{
-        return this._skillAi;
+    public getSkillAi(): SkillAi {
+        return this.skillAi;
     }
     /**
      * - 获取技能的攻击对象数组(有可能为0)
      * @returns Array<ModelBase>
      */
-    getChooseModelList(owner:ModelBase):Array<ModelBase>{
+    public getChooseModelList(owner: ModelBase): ModelBase[] {
 
         let camp = owner.getHeroCamp();
-        //选敌方阵营
-        if (this._filterDB.camp == ECamp.camp1) {
-            camp = camp == ECamp.camp1 ? ECamp.camp2:ECamp.camp1
+        // 选敌方阵营
+        if (this.filterDB.camp == ECamp.camp1) {
+            camp = camp == ECamp.camp1 ? ECamp.camp2 : ECamp.camp1;
         }
-        let protList = []
-        let sTypeList = ConstValue.GAME_ROW_LIST;//默认按行选敌
-        if (this._filterDB.sType == ERCType.column) {
+        const protList = [];
+        let sTypeList = ConstValue.GAME_ROW_LIST; // 默认按行选敌
+        if (this.filterDB.sType === ERCType.column) {
             sTypeList = ConstValue.GAME_COL_LIST;
-            this._filterDB.cProt.forEach(element => {
-                protList.push(<number><unknown>element);
+            this.filterDB.cProt.forEach((element) => {
+                protList.push(element as unknown as number);
             });
-        }else{
-            this._filterDB.rProt.forEach(element => {
-                protList.push(<number><unknown>element);
+        } else {
+            this.filterDB.rProt.forEach((element) => {
+                protList.push(element as unknown as number);
             });
         }
-        let campList = owner.Ctrl.getModelListByCamp(camp,sTypeList);
-        let _list:Array<ModelBase> = new Array<ModelBase>();
-        //根据选敌人数判断是否需要跨条件选敌(补足敌人)
-        for (let index = 0; index < protList.length; index++) {
-            const tmpProtList = campList[protList[index]];
-            if(tmpProtList.length >= this._filterDB.num){
-                //足够选人了，
-                _list = owner.Ctrl.BattleCtrl.RandomCtrl.getRandomsInArrayByCount(tmpProtList,this._filterDB.num);
-                break
-            }else{
-                let _count = _list.length;
-                if (_count == 0) {
-                    _list = tmpProtList;
-                }else{
-                    if(this._filterDB.needAll == 1 && _count < this._filterDB.num){
-                        //需要补足
-                        let tmpList = owner.Ctrl.BattleCtrl.RandomCtrl.getRandomsInArrayByCount(tmpProtList,this._filterDB.num - _count);
-                        _list = _list.concat(tmpList);
-                        //补足了
-                        if(_list.length == this._filterDB.num){
+        const campList = owner.Ctrl.getModelListByCamp(camp, sTypeList);
+        let list: ModelBase[] = new Array<ModelBase>();
+        // 根据选敌人数判断是否需要跨条件选敌(补足敌人)
+        for (const iterator of protList) {
+            const tmpProtList = campList[iterator];
+            if (tmpProtList.length >= this.filterDB.num) {
+                // 足够选人了，
+                list = owner.Ctrl.BattleCtrl.RandomCtrl.getRandomsInArrayByCount(tmpProtList, this.filterDB.num);
+                break;
+            } else {
+                const count = list.length;
+                if (count === 0) {
+                    list = tmpProtList;
+                } else {
+                    if (this.filterDB.needAll === 1 && count < this.filterDB.num) {
+                        // 需要补足
+                        const tmpList = owner.Ctrl.BattleCtrl.RandomCtrl.getRandomsInArrayByCount(tmpProtList, this.filterDB.num - count);
+                        list = list.concat(tmpList);
+                        // 补足了
+                        if (list.length === this.filterDB.num) {
                             break;
                         }
                     }
                 }
                 // 不需要补足并且已经存在选的敌人了，则返回
-                if (_list.length > 0 && this._filterDB.needAll == 0) {
+                if (list.length > 0 && this.filterDB.needAll === 0) {
                     break;
                 }
             }
         }
-        
-
-        return _list;
+        return list;
     }
 }

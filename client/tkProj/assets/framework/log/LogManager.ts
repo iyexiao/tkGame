@@ -1,5 +1,4 @@
 
-
 export default class LogManager {
     public static getInstance(): LogManager {
         if (LogManager.instance == null) {

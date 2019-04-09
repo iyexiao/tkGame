@@ -1,21 +1,19 @@
 export default class HttpManager {
-    static _instance: HttpManager = null;
-    static getInstance(): HttpManager {
-        if (HttpManager._instance == null) {
-            HttpManager._instance = new HttpManager();
+    public static getInstance(): HttpManager {
+        if (HttpManager.instance == null) {
+            HttpManager.instance = new HttpManager();
         }
-        return HttpManager._instance;
+        return HttpManager.instance;
     }
+    private static instance: HttpManager = null;
 
-
-    get(url, path, params, callback) {
-        var xhr = cc.loader.getXMLHttpRequest();
+    public get(url: string, path: string, params: string, callback: any) {
+        const xhr = cc.loader.getXMLHttpRequest();
         xhr.timeout = 5000;
-        var requestURL = url + path;
+        let requestURL = url + path;
         if (params) {
             requestURL = requestURL + "?" + params;
         }
-         
         xhr.open("GET",requestURL, true);
         if (cc.sys.isNative){
             xhr.setRequestHeader("Accept", "text/html");
@@ -23,8 +21,10 @@ export default class HttpManager {
             xhr.setRequestHeader("Accept-Encoding", "gzip,deflate");
         }
 
+// tslint:disable-next-line: only-arrow-functions
         xhr.onreadystatechange = function() {
             if(xhr.readyState === 4 && (xhr.status >= 200 && xhr.status < 300)){
+// tslint:disable-next-line: no-console
                 console.log("http res("+ xhr.responseText.length + "):" + xhr.responseText);
                 try {
                     var ret = xhr.responseText;
@@ -40,15 +40,14 @@ export default class HttpManager {
                 callback(xhr.readyState + ":" + xhr.status, null);
             }
         };
-        
         xhr.send();
         return xhr;
     }
 
-    post(url, path, params, body, callback) {
-        var xhr = cc.loader.getXMLHttpRequest();
+    public post(url: string, path: string, params: string, body: any, callback: any) {
+        const xhr = cc.loader.getXMLHttpRequest();
         xhr.timeout = 5000;
-        var requestURL = url + path;
+        let requestURL = url + path;
         if (params) {
             requestURL = requestURL + "?" + params;
         }
@@ -63,21 +62,20 @@ export default class HttpManager {
             xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
             xhr.setRequestHeader("Content-Length", body.length);
         }
-        
 
+// tslint:disable-next-line: only-arrow-functions
         xhr.onreadystatechange = function() {
             if(xhr.readyState === 4 && (xhr.status >= 200 && xhr.status < 300)){
                 try {
-                    var ret = xhr.responseText;
-                    if(callback !== null){
+                    let ret = xhr.responseText;
+                    if ( callback !== null) {
                         callback(null, ret);
                     }
                     return;
                 } catch (e) {
                     callback(e, null);
                 }
-            }
-            else {
+            } else {
                 callback(xhr.readyState + ":" + xhr.status, null);
             }
         };
@@ -87,15 +85,15 @@ export default class HttpManager {
         return xhr;
     }
 
-    download(url, path, params, callback) {
-        var xhr = cc.loader.getXMLHttpRequest();
+    public download(url: string, path: string, params: string, callback: any) {
+        const xhr = cc.loader.getXMLHttpRequest();
         xhr.timeout = 5000;
-        var requestURL = url + path;
+        let requestURL = url + path;
         if (params) {
             requestURL = requestURL + "?" + params;
         }
 
-        xhr.responseType = "arraybuffer";  
+        xhr.responseType = "arraybuffer";
         xhr.open("GET",requestURL, true);
         if (cc.sys.isNative){
             xhr.setRequestHeader("Accept", "text/html");
@@ -103,17 +101,17 @@ export default class HttpManager {
             xhr.setRequestHeader("Accept-Encoding", "gzip,deflate");
         }
 
+// tslint:disable-next-line: only-arrow-functions
         xhr.onreadystatechange = function() {
             if(xhr.readyState === 4 && (xhr.status >= 200 && xhr.status < 300)){
-                var buffer = xhr.response;
-                var dataview = new DataView(buffer);
-                var ints = new Uint8Array(buffer.byteLength);
-                for (var i = 0; i < ints.length; i++) {
+                const buffer = xhr.response;
+                const dataview = new DataView(buffer);
+                const ints = new Uint8Array(buffer.byteLength);
+                for (let i = 0; i < ints.length; i++) {
                     ints[i] = dataview.getUint8(i);
                 }
                 callback(null, ints);
-            }
-            else {
+            } else {
                 callback(xhr.readyState + ":" + xhr.status, null);
             }
         };

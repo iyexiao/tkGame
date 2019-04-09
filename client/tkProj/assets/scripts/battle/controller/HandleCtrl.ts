@@ -1,6 +1,7 @@
-import BattleCtrl from './BattleCtrl'
-import BaseCtrl from './BaseCtrl';
-import ModelBase from '../model/ModelBase';
+import ModelBase from "../model/ModelBase";
+import LogsManager from "../utils/LogsManager";
+import BaseCtrl from "./BaseCtrl";
+import BattleCtrl from "./BattleCtrl";
 /**
  * @class HandleCtrl
  * @extends BaseCtrl
@@ -10,32 +11,31 @@ import ModelBase from '../model/ModelBase';
  * 
  */
 export default class HandleCtrl extends BaseCtrl {
-    private _handleArr:Array<ModelBase> = null;
-    constructor(ctrl:BattleCtrl)
-    {
+    private handleArr: ModelBase[] = null;
+    constructor(ctrl: BattleCtrl) {
         super(ctrl);
     }
     /**
      * @description 对所有英雄根据当前攻速排序(阵营1的有先手优势)
      */
-    sortModelHandle(){
-        console.log("======>>>>>>根据攻速排序对所有英雄出手顺序")
-        this._handleArr = this.BattleCtrl.GameCtrl.ModelArr.slice().sort((a,b)=>{
-            let aSpeed = a.getHeroAtkFrame();
-            let bSpeed = b.getHeroAtkFrame()
+    public sortModelHandle() {
+        LogsManager.getInstance().log("======>>>>>>根据攻速排序对所有英雄出手顺序");
+        this.handleArr = this.BattleCtrl.GameCtrl.ModelArr.slice().sort((a,b)=>{
+            const aSpeed = a.getHeroAtkFrame();
+            const bSpeed = b.getHeroAtkFrame()
             if(aSpeed > bSpeed) {
                 return 1;
-            }else if(aSpeed == bSpeed){
-                if(a.getHeroCamp() >= b.getHeroCamp()) return 1;
+            } else if(aSpeed === bSpeed){
+                if (a.getHeroCamp() >= b.getHeroCamp() ) { return 1; }
             }
             return 0;
         });
-        if (this._handleArr.length <= 0) {
+        if (this.handleArr.length <= 0) {
             return;
         }
-        //排序完成之后，需要设置攻击间隔
-        let tmpFrame = this._handleArr[0].HeroInfo.CurrAtkFrame;
-        this._handleArr.forEach(element => {
+        // 排序完成之后，需要设置攻击间隔
+        const tmpFrame = this.handleArr[0].HeroInfo.CurrAtkFrame;
+        this.handleArr.forEach((element) => {
             element.HeroInfo.setCurrAtkFrame(element.HeroInfo.CurrAtkFrame - tmpFrame);
         });
     }
@@ -44,10 +44,10 @@ export default class HandleCtrl extends BaseCtrl {
      * @param model 
      * @returns 移除是否成功
      */
-    delModelHandle(model:ModelBase):boolean{
-        let index = this._handleArr.indexOf(model);
-        if(index > -1){
-            this._handleArr.splice(index,1);
+    public delModelHandle(model: ModelBase): boolean {
+        const index = this.handleArr.indexOf(model);
+        if (index > -1) {
+            this.handleArr.splice(index, 1);
             return true;
         }
         return false;
@@ -57,18 +57,18 @@ export default class HandleCtrl extends BaseCtrl {
      * @param model 
      * @returns 添加是否成功
      */
-    addModelHandle(model:ModelBase):boolean{
-        let length = this._handleArr.length;
-        let lastModel = this._handleArr[length - 1];
-        //如果比最后一个英雄的出手顺序还低，那就直接添加至末尾
-        if(lastModel.getHeroAtkFrame() <= model.getHeroAtkFrame()){
-            this._handleArr.push(model);
+    public addModelHandle(model: ModelBase): boolean {
+        const length = this.handleArr.length;
+        const lastModel = this.handleArr[length - 1];
+        // 如果比最后一个英雄的出手顺序还低，那就直接添加至末尾
+        if (lastModel.getHeroAtkFrame() <= model.getHeroAtkFrame()) {
+            this.handleArr.push(model);
             return true;
         }
         for (let index = length - 2; index >= 0; index--) {
-            const tmpModel = this._handleArr[index];
+            const tmpModel = this.handleArr[index];
             if (tmpModel.getHeroAtkFrame() <= model.getHeroAtkFrame()) {
-                this._handleArr.splice(index+1,0,model);
+                this.handleArr.splice(index+1,0,model);
                 return true;
             }
         }
@@ -78,13 +78,12 @@ export default class HandleCtrl extends BaseCtrl {
      * @description 获取准备出手的英雄
      * @returns ModelBase
      */
-    getCurrentAttackModel():Array<ModelBase>{
-        let tmpArr = new Array<ModelBase>();
-        for (let index = 0; index < this._handleArr.length; index++) {
-            const model = this._handleArr[index];
-            if (model.HeroInfo.CurrAtkFrame == 0 ) {
+    public getCurrentAttackModel(): ModelBase[] {
+        const tmpArr = new Array<ModelBase>();
+        for (const model of this.handleArr) {
+            if (model.HeroInfo.CurrAtkFrame === 0 ) {
                 tmpArr.push(model);
-            }else{
+            } else {
                 break;
             }
         }

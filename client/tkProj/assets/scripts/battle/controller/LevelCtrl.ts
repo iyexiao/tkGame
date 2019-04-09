@@ -1,7 +1,7 @@
-import {HeroInfo} from "../info/HeroInfo"
-import {ECamp} from "../utils/UtilsEnum"
-import BattleCtrl from './BattleCtrl'
+import {HeroInfo} from "../info/HeroInfo";
+import {ECamp} from "../utils/UtilsEnum";
 import BaseCtrl from "./BaseCtrl";
+import BattleCtrl from "./BattleCtrl";
 
 /**
  * @class LevelCtrl
@@ -15,29 +15,24 @@ export default class LevelCtrl extends BaseCtrl {
     /**
      * @description 阵营对应的角色数据
      */
-    private _heroList:{[index:number]:Array<HeroInfo>} = null;
-    constructor(ctrl:BattleCtrl)
-    {
+    private heroList:{[index: number]: HeroInfo[]} = null;
+    constructor(ctrl: BattleCtrl) {
         super(ctrl);
-        this._heroList = {};
+        this.heroList = {};
         this.initHeroInfoList();
     }
     /**
      * @description 初始化阵营数据
      */
-    initHeroInfoList()
-    {
-        let _battleInfo = this.BattleCtrl.BattleInfo;
-        for (let index = 0; index < _battleInfo.users.length; index++) {
-            const user = _battleInfo.users[index];
-            let camp = user.camp
-            if (!this._heroList[camp]) {
-                this._heroList[camp] = new Array<HeroInfo>();
+    public initHeroInfoList() {
+        for (const user of this.BattleCtrl.BattleInfo.users) {
+            const camp = user.camp;
+            if (!this.heroList[camp]) {
+                this.heroList[camp] = new Array<HeroInfo>();
             }
-            for (let j = 0; j < user.heros.length; j++) {
-                const hero = user.heros[j];
-                let heroInfo = new HeroInfo(user,hero);
-                this._heroList[camp].push(heroInfo);
+            for (const hero of user.heros) {
+                const heroInfo = new HeroInfo(user, hero);
+                this.heroList[camp].push(heroInfo);
             }
         }
     }
@@ -45,8 +40,7 @@ export default class LevelCtrl extends BaseCtrl {
      * @description 根据阵营返回对应的角色属性数据
      * @param camp 所属阵营
      */
-    getHeroInfoByCamp(camp:ECamp):Array<HeroInfo>
-    {
-        return this._heroList[camp];
+    public getHeroInfoByCamp(camp: ECamp): HeroInfo[] {
+        return this.heroList[camp];
     }
 }

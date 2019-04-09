@@ -1,7 +1,7 @@
-let fw = "fw";
-window[fw] = {};//全局变量：游戏的框架
+const fw = "fw";
+window[fw] = {}; // 全局变量：游戏的框架
+// tslint:disable-next-line: no-console
 console.log(" game frmework");
-
 
 import UIMamager from "./ui/UIManager";
 (window[fw]).UIMamager = UIMamager.getInstance();

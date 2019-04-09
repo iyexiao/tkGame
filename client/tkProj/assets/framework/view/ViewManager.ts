@@ -1,11 +1,11 @@
 export default class ViewManager {
-    static _instance: ViewManager = null;
-    static getInstance(): ViewManager {
-        if (ViewManager._instance == null) {
-            ViewManager._instance = new ViewManager();
+    public static getInstance(): ViewManager {
+        if (ViewManager.instance == null) {
+            ViewManager.instance = new ViewManager();
         }
-        return ViewManager._instance;
+        return ViewManager.instance;
     }
+    private static instance: ViewManager = null;
 
     // viewStack: fw.ViewCtrl[] =  null;
     constructor() {
