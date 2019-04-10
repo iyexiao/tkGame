@@ -31,16 +31,22 @@ export default class LogsManager {
         this.battleCtrl = null;
     }
     /**
+     * - 普通日志打印
+     * @param log
+     */
+    public echo(log: string){
+// tslint:disable-next-line: no-console
+        console.log("echo:" + log);
+    }
+    /**
      * - 战斗日志打印
      * @param log 需要存储或者打印的log
      */
     public log(log: string) {
-        if (!this.battleCtrl || !this.battleCtrl.GameCtrl) {
-// tslint:disable-next-line: no-console
-            console.log("还未初始化battleCtrl");
-            return;
+        let frame = 0;
+        if (this.battleCtrl && this.battleCtrl.GameCtrl) {
+            frame = this.battleCtrl.GameCtrl.CurrentFrame;
         }
-        const frame = this.battleCtrl.GameCtrl.CurrentFrame;
         if (!this.logInfo[frame]) {
             this.logInfo[frame] = [];
         }

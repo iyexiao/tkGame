@@ -1,3 +1,5 @@
+import { IHeroInfo } from "../info/BattleInfo";
+
 /**
  * @class BattleFuncManager
  * @author YeXiao

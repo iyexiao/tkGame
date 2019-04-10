@@ -15,7 +15,7 @@ export default abstract class SkillAiBase {
         this.skillName = nameStr;
         EventManager.getInstance().addEventListener(EBattleTrigger.onSkillStart, this.onSkillStart, this);
         EventManager.getInstance().addEventListener(EBattleTrigger.onSkillEnd, this.onSkillEnd, this);
-        LogsManager.getInstance().log("初始化脚本：" + this.skillName);
+        // LogsManager.getInstance().echo("初始化脚本：" + this.skillName);
     }
     /**
      * - 设置技能的释放者(在model创建的时候设置)

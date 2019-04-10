@@ -14,7 +14,9 @@ import ModelBase from "./ModelBase";
 export default class ModelHero extends ModelBase {
     constructor(controler: GameCtrl, heroInfo: HeroInfo) {
         super(controler, heroInfo);
-        LogsManager.getInstance().log("初始化阵营:" + heroInfo.HeroAttr.camp + " " + heroInfo.HeroDB.name + " 英雄的英雄数据");
+        LogsManager.getInstance().log("初始化 " + heroInfo.HeroDB.name + " 的数据 " + "[camp:" + heroInfo.HeroAttr.camp
+                + " hp:" + heroInfo.HeroAttr.hp + " atk:" + heroInfo.HeroAttr.phyAtk + " def:" + heroInfo.HeroAttr.phyDef
+                + " speed:" + heroInfo.HeroAttr.atkSpeed + " crit" + heroInfo.HeroAttr.crit + " pos:" + heroInfo.HeroAttr.posIdx + "]");
         // heroInfo.printLogInfo();
     }
     /**

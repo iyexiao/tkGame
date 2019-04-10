@@ -14,34 +14,34 @@ let battleInfo = '                                              \
         "userType": 1,                                          \
         "camp": 0,                                              \
         "heros": [                                              \
-            {                                                     \
-              "hId": 1,                                           \
-              "level": 1,                                         \
-              "star": 1,                                          \
-              "quality": 1,                                       \
-              "posIdx": 0                                         \
-            },                                                    \
-            {                                                     \
-              "hId": 1,                                           \
-              "level": 3,                                         \
-              "star": 1,                                          \
-              "quality": 1,                                       \
-              "posIdx": 1                                         \
-            },                                                    \
-            {                                                     \
-              "hId": 1,                                           \
-              "level": 5,                                         \
-              "star": 2,                                          \
-              "quality": 2,                                       \
-              "posIdx": 2                                         \
-            },                                                    \
-            {                                                     \
-              "hId": 1,                                           \
-              "level": 6,                                         \
-              "star": 3,                                          \
-              "quality": 3,                                       \
-              "posIdx": 4                                         \
-            },                                                    \
+            {                                                   \
+              "hId": 1,                                         \
+              "level": 1,                                       \
+              "star": 1,                                        \
+              "quality": 1,                                     \
+              "posIdx": 0                                       \
+            },                                                  \
+            {                                                   \
+              "hId": 1,                                         \
+              "level": 3,                                       \
+              "star": 1,                                        \
+              "quality": 1,                                     \
+              "posIdx": 1                                       \
+            },                                                  \
+            {                                                   \
+              "hId": 1,                                         \
+              "level": 5,                                       \
+              "star": 2,                                        \
+              "quality": 2,                                     \
+              "posIdx": 2                                       \
+            },                                                  \
+            {                                                   \
+              "hId": 1,                                         \
+              "level": 6,                                       \
+              "star": 3,                                        \
+              "quality": 3,                                     \
+              "posIdx": 4                                       \
+            }                                                   \
         ]                                                       \
       },                                                        \
       {                                                         \
@@ -50,34 +50,34 @@ let battleInfo = '                                              \
         "userType": 1,                                          \
         "camp": 1,                                              \
         "heros": [                                              \
-            {                                                     \
-              "hId": 1,                                           \
-              "level": 1,                                         \
-              "star": 1,                                          \
-              "quality": 1,                                       \
-              "posIdx": 0                                         \
-            },                                                    \
-            {                                                     \
-              "hId": 1,                                           \
-              "level": 3,                                         \
-              "star": 1,                                          \
-              "quality": 1,                                       \
-              "posIdx": 1                                         \
-            },                                                    \
-            {                                                     \
-              "hId": 1,                                           \
-              "level": 5,                                         \
-              "star": 2,                                          \
-              "quality": 2,                                       \
-              "posIdx": 2                                         \
-            },                                                    \
-            {                                                     \
-              "hId": 1,                                           \
-              "level": 6,                                         \
-              "star": 3,                                          \
-              "quality": 3,                                       \
-              "posIdx": 4                                         \
-            },                                                    \
+            {                                                   \
+              "hId": 1,                                         \
+              "level": 1,                                       \
+              "star": 1,                                        \
+              "quality": 1,                                     \
+              "posIdx": 3                                       \
+            },                                                  \
+            {                                                   \
+              "hId": 1,                                         \
+              "level": 3,                                       \
+              "star": 1,                                        \
+              "quality": 1,                                     \
+              "posIdx": 6                                       \
+            },                                                  \
+            {                                                   \
+              "hId": 1,                                         \
+              "level": 5,                                       \
+              "star": 2,                                        \
+              "quality": 2,                                     \
+              "posIdx": 7                                       \
+            },                                                  \
+            {                                                   \
+              "hId": 1,                                         \
+              "level": 6,                                       \
+              "star": 3,                                        \
+              "quality": 3,                                     \
+              "posIdx": 8                                       \
+            }                                                   \
         ]                                                       \
       }                                                         \
     ]                                                           \

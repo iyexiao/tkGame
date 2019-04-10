@@ -6,6 +6,7 @@ import ConstValue from "../ConstValue";
 import ModelBase from "../model/ModelBase";
 import {ECamp, ERCType} from "../utils/UtilsEnum";
 import {AttackInfo} from "./AttackInfo";
+import LogsManager from "../utils/LogsManager";
 
 /**
  * - 战斗内技能需要改变的值

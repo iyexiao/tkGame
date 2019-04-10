@@ -1,7 +1,7 @@
 import CCAuraSkill from "./caocao/CCAuraSkill";
 import CCBigSkill from "./caocao/CCBigSkill";
 import CCNormalSkill from "./caocao/CCNormalSkill";
-import CCPassivSkille from "./caocao/CCPassiveSkill";
+import CCPassiveSkill from "./caocao/CCPassiveSkill";
 import CCSmallSkill from "./caocao/CCSmallSkill";
 
 /**
@@ -16,5 +16,5 @@ export default class AiConst {
     public static readonly CCSmallSkill = CCSmallSkill;
     public static readonly CCAuraSkill = CCAuraSkill;
     public static readonly CCBigSkill = CCBigSkill;
-    public static readonly CCPassivSkille = CCPassivSkille;
+    public static readonly CCPassiveSkill = CCPassiveSkill;
 }

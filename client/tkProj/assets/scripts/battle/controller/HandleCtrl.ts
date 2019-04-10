@@ -16,7 +16,7 @@ export default class HandleCtrl extends BaseCtrl {
         super(ctrl);
     }
     /**
-     * @description 对所有英雄根据当前攻速排序(阵营1的有先手优势)
+     * @description 对所有英雄根据当前攻速排序(阵营camp1的有先手优势)
      */
     public sortModelHandle() {
         LogsManager.getInstance().log("======>>>>>>根据攻速排序对所有英雄出手顺序");

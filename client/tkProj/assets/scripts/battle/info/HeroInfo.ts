@@ -17,7 +17,7 @@ export interface IHeroAttr {
     magicDef: number;    // 魔防
     crit: number;        // 暴击
     atkSpeed: number;    // 攻速
-    block: number;       // 格挡
+    block: number;       // 闪避
     camp: ECamp;         // 阵营
     posIdx: number;      // 当前站位
 }
@@ -72,10 +72,10 @@ export class HeroInfo {
     constructor(user: IUserInfo, hInfo: IHeroInfo) {
         this.hero = hInfo;
         this.user = user;
+        this.heroDB = DBHero.getInstance().getDBHeroById(hInfo.hId as null);
         this.heroInitAttr = this.loadHeroInitAttr(user, hInfo);
         this.heroAttr = this.heroInitAttr;
         this.buffList = {};
-        this.heroDB = DBHero.getInstance().getDBHeroById(hInfo.hId as null);
         this.skillList = this.loadHeroSkillList(hInfo);
         this.setCurrAtkFrame(this.getAttackCDFrame());
     }
@@ -90,7 +90,7 @@ export class HeroInfo {
      * 获取攻击间隔
      */
     public getAttackCDFrame(): number {
-        return this.heroDB.atkSpeed;
+        return this.heroAttr.atkSpeed;
     }
     /**
      * @description 返回符合类型的buff数组
@@ -112,6 +112,11 @@ export class HeroInfo {
         // test
         let heroAttr: IHeroAttr;
         heroAttr = {hp: 100, phyAtk: 100, phyDef: 100, magicAtk: 100, magicDef: 100, crit: 100, atkSpeed: 100, block: 10, camp: user.camp, posIdx: hero.posIdx};
+        heroAttr.hp = this.getHp(hero);
+        heroAttr.phyAtk = this.getAtk(hero);
+        heroAttr.magicAtk = heroAttr.phyAtk;
+        heroAttr.phyDef = this.getDef(hero);
+        heroAttr.atkSpeed = this.getAtkSpeed( hero);
         return heroAttr;
     }
     /**
@@ -128,25 +133,25 @@ export class HeroInfo {
         // 小技能 [等级、品阶、星级、技能id]
         let tmpArr = this.heroDB.smallSkill;
         if (this.checkSkillIsOpen(hero, tmpArr)) {
-            const skillInfo = this.getOneSkillById(tmpArr[4]);
+            const skillInfo = this.getOneSkillById(tmpArr[3]);
             skillArr[skillInfo.SkillDB.skillType] = skillInfo;
         }
         // 大招
         tmpArr = this.heroDB.bigSkill;
         if (this.checkSkillIsOpen(hero, tmpArr)) {
-            const skillInfo = this.getOneSkillById(tmpArr[4]);
+            const skillInfo = this.getOneSkillById(tmpArr[3]);
             skillArr[skillInfo.SkillDB.skillType] = skillInfo;
         }
         // 被动
         tmpArr = this.heroDB.passiveSkill;
         if (this.checkSkillIsOpen(hero, tmpArr)) {
-            const skillInfo = this.getOneSkillById(tmpArr[4]);
+            const skillInfo = this.getOneSkillById(tmpArr[3]);
             skillArr[skillInfo.SkillDB.skillType] = skillInfo;
         }
         // 光环
         tmpArr = this.heroDB.auraSkill;
         if (this.checkSkillIsOpen(hero, tmpArr)) {
-            const skillInfo = this.getOneSkillById(tmpArr[4]);
+            const skillInfo = this.getOneSkillById(tmpArr[3]);
             skillArr[skillInfo.SkillDB.skillType] = skillInfo;
         }
         return skillArr;
@@ -202,8 +207,11 @@ export class HeroInfo {
      * @param skillArr 技能参数列表
      */
     private checkSkillIsOpen(hero: IHeroInfo, skillArr: string[]): boolean {
-        const lv = skillArr[1] as null as number;
-        const qty = skillArr[2] as null as number;
+        if ( skillArr.length !== 4 ) {
+            return false;
+        }
+        const lv = skillArr[0] as null as number;
+        const qty = skillArr[1] as null as number;
         const star = skillArr[2] as null as number;
         if (hero.level >= lv && hero.quality >= qty && hero.level >= star) {
             return true;
@@ -218,5 +226,38 @@ export class HeroInfo {
         const skillDB: IDBSkill = DBSkill.getInstance().getDBSkillById(skillId);
         const skillInfo = new SkillInfo(skillDB);
         return skillInfo;
+    }
+    /**
+     * - 攻速：agility + apt * (level + star * 2 + quality * 3)
+     * @param heroInfo
+     */
+    private getAtkSpeed( heroInfo: IHeroInfo): number {
+        let speed = this.heroDB.agility + (heroInfo.level + heroInfo.star * 2 + heroInfo.quality * 3 ) * this.heroDB.apt;
+        speed = ConstValue.ATK_MAX_SPEED - speed > 0 ? ConstValue.ATK_MAX_SPEED - speed : 0;
+        return (speed + ConstValue.SKILL_MAX_FRAME );
+    }
+    /**
+     * - 血量：apt * ((strength + quality ) * 3 + (intelligence + star) * 2 + agility + level)
+     * @param heroInfo
+     */
+    private getHp( heroInfo: IHeroInfo): number {
+        const hp = this.heroDB.apt * ((this.heroDB.strength + heroInfo.quality) * 3 + (this.heroDB.intelligence + heroInfo.star) * 2 + this.heroDB.agility + heroInfo.level );
+        return hp;
+    }
+    /**
+     * - 攻击力：apt * (quality * 3 + (intelligence + strength + star) * 2 + level)
+     * @param heroInfo
+     */
+    private getAtk( heroInfo: IHeroInfo): number {
+        const atk = this.heroDB.apt * (heroInfo.quality * 3 + (this.heroDB.intelligence + this.heroDB.strength + heroInfo.star) * 2 + heroInfo.level);
+        return atk;
+    }
+    /**
+     * - 防御力：apt * (quality * 3 + (intelligence + strength + star) * 2 + level) + agility
+     * @param heroInfo
+     */
+    private getDef( heroInfo: IHeroInfo): number {
+        const def = this.heroDB.apt * (heroInfo.quality * 3 + (this.heroDB.intelligence + this.heroDB.strength + heroInfo.star) * 2 + heroInfo.level) + this.heroDB.agility;
+        return def;
     }
 }

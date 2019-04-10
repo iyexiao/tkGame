@@ -73,7 +73,7 @@ export default class GameCtrl extends BaseCtrl {
      */
     public startGameLoop() {
         this.BattleCtrl.HandleCtrl.sortModelHandle();
-        for (let index = 0; index < ConstValue.GAME_TOTAL_FRAM; index++) {
+        for (let index = 0; index < ConstValue.GAME_TOTAL_FRAME; index++) {
             this.currFrame = index;
             const tmpArr = this.BattleCtrl.HandleCtrl.getCurrentAttackModel();
             if (tmpArr.length > 0 ) {
