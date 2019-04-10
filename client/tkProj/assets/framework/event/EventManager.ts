@@ -39,7 +39,7 @@ export default class EventManager {
         };
         tmpArr.push(ievent);
         this.eventList[eventType] = tmpArr;
-    } 
+    }
     /**
      * - 事件分发
      */
@@ -51,8 +51,8 @@ export default class EventManager {
         for (const iterator of tmpArr) {
             if (iterator.thisObject) {
                 // 在回调的时候, 不要直接func(agrs) 而是改成 func.call(目标对象, args)
-                iterator.callback.call(iterator.thisObject,params);
-            } else{
+                iterator.callback.call(iterator.thisObject, params);
+            } else {
                 iterator.callback(params);
             }
         }

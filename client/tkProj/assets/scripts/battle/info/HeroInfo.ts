@@ -66,8 +66,8 @@ export class HeroInfo {
     private buffList: {[index: number]: BuffInfo[]} = null; // 英雄身上buff(index其实是EBuffType类型)
     /**
      * - 创建一个英雄模型数据
-     * @param user 
-     * @param hInfo 
+     * @param user
+     * @param hInfo
      */
     constructor(user: IUserInfo, hInfo: IHeroInfo) {
         this.hero = hInfo;
@@ -103,9 +103,9 @@ export class HeroInfo {
         return null;
     }
     /**
-     * 
+     *
      * @description 根据属性创建英雄自身的战斗属性值
-     * @param hero 
+     * @param hero
      * @returns IHeroAttr
      */
     public loadHeroInitAttr(user: IUserInfo, hero: IHeroInfo): IHeroAttr {
@@ -116,12 +116,12 @@ export class HeroInfo {
     }
     /**
      * @description 根据英雄获取英雄身上技能
-     * @param hero 
+     * @param hero
      * @returns Array<SkillInfo>
      */
     public loadHeroSkillList(hero: IHeroInfo): SkillInfo[] {
         // test 需要根据登记组装所有的技能及参数
-        const skillArr = [, , , ]; // 技能根据普攻、小技能、大招、被动、光环顺序存储
+        const skillArr = [ ]; // 技能根据普攻、小技能、大招、被动、光环顺序存储
         // 普攻
         const skillInfo = this.getOneSkillById(this.heroDB.normalSkill as null as string);
         skillArr[skillInfo.SkillDB.skillType] = skillInfo;
@@ -152,7 +152,7 @@ export class HeroInfo {
         return skillArr;
     }
     /**
-     * 
+     *
      * @param key 改变的值类型
      * @param value 改变的值
      * @param propType 改变类型(值、百分比)
@@ -176,7 +176,7 @@ export class HeroInfo {
         this.heroAttr[key] = newValue;
         switch (key) {
             case EHeroAttr.hp:
-                if (newValue == 0) {
+                if (newValue === 0) {
                     // 角色死亡、做一些死亡的事情
                 }
                 break;
@@ -215,7 +215,7 @@ export class HeroInfo {
      * @param skillId
      */
     private getOneSkillById(skillId: string): SkillInfo {
-        let skillDB: IDBSkill = DBSkill.getInstance().getDBSkillById(skillId);
+        const skillDB: IDBSkill = DBSkill.getInstance().getDBSkillById(skillId);
         const skillInfo = new SkillInfo(skillDB);
         return skillInfo;
     }

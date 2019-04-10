@@ -8,7 +8,7 @@ import BattleCtrl from "./BattleCtrl";
  * @author YeXiao
  * @deprecated 游戏出手序列控制器
  * @since 2019-3-18 16:18:25
- * 
+ *
  */
 export default class HandleCtrl extends BaseCtrl {
     private handleArr: ModelBase[] = null;
@@ -20,12 +20,12 @@ export default class HandleCtrl extends BaseCtrl {
      */
     public sortModelHandle() {
         LogsManager.getInstance().log("======>>>>>>根据攻速排序对所有英雄出手顺序");
-        this.handleArr = this.BattleCtrl.GameCtrl.ModelArr.slice().sort((a,b)=>{
+        this.handleArr = this.BattleCtrl.GameCtrl.ModelArr.slice().sort((a, b) => {
             const aSpeed = a.getHeroAtkFrame();
-            const bSpeed = b.getHeroAtkFrame()
-            if(aSpeed > bSpeed) {
+            const bSpeed = b.getHeroAtkFrame();
+            if (aSpeed > bSpeed) {
                 return 1;
-            } else if(aSpeed === bSpeed){
+            } else if (aSpeed === bSpeed) {
                 if (a.getHeroCamp() >= b.getHeroCamp() ) { return 1; }
             }
             return 0;
@@ -41,7 +41,7 @@ export default class HandleCtrl extends BaseCtrl {
     }
     /**
      * 从出手队列里面移除某个英雄
-     * @param model 
+     * @param model
      * @returns 移除是否成功
      */
     public delModelHandle(model: ModelBase): boolean {
@@ -54,7 +54,7 @@ export default class HandleCtrl extends BaseCtrl {
     }
     /**
      * 向出手队列里面添加一个英雄,此时也已经做的排序，并且是从后往前排序，也就是说，如果遇到相同atkspeed的时候，只会排在最后面
-     * @param model 
+     * @param model
      * @returns 添加是否成功
      */
     public addModelHandle(model: ModelBase): boolean {
@@ -68,7 +68,7 @@ export default class HandleCtrl extends BaseCtrl {
         for (let index = length - 2; index >= 0; index--) {
             const tmpModel = this.handleArr[index];
             if (tmpModel.getHeroAtkFrame() <= model.getHeroAtkFrame()) {
-                this.handleArr.splice(index+1,0,model);
+                this.handleArr.splice(index + 1, 0, model);
                 return true;
             }
         }

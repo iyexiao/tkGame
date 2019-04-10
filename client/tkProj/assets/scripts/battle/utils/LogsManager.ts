@@ -7,11 +7,11 @@ import { EBattleTrigger } from "./UtilsEnum";
  * @author YeXiao
  * @deprecated 战斗日志打印系列
  * @since 2019-3-29 10:09:12
- * 
+ *
  */
 export default class LogsManager {
-    public static getInstance(): LogsManager{
-        if( LogsManager.instance == null ){
+    public static getInstance(): LogsManager {
+        if ( LogsManager.instance == null ) {
             LogsManager.instance = new LogsManager();
             LogsManager.instance.logInfo = [];
         }
@@ -20,13 +20,13 @@ export default class LogsManager {
     private static instance: LogsManager = null;
     private logInfo: any[] = null;
     private battleCtrl: BattleCtrl = null;
-    public setBattleCtrl(battleCtrl: BattleCtrl){
+    public setBattleCtrl(battleCtrl: BattleCtrl) {
         this.battleCtrl = battleCtrl;
     }
     /**
      * - 清空所有日志
      */
-    public clearAllLog(){
+    public clearAllLog() {
         this.logInfo = [];
         this.battleCtrl = null;
     }
@@ -34,10 +34,10 @@ export default class LogsManager {
      * - 战斗日志打印
      * @param log 需要存储或者打印的log
      */
-    public log(log: string){
+    public log(log: string) {
         if (!this.battleCtrl || !this.battleCtrl.GameCtrl) {
 // tslint:disable-next-line: no-console
-            console.log("还未初始化battleCtrl")
+            console.log("还未初始化battleCtrl");
             return;
         }
         const frame = this.battleCtrl.GameCtrl.CurrentFrame;
@@ -48,7 +48,7 @@ export default class LogsManager {
 // tslint:disable-next-line: no-console
         console.log("frame:" + frame + " " + log);
     }
-    public skilllog(trigger: EBattleTrigger,model: ModelBase){
+    public skilllog(trigger: EBattleTrigger, model: ModelBase) {
         let logStr = "";
         switch (trigger) {
             case EBattleTrigger.onSkillStart:

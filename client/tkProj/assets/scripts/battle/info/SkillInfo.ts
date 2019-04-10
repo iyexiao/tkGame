@@ -43,7 +43,7 @@ export class SkillInfo {
     }
     /**
      * 更新技能释放信息
-     * @param isInit 
+     * @param isInit
      * @returns 是否是技能释放结束
      */
     public updateSkillAttr(target?: ModelBase): boolean {
@@ -53,7 +53,7 @@ export class SkillInfo {
         } else {
             if (this.skillAttr.beforeFrame > 0) {
                 this.skillAttr.beforeFrame = this.skillAttr.beforeFrame - 1;
-                if (this.skillAttr.beforeFrame == 0) {
+                if (this.skillAttr.beforeFrame === 0) {
                     // 技能释放出去 TODO:检查释放着死亡了没有
                     if (this.owner) {
                         this.owner.realGiveOneSkill();
@@ -94,8 +94,8 @@ export class SkillInfo {
 
         let camp = owner.getHeroCamp();
         // 选敌方阵营
-        if (this.filterDB.camp == ECamp.camp1) {
-            camp = camp == ECamp.camp1 ? ECamp.camp2 : ECamp.camp1;
+        if (this.filterDB.camp === ECamp.camp1) {
+            camp = camp === ECamp.camp1 ? ECamp.camp2 : ECamp.camp1;
         }
         const protList = [];
         let sTypeList = ConstValue.GAME_ROW_LIST; // 默认按行选敌

@@ -3,7 +3,7 @@
  * @author YeXiao
  * @deprecated 本地化
  * @date 2019-3-5 22:35:12
- * 
+ *
  */
 export default class Localization {
     public static getInstance(): Localization {

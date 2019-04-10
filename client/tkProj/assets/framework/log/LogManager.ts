@@ -16,7 +16,7 @@ export default class LogManager {
         }
 // tslint:disable-next-line: no-string-literal no-console
         const backLog = cc.log || console.log ||  window["log"];
-        backLog.call(LogManager, "%s%s" + cc.js.formatStr.apply(cc, arguments),this._getDateString(), this._stack());
+        backLog.call(LogManager, "%s%s" + cc.js.formatStr.apply(cc, arguments), this._getDateString(), this._stack());
     }
 
     public info() {
@@ -91,8 +91,8 @@ export default class LogManager {
         let result_idx = -1;
         for (let i = 0; i < result.length; i++) {
 // tslint:disable-next-line: forin
-            for (let a in result[i]) {
-                let l = a.split(".");
+            for (const a in result[i]) {
+                const l = a.split(".");
                 if (l[0] !== "GameLog") {
                     result_idx = i;
                     break;

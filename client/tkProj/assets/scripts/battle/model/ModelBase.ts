@@ -10,18 +10,18 @@ import { EBattleTrigger, ECamp } from "../utils/UtilsEnum";
  * @author YeXiao
  * @deprecated model基类
  * @since 2019-3-12 17:15:30
- * 
+ *
  */
 export default class ModelBase {
     private ctrl: GameCtrl = null;
     private heroInfo: HeroInfo = null;
     private currSkill: SkillInfo = null; // 英雄当前释放的技能
-    private lastChooseModelList: Array<ModelBase> = null;   // 上次技能选中的敌人
-    constructor(controler: GameCtrl,heroInfo: HeroInfo) {
+    private lastChooseModelList: ModelBase[] = null;   // 上次技能选中的敌人
+    constructor(controler: GameCtrl, heroInfo: HeroInfo) {
         this.ctrl = controler;
         this.heroInfo = heroInfo;
         // 绑定技能对象数据
-        this.heroInfo.SkillList.forEach(element => {
+        this.heroInfo.SkillList.forEach((element) => {
             element.getSkillAi().setPlayerModel(this);
         });
     }
@@ -121,13 +121,13 @@ export default class ModelBase {
             LogsManager.getInstance().log("没有可释放的技能");
             return;
         }
-        if(this.currSkill) {
+        if (this.currSkill) {
             LogsManager.getInstance().log("有技能在释放中");
             return;
         }
         // 技能做选敌逻辑
         const defList = skillInfo.getChooseModelList(this);
-        if(defList.length <= 0) {
+        if (defList.length <= 0) {
             LogsManager.getInstance().log("未存在选敌逻辑");
             return;
         }

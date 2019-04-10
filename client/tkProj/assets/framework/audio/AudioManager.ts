@@ -6,8 +6,8 @@
  *
  */
 export default class AudioManager {
-    public static getInstance(): AudioManager{
-        if( AudioManager.instance == null ){
+    public static getInstance(): AudioManager {
+        if ( AudioManager.instance == null ) {
             AudioManager.instance = new AudioManager();
         }
         return AudioManager.instance;

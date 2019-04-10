@@ -14,8 +14,8 @@ export default class HttpManager {
         if (params) {
             requestURL = requestURL + "?" + params;
         }
-        xhr.open("GET",requestURL, true);
-        if (cc.sys.isNative){
+        xhr.open("GET", requestURL, true);
+        if (cc.sys.isNative) {
             xhr.setRequestHeader("Accept", "text/html");
             xhr.setRequestHeader("Accept-Charset", "utf-8");
             xhr.setRequestHeader("Accept-Encoding", "gzip,deflate");
@@ -23,20 +23,19 @@ export default class HttpManager {
 
 // tslint:disable-next-line: only-arrow-functions
         xhr.onreadystatechange = function() {
-            if(xhr.readyState === 4 && (xhr.status >= 200 && xhr.status < 300)){
+            if (xhr.readyState === 4 && (xhr.status >= 200 && xhr.status < 300)) {
 // tslint:disable-next-line: no-console
-                console.log("http res("+ xhr.responseText.length + "):" + xhr.responseText);
+                console.log("http res(" + xhr.responseText.length + "):" + xhr.responseText);
                 try {
-                    var ret = xhr.responseText;
-                    if(callback !== null){
+                    const ret = xhr.responseText;
+                    if (callback !== null) {
                         callback(null, ret);
                     }
                     return;
                 } catch (e) {
                     callback(e, null);
                 }
-            }
-            else {
+            } else {
                 callback(xhr.readyState + ":" + xhr.status, null);
             }
         };
@@ -51,8 +50,8 @@ export default class HttpManager {
         if (params) {
             requestURL = requestURL + "?" + params;
         }
-        xhr.open("POST",requestURL, true);
-        if (cc.sys.isNative){
+        xhr.open("POST", requestURL, true);
+        if (cc.sys.isNative) {
             xhr.setRequestHeader("Accept", "text/html");
             xhr.setRequestHeader("Accept-Charset", "utf-8");
             xhr.setRequestHeader("Accept-Encoding", "gzip,deflate");
@@ -65,9 +64,9 @@ export default class HttpManager {
 
 // tslint:disable-next-line: only-arrow-functions
         xhr.onreadystatechange = function() {
-            if(xhr.readyState === 4 && (xhr.status >= 200 && xhr.status < 300)){
+            if (xhr.readyState === 4 && (xhr.status >= 200 && xhr.status < 300)) {
                 try {
-                    let ret = xhr.responseText;
+                    const ret = xhr.responseText;
                     if ( callback !== null) {
                         callback(null, ret);
                     }
@@ -94,8 +93,8 @@ export default class HttpManager {
         }
 
         xhr.responseType = "arraybuffer";
-        xhr.open("GET",requestURL, true);
-        if (cc.sys.isNative){
+        xhr.open("GET", requestURL, true);
+        if (cc.sys.isNative) {
             xhr.setRequestHeader("Accept", "text/html");
             xhr.setRequestHeader("Accept-Charset", "utf-8");
             xhr.setRequestHeader("Accept-Encoding", "gzip,deflate");
@@ -103,7 +102,7 @@ export default class HttpManager {
 
 // tslint:disable-next-line: only-arrow-functions
         xhr.onreadystatechange = function() {
-            if(xhr.readyState === 4 && (xhr.status >= 200 && xhr.status < 300)){
+            if (xhr.readyState === 4 && (xhr.status >= 200 && xhr.status < 300)) {
                 const buffer = xhr.response;
                 const dataview = new DataView(buffer);
                 const ints = new Uint8Array(buffer.byteLength);

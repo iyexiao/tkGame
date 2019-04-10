@@ -9,13 +9,13 @@ import BattleCtrl from "./BattleCtrl";
  * @author YeXiao
  * @deprecated 游戏关卡控制器；此处用于初始化战场内level对应的角色数据
  * @since 2019-3-12 17:13:53
- * 
+ *
  */
 export default class LevelCtrl extends BaseCtrl {
     /**
      * @description 阵营对应的角色数据
      */
-    private heroList:{[index: number]: HeroInfo[]} = null;
+    private heroList: {[index: number]: HeroInfo[]} = null;
     constructor(ctrl: BattleCtrl) {
         super(ctrl);
         this.heroList = {};

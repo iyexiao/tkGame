@@ -1,5 +1,5 @@
 import ModelBase from "../model/ModelBase";
-import {ECreaseType,EPropType} from "../utils/UtilsEnum";
+import {ECreaseType, EPropType} from "../utils/UtilsEnum";
 /**
  * @interface buff属性
  */
@@ -14,7 +14,7 @@ export interface IBuffAttr {
 /**
  * @enum buff类型
  */
-export enum EBuffType{
+export enum EBuffType {
     hp = 1,      // 血量
     phyAtk,      // 物攻
     phyDef,      // 物防
