@@ -24,7 +24,7 @@ export default class RandomCtrl extends RandomBase {
             return arr;
         }
         const tmpArr = [];
-        const sourceArr = arr.slice();
+        const sourceArr = arr.slice(); // 复制
         for (let index = 0; index < count; index++) {
             const ran = Math.floor(this.getNext() * sourceArr.length + 1) - 1;
             tmpArr.push(sourceArr[ran]);

@@ -56,10 +56,11 @@ export default class LogsManager {
     }
     public skilllog(trigger: EBattleTrigger, model: ModelBase) {
         let logStr = "";
+        let tmpStr = "";
         switch (trigger) {
             case EBattleTrigger.onSkillStart:
                 // 获取技能释放对象
-                let tmpStr = "  对";
+                tmpStr = "  对";
                 for (const element of model.LastChooseModelList) {
                     tmpStr  = tmpStr + " 阵营:" + element.getHeroCamp() + " 的 " + element.getHeroPosIndex() + " 号位英雄：" + element.getHeroName();
                 }
@@ -69,6 +70,14 @@ export default class LogsManager {
             case EBattleTrigger.onSkillEnd:
                 logStr = "阵营：" + model.getHeroCamp() + " 的" + model.getHeroPosIndex() + " 号位英雄："
                            + model.getHeroName() + " 技能:" + model.CurrSkill.getSkillAi().SkillName + "释放结束";
+                break;
+            case EBattleTrigger.onGiveOutAtk:
+                for (const element of model.LastChooseModelList) {
+                    tmpStr  = tmpStr + " 阵营:" + element.getHeroCamp() + " " + element.getHeroPosIndex() + " 号位英雄：" + element.getHeroName();
+                }
+                logStr =  tmpStr + " 受到阵营：" + model.getHeroCamp() + " 的" + model.getHeroPosIndex() + " 号位英雄：" + model.getHeroName()
+                    + " 的技能影响，攻击包信息：[dmg:" + model.CurrSkill.CurrrAtkInfo.getDamage() + " protype:" + model.CurrSkill.CurrrAtkInfo.getPropType()
+                    + "]";
                 break;
             default:
                 break;

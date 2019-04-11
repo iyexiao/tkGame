@@ -1,9 +1,9 @@
 import EventManager from "../../../framework/event/EventManager";
 import GameCtrl from "../controller/GameCtrl";
-import {HeroInfo} from "../info/HeroInfo";
+import {HeroInfo, EHeroAttr} from "../info/HeroInfo";
 import { SkillInfo } from "../info/SkillInfo";
 import LogsManager from "../utils/LogsManager";
-import { EBattleTrigger, ECamp } from "../utils/UtilsEnum";
+import { EBattleTrigger, ECamp, EPropType } from "../utils/UtilsEnum";
 
 /**
  * @class ModelBase
@@ -93,7 +93,14 @@ export default class ModelBase {
     public giveOutOneSkillEnd() {
         EventManager.getInstance().dispatchEvent(EBattleTrigger.onSkillEnd, { model: this});
         LogsManager.getInstance().skilllog( EBattleTrigger.onSkillEnd, this );
-        // 重置技能
+        this.resetCurrentSkill();
+    }
+    /**
+     * - 重置技能，技能被打断了也需要重置
+     */
+    public resetCurrentSkill() {
+        // 重置技能攻击包
+        this.currSkill.resetAtkInfo();
         this.currSkill = null;
         this.lastChooseModelList = null;
     }
@@ -141,5 +148,24 @@ export default class ModelBase {
         if (skillInfo.SkillDB.beforeFrame === 0) {
             this.realGiveOneSkill();
         }
+    }
+    /**
+     * - 释放某个攻击包
+     * @param atk 攻击包信息
+     */
+    public giveOutOneSkillAtk() {
+        const atkInfo = this.currSkill.CurrrAtkInfo;
+        if (atkInfo.checkIsFirst()) {
+            atkInfo.updateIsFirst(); // 第一次命中需要算 buff
+        }
+        // 计算伤害
+        for (const model of this.lastChooseModelList) {
+            let dmg = -atkInfo.getDamage()
+            if (model.getHeroCamp() === this.getHeroCamp()) {
+                dmg = -dmg; // 这个是加血
+            }
+            model.HeroInfo.changePropValue(EHeroAttr.hp,dmg, atkInfo.getPropType());
+        }
+        LogsManager.getInstance().skilllog(EBattleTrigger.onGiveOutAtk,  this );
     }
 }

@@ -32,15 +32,15 @@ export enum ECamp {
  * @enum 属性加成方式
  */
 export enum EPropType {
-    addSub = 1,     // 纯数值
+    addSub = 0,     // 纯数值
     percentAge,     // 百分比
 }
 /**
  * @enum 增益还是减益
  */
 export enum ECreaseType {
-    increase,        // 增益
-    decrease,        // 减益
+    increase = 0,        // 增益
+    decrease,            // 减益
 }
 /**
  * @enum 技能类型
@@ -58,6 +58,7 @@ export enum ESkillType {
 export enum EBattleTrigger {
     onSkillStart = "onSkillStart",  // 技能攻击前
     onSkillEnd = "onSkillEnd",      // 技能攻击后
+    onGiveOutAtk = "onGiveOutAtk",  // 攻击包释放
     onHurt = "onHurt",              // 受击时
     onPropChange = "onHurt",        // 属性变化时
     onDead = "onPropChange",        // 角色死亡时

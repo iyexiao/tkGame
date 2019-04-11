@@ -93,6 +93,12 @@ export class HeroInfo {
         return this.heroAttr.atkSpeed;
     }
     /**
+     * - 获取角色技能攻击力
+     */
+    public getHeroAtk(): number {
+        return (this.heroAttr.phyAtk + this.heroAttr.magicAtk * 2 );
+    }
+    /**
      * @description 返回符合类型的buff数组
      * @param buffType EBuffType类型
      */
@@ -128,7 +134,7 @@ export class HeroInfo {
         // test 需要根据登记组装所有的技能及参数
         const skillArr = [ ]; // 技能根据普攻、小技能、大招、被动、光环顺序存储
         // 普攻
-        const skillInfo = this.getOneSkillById(this.heroDB.normalSkill as null as string);
+        const skillInfo = this.getOneSkillById(String(this.heroDB.normalSkill));
         skillArr[skillInfo.SkillDB.skillType] = skillInfo;
         // 小技能 [等级、品阶、星级、技能id]
         let tmpArr = this.heroDB.smallSkill;
@@ -172,7 +178,7 @@ export class HeroInfo {
                 newValue = this.heroAttr[key] + value;
                 break;
             case EPropType.percentAge:
-                newValue = this.heroAttr[key] +  Math.round(this.heroInitAttr[key] * propType / 100);
+                newValue = this.heroAttr[key] +  Math.round(this.heroInitAttr[key] * value / 100);
                 break;
         }
         if (newValue <= 0 ) {
@@ -210,9 +216,9 @@ export class HeroInfo {
         if ( skillArr.length !== 4 ) {
             return false;
         }
-        const lv = skillArr[0] as null as number;
-        const qty = skillArr[1] as null as number;
-        const star = skillArr[2] as null as number;
+        const lv = Number(skillArr[0]);
+        const qty = Number(skillArr[1]);
+        const star = Number(skillArr[2]);
         if (hero.level >= lv && hero.quality >= qty && hero.level >= star) {
             return true;
         }

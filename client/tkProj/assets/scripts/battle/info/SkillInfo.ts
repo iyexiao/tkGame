@@ -6,12 +6,12 @@ import ConstValue from "../ConstValue";
 import ModelBase from "../model/ModelBase";
 import {ECamp, ERCType} from "../utils/UtilsEnum";
 import {AttackInfo} from "./AttackInfo";
-import LogsManager from "../utils/LogsManager";
 
 /**
  * - 战斗内技能需要改变的值
  */
 interface ISkillAttr {
+    atkFrame: number[];              // 技能伤害帧
     beforeFrame?: number;            // 技能前摇帧数(此阶段可以被打断)
     totalFrame?: number;             // 技能释放总时长
 }
@@ -31,9 +31,10 @@ export class SkillInfo {
     private readonly skillAi: SkillAi = null;
     private skillAttr: ISkillAttr = null;
     private owner: ModelBase = null;
+    private currAtkInfo: AttackInfo = null;
     constructor(skillDB: IDBSkill) {
         this.skillDB = skillDB;
-        this.filterDB = DBFilter.getInstance().getDBFilterById(skillDB.filter as null as string);
+        this.filterDB = DBFilter.getInstance().getDBFilterById(String(skillDB.filter));
         this.skillAi = new AiConst[skillDB.extScript](skillDB.extInfo);
     }
     get SkillDB(): IDBSkill {
@@ -42,6 +43,9 @@ export class SkillInfo {
     get SkillAttr(): ISkillAttr {
         return this.skillAttr;
     }
+    get CurrrAtkInfo(): AttackInfo {
+        return this.currAtkInfo;
+    }
     /**
      * 更新技能释放信息
      * @param isInit
@@ -49,15 +53,31 @@ export class SkillInfo {
      */
     public updateSkillAttr(target?: ModelBase): boolean {
         if (target) {
+            const currentFrame = target.Ctrl.CurrentFrame;
             this.owner = target;
-            this.skillAttr = {beforeFrame: this.skillDB.beforeFrame, totalFrame: this.skillDB.totalFrame};
+            const frame: number[] = [];
+            for (const iterator of this.SkillDB.atkFrame) {
+                const f = Number(iterator);
+                frame.push( f + currentFrame );
+            }
+            this.skillAttr = {atkFrame: frame, beforeFrame: this.skillDB.beforeFrame, totalFrame: this.skillDB.totalFrame};
         } else {
-            if (this.skillAttr.beforeFrame > 0) {
-                this.skillAttr.beforeFrame = this.skillAttr.beforeFrame - 1;
-                if (this.skillAttr.beforeFrame === 0) {
-                    // 技能释放出去 TODO:检查释放着死亡了没有
-                    if (this.owner) {
+            if (this.owner) {
+                const currentFrame = this.owner.Ctrl.CurrentFrame;
+                if (this.skillAttr.beforeFrame > 0) {
+                    this.skillAttr.beforeFrame = this.skillAttr.beforeFrame - 1;
+                    if (this.skillAttr.beforeFrame === 0) {
+                        // 技能释放出去 TODO:检查释放着死亡了没有
                         this.owner.realGiveOneSkill();
+                    }
+                }
+                for (const iterator of this.skillAttr.atkFrame) {
+                    if (currentFrame === iterator ) {
+                        // 释放攻击包
+                        if (!this.currAtkInfo) {
+                            this.loadAttackInfo();
+                        }
+                        this.owner.giveOutOneSkillAtk();
                     }
                 }
             }
@@ -72,13 +92,17 @@ export class SkillInfo {
         return false;
     }
     /**
-     * - 返回攻击包信息
-     * @returns AttackInfo
+     * - 攻击包信息
      */
-    public getAttackInfo(): AttackInfo {
-        // test
-        const atkInfo = new AttackInfo(this.skillDB.atk);
-        return atkInfo;
+    public loadAttackInfo() {
+        const damage = this.owner.HeroInfo.getHeroAtk();
+        this.currAtkInfo = new AttackInfo(this.skillDB.atk, damage);
+    }
+    /**
+     * - 重置攻击包信息
+     */
+    public resetAtkInfo() {
+        this.currAtkInfo = null;
     }
     /**
      * - 获取技能脚本
@@ -103,11 +127,11 @@ export class SkillInfo {
         if (this.filterDB.sType === ERCType.column) {
             sTypeList = ConstValue.GAME_COL_LIST;
             this.filterDB.cProt.forEach((element) => {
-                protList.push(element as unknown as number);
+                protList.push(Number((element)));
             });
         } else {
             this.filterDB.rProt.forEach((element) => {
-                protList.push(element as unknown as number);
+                protList.push(Number((element)));
             });
         }
         const campList = owner.Ctrl.getModelListByCamp(camp, sTypeList);
