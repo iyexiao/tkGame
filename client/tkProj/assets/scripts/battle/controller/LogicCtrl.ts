@@ -27,4 +27,11 @@ export default class LogicCtrl extends BaseCtrl {
             }
         }
     }
+    /**
+     * - 当一个英雄死亡时触发
+     * @param model 死亡的角色
+     */
+    public onOneModelDead(model: ModelBase){
+        // 从出手顺序中移除它，并把它放入死亡列表(有可能复活)，
+    }
 }

@@ -5,6 +5,7 @@ import {IHeroInfo, IUserInfo} from "../info/BattleInfo";
 import {BuffInfo, EBuffType} from "../info/BuffInfo";
 import {SkillInfo} from "../info/SkillInfo";
 import {ECamp, EPropType, ESkillType} from "../utils/UtilsEnum";
+import ModelBase from "../model/ModelBase";
 
 /**
  * @interface 英雄战斗属性
@@ -168,8 +169,8 @@ export class HeroInfo {
      * @param value 改变的值
      * @param propType 改变类型(值、百分比)
      */
-    public changePropValue(key: EHeroAttr, value: number, propType: EPropType) {
-        if (!this.heroAttr[key] || this.heroInitAttr[key]) {
+    public changePropValue(key: EHeroAttr, value: number, propType: EPropType, model: ModelBase) {
+        if (!this.heroAttr[key] || !this.heroInitAttr[key]) {
             return;
         }
         let newValue = null;
@@ -189,6 +190,7 @@ export class HeroInfo {
             case EHeroAttr.hp:
                 if (newValue === 0) {
                     // 角色死亡、做一些死亡的事情
+                    model.onHeroDead();
                 }
                 break;
             default:

@@ -1,6 +1,6 @@
 import EventManager from "../../../framework/event/EventManager";
 import GameCtrl from "../controller/GameCtrl";
-import {HeroInfo, EHeroAttr} from "../info/HeroInfo";
+import {EHeroAttr, HeroInfo} from "../info/HeroInfo";
 import { SkillInfo } from "../info/SkillInfo";
 import LogsManager from "../utils/LogsManager";
 import { EBattleTrigger, ECamp, EPropType } from "../utils/UtilsEnum";
@@ -17,7 +17,9 @@ export default class ModelBase {
     private heroInfo: HeroInfo = null;
     private currSkill: SkillInfo = null; // 英雄当前释放的技能
     private lastChooseModelList: ModelBase[] = null;   // 上次技能选中的敌人
+    private isAlive: boolean = null;            // 是否活着
     constructor(controler: GameCtrl, heroInfo: HeroInfo) {
+        this.isAlive = true;
         this.ctrl = controler;
         this.heroInfo = heroInfo;
         // 绑定技能对象数据
@@ -160,12 +162,23 @@ export default class ModelBase {
         }
         // 计算伤害
         for (const model of this.lastChooseModelList) {
-            let dmg = -atkInfo.getDamage()
+            let dmg = atkInfo.getDamage() * 5 - (model.heroInfo.HeroAttr.phyDef * 3 + model.heroInfo.HeroAttr.magicDef * 2);
+            dmg = dmg <= 0 ? 0 : dmg;
             if (model.getHeroCamp() === this.getHeroCamp()) {
                 dmg = -dmg; // 这个是加血
             }
-            model.HeroInfo.changePropValue(EHeroAttr.hp,dmg, atkInfo.getPropType());
+            model.HeroInfo.changePropValue(EHeroAttr.hp, -dmg, atkInfo.getPropType(), model);
         }
         LogsManager.getInstance().skilllog(EBattleTrigger.onGiveOutAtk,  this );
+    }
+    /**
+     * - 当英雄死亡时触发
+     */
+    public onHeroDead() {
+        // 角色死亡
+        if (this.isAlive) {
+            this.isAlive = false;
+            this.ctrl.BattleCtrl.LogicCtrl.onOneModelDead(this);
+        }
     }
 }
