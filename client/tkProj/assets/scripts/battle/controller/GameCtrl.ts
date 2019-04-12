@@ -15,16 +15,19 @@ import BattleCtrl from "./BattleCtrl";
  *
  */
 export default class GameCtrl extends BaseCtrl {
-    private modelArr: ModelHero[] = null; // 战场上的英雄数组
+    private aliveModelArr: ModelBase[] = null; // 战场上的英雄数组
     private currFrame: number = null;  // 当前运行的帧数
+    private deadModelArr: ModelBase[] = null;  // 死亡的英雄数组
+
     constructor(ctrl: BattleCtrl) {
         super(ctrl);
-        this.modelArr = new Array<ModelHero>();
+        this.aliveModelArr = [];
+        this.deadModelArr = [];
         this.currFrame = 0;
         this.initModelList();
     }
     get ModelArr() {
-        return this.modelArr;
+        return this.aliveModelArr;
     }
     get CurrentFrame() {
         return this.currFrame;
@@ -38,7 +41,7 @@ export default class GameCtrl extends BaseCtrl {
             const arr = this.BattleCtrl.LevelCtrl.getHeroInfoByCamp(iterator);
             for (const heroInfo of arr) {
                 const model = this.createOneModelByHeroInfo(heroInfo);
-                this.modelArr.push(model);
+                this.aliveModelArr.push(model);
             }
         }
     }
@@ -64,7 +67,7 @@ export default class GameCtrl extends BaseCtrl {
      */
     public initModelsAura() {
         LogsManager.getInstance().log("======>>>>>>初始化光环技能");
-        for (const iterator of this.modelArr) {
+        for (const iterator of this.aliveModelArr) {
             iterator.initAura();
         }
     }
@@ -86,7 +89,7 @@ export default class GameCtrl extends BaseCtrl {
      * @description 更新战场上所有英雄的攻击时间
      */
     public updateModelFrame() {
-        for (const iterator of this.modelArr) {
+        for (const iterator of this.aliveModelArr) {
             iterator.updateHeroFrame();
         }
     }
@@ -97,7 +100,7 @@ export default class GameCtrl extends BaseCtrl {
      */
     public getModelListByCamp(camp: ECamp, protList: number[][]): ModelBase[][] {
         const tmpList = [[], [], []];
-        this.modelArr.forEach((element) => {
+        this.aliveModelArr.forEach((element) => {
             const posIdx = element.getHeroPosIndex();
             if (element.getHeroCamp() === camp) {
                 for (let index = 0; index < protList.length; index++) {
@@ -110,5 +113,13 @@ export default class GameCtrl extends BaseCtrl {
             }
         });
         return tmpList;
+    }
+    /**
+     * - 从可行动的数组里移除一个英雄
+     * @param model 将要移除的英雄
+     */
+    public removeOneModelToDeadArr(model: ModelBase) {
+        this.aliveModelArr.filter((item) => item !== model);
+        this.deadModelArr.push(model);
     }
 }

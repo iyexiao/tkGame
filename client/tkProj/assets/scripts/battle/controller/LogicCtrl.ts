@@ -33,5 +33,7 @@ export default class LogicCtrl extends BaseCtrl {
      */
     public onOneModelDead(model: ModelBase){
         // 从出手顺序中移除它，并把它放入死亡列表(有可能复活)，
+        this.BattleCtrl.HandleCtrl.delModelHandle(model);
+        this.BattleCtrl.GameCtrl.removeOneModelToDeadArr(model);
     }
 }
