@@ -15,9 +15,9 @@ import BattleCtrl from "./BattleCtrl";
  *
  */
 export default class GameCtrl extends BaseCtrl {
-    private aliveModelArr: ModelBase[] = null; // 战场上的英雄数组
+    private aliveModelArr: ModelHero[] = null; // 战场上的英雄数组
     private currFrame: number = null;  // 当前运行的帧数
-    private deadModelArr: ModelBase[] = null;  // 死亡的英雄数组
+    private deadModelArr: ModelHero[] = null;  // 死亡的英雄数组
 
     constructor(ctrl: BattleCtrl) {
         super(ctrl);
@@ -120,6 +120,6 @@ export default class GameCtrl extends BaseCtrl {
      */
     public removeOneModelToDeadArr(model: ModelBase) {
         this.aliveModelArr.filter((item) => item !== model);
-        this.deadModelArr.push(model);
+        this.deadModelArr.push(model as ModelHero);
     }
 }
