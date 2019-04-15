@@ -1,7 +1,6 @@
 import ConstValue from "../ConstValue";
 import {HeroInfo} from "../info/HeroInfo";
 import ModelBase from "../model/ModelBase";
-import ModelHero from "../model/ModelHero";
 import LogsManager from "../utils/LogsManager";
 import {ECamp} from "../utils/UtilsEnum";
 import BaseCtrl from "./BaseCtrl";
@@ -15,9 +14,9 @@ import BattleCtrl from "./BattleCtrl";
  *
  */
 export default class GameCtrl extends BaseCtrl {
-    private aliveModelArr: ModelHero[] = null; // 战场上的英雄数组
+    private aliveModelArr: ModelBase[] = null; // 战场上的英雄数组
     private currFrame: number = null;  // 当前运行的帧数
-    private deadModelArr: ModelHero[] = null;  // 死亡的英雄数组
+    private deadModelArr: ModelBase[] = null;  // 死亡的英雄数组
 
     constructor(ctrl: BattleCtrl) {
         super(ctrl);
@@ -48,10 +47,10 @@ export default class GameCtrl extends BaseCtrl {
     /**
      * @description 根据英雄数据创建一个英雄单位模型
      * @param hero
-     * @returns ModelHero
+     * @returns ModelBase
      */
-    public createOneModelByHeroInfo(hero: HeroInfo): ModelHero {
-        const model = new ModelHero(this, hero);
+    public createOneModelByHeroInfo(hero: HeroInfo): ModelBase {
+        const model = new ModelBase(this, hero);
         return model;
     }
     /**
@@ -120,6 +119,6 @@ export default class GameCtrl extends BaseCtrl {
      */
     public removeOneModelToDeadArr(model: ModelBase) {
         this.aliveModelArr.filter((item) => item !== model);
-        this.deadModelArr.push(model as ModelHero);
+        this.deadModelArr.push(model);
     }
 }

@@ -3,7 +3,7 @@ import GameCtrl from "../controller/GameCtrl";
 import {EHeroAttr, HeroInfo} from "../info/HeroInfo";
 import { SkillInfo } from "../info/SkillInfo";
 import LogsManager from "../utils/LogsManager";
-import { EBattleTrigger, ECamp, EPropType } from "../utils/UtilsEnum";
+import { EBattleTrigger, ECamp, EPropType, ESkillType } from "../utils/UtilsEnum";
 
 /**
  * @class ModelBase
@@ -41,6 +41,16 @@ export default class ModelBase {
     }
     get Ctrl() {
         return this.ctrl;
+    }
+    /**
+     * 初始化英雄的光环技能
+     */
+    public initAura() {
+        const skillInfo = this.HeroInfo.SkillList[ESkillType.aura];
+        if (skillInfo) {
+            const logStr = "=====>>>>阵营: " + this.getHeroCamp() + " 的光环技能：" + skillInfo.SkillDB.id + " 生效！";
+            LogsManager.getInstance().log(logStr);
+        }
     }
     /**
      * @description 更新英雄出手帧数、前摇帧数等
