@@ -61,7 +61,7 @@ export enum EBattleTrigger {
     onGiveOutAtk = "onGiveOutAtk",  // 攻击包释放
     onHurt = "onHurt",              // 受击时
     onPropChange = "onHurt",        // 属性变化时
-    onDead = "onPropChange",        // 角色死亡时
+    onDead = "onDead",              // 角色死亡时
     onKill = "onKill",              // 击杀角色时
 }
 /**

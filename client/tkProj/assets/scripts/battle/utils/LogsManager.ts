@@ -60,24 +60,30 @@ export default class LogsManager {
         switch (trigger) {
             case EBattleTrigger.onSkillStart:
                 // 获取技能释放对象
-                tmpStr = "  对";
+                tmpStr = "  attack[";
                 for (const element of model.LastChooseModelList) {
-                    tmpStr  = tmpStr + " 阵营:" + element.getHeroCamp() + " 的 " + element.getHeroPosIndex() + " 号位英雄：" + element.getHeroName();
+                    tmpStr  = tmpStr + "camp:" + element.getHeroCamp() + " pos:" + element.getHeroPosIndex() + " hero:" + element.getHeroName() + ",";
                 }
-                logStr = "阵营：" + model.getHeroCamp() + " 的" + model.getHeroPosIndex() + " 号位英雄："
-                            + model.getHeroName() + tmpStr + " 释放技能:" + model.CurrSkill.getSkillAi().SkillName;
+                tmpStr = tmpStr + "]";
+                logStr = "camp:" + model.getHeroCamp() + " pos:" + model.getHeroPosIndex() + " hero:"
+                            + model.getHeroName() + tmpStr + " skill:" + model.CurrSkill.getSkillAi().SkillName;
                 break;
             case EBattleTrigger.onSkillEnd:
-                logStr = "阵营：" + model.getHeroCamp() + " 的" + model.getHeroPosIndex() + " 号位英雄："
-                           + model.getHeroName() + " 技能:" + model.CurrSkill.getSkillAi().SkillName + "释放结束";
+                logStr = "camp:" + model.getHeroCamp() + " pos:" + model.getHeroPosIndex() + " hero:"
+                           + model.getHeroName() + " skill:[" + model.CurrSkill.getSkillAi().SkillName + " ] end";
                 break;
             case EBattleTrigger.onGiveOutAtk:
+                tmpStr = "[";
                 for (const element of model.LastChooseModelList) {
-                    tmpStr  = tmpStr + " 阵营:" + element.getHeroCamp() + " " + element.getHeroPosIndex() + " 号位英雄：" + element.getHeroName();
+                    tmpStr  = tmpStr + "camp:" + element.getHeroCamp() + " pos:" + element.getHeroPosIndex() + " hero:" + element.getHeroName() + ",";
                 }
-                logStr =  tmpStr + " 受到阵营：" + model.getHeroCamp() + " 的" + model.getHeroPosIndex() + " 号位英雄：" + model.getHeroName()
-                    + " 的技能影响，攻击包信息：[dmg:" + model.CurrSkill.CurrrAtkInfo.getDamage() + " protype:" + model.CurrSkill.CurrrAtkInfo.getPropType()
+                tmpStr = tmpStr + "]";
+                logStr =  tmpStr + " from camp:" + model.getHeroCamp() + " pos:" + model.getHeroPosIndex() + " hero:" + model.getHeroName()
+                    + "  attack:[dmg:" + model.CurrSkill.CurrrAtkInfo.getDamage() + " protype:" + model.CurrSkill.CurrrAtkInfo.getPropType()
                     + "]";
+                break;
+            case EBattleTrigger.onDead:
+                logStr = "camp:" + model.getHeroCamp() + " pos:" + model.getHeroPosIndex() + " hero:" + model.getHeroName() + " dead.";
                 break;
             default:
                 break;

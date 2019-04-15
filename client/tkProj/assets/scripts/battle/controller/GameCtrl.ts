@@ -88,8 +88,8 @@ export default class GameCtrl extends BaseCtrl {
      * @description 更新战场上所有英雄的攻击时间
      */
     public updateModelFrame() {
-        for (const iterator of this.aliveModelArr) {
-            iterator.updateHeroFrame();
+        for (const model of this.aliveModelArr) {
+            model.updateHeroFrame();
         }
     }
     /**
@@ -99,13 +99,13 @@ export default class GameCtrl extends BaseCtrl {
      */
     public getModelListByCamp(camp: ECamp, protList: number[][]): ModelBase[][] {
         const tmpList = [[], [], []];
-        this.aliveModelArr.forEach((element) => {
-            const posIdx = element.getHeroPosIndex();
-            if (element.getHeroCamp() === camp) {
+        this.aliveModelArr.forEach((model) => {
+            const posIdx = model.getHeroPosIndex();
+            if (model.checkIsAlive() && model.getHeroCamp() === camp) {
                 for (let index = 0; index < protList.length; index++) {
                     const posIdxList = protList[index];
                     if (posIdxList.indexOf(posIdx) >= 0) {
-                        tmpList[index].push(element);
+                        tmpList[index].push(model);
                         break;
                     }
                 }

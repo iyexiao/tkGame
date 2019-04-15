@@ -59,9 +59,14 @@ export default class ModelBase {
         const tmpFrame = this.heroInfo.CurrAtkFrame <= 0 ? 0 : this.heroInfo.CurrAtkFrame - 1;
         this.heroInfo.setCurrAtkFrame(tmpFrame);
         if (this.currSkill) {
-            const isEnd =  this.currSkill.updateSkillAttr();
-            if (isEnd) {
-                this.giveOutOneSkillEnd();
+            // 还存活的才能做技能逻辑处理
+            if (this.isAlive) {
+                const isEnd =  this.currSkill.updateSkillAttr();
+                if (isEnd) {
+                    this.giveOutOneSkillEnd();
+                }
+            } else {
+                this.resetCurrentSkill();
             }
         }
     }
@@ -98,6 +103,12 @@ export default class ModelBase {
     public getPlaySkillInfo(): SkillInfo {
         // test
         return this.HeroInfo.SkillList[0];
+    }
+    /**
+     * 检查角色是否存活
+     */
+    public checkIsAlive(): boolean {
+        return this.isAlive;
     }
     /**
      * - 技能释放结束
@@ -189,6 +200,7 @@ export default class ModelBase {
         if (this.isAlive) {
             this.isAlive = false;
             this.ctrl.BattleCtrl.LogicCtrl.onOneModelDead(this);
+            LogsManager.getInstance().skilllog(EBattleTrigger.onDead,  this );
         }
     }
 }
