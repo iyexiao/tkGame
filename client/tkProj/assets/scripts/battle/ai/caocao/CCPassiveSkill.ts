@@ -25,7 +25,7 @@ export default class CCPassiveSkill extends SkillAiBase {
             return;
         }
         if (model.checkIsAlive()) {
-            model.HeroInfo.executeOneBuff(this.skillArr[0],model);
+            model.BuffCom.executeOneBuff(this.skillArr[0]);
         }
     }
 }

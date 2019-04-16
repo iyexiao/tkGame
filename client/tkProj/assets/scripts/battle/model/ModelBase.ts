@@ -3,7 +3,8 @@ import GameCtrl from "../controller/GameCtrl";
 import {EHeroAttr, HeroInfo} from "../info/HeroInfo";
 import { SkillInfo } from "../info/SkillInfo";
 import LogsManager from "../utils/LogsManager";
-import { EBattleTrigger, ECamp, EPropType, ESkillType } from "../utils/UtilsEnum";
+import { EBattleTrigger, EBuffType, ECamp, EPropType, ESkillType } from "../utils/UtilsEnum";
+import BuffComponent from "./componenet/BuffComponent";
 
 /**
  * @class ModelBase
@@ -18,14 +19,19 @@ export default class ModelBase {
     private currSkill: SkillInfo = null; // 英雄当前释放的技能
     private lastChooseModelList: ModelBase[] = null;   // 上次技能选中的敌人
     private isAlive: boolean = null;            // 是否活着
+    private buffCom: BuffComponent = null;
     constructor(controler: GameCtrl, heroInfo: HeroInfo) {
         this.isAlive = true;
         this.ctrl = controler;
         this.heroInfo = heroInfo;
+        this.buffCom = new BuffComponent(this);
         // 绑定技能对象数据
         this.heroInfo.SkillList.forEach((element) => {
             element.getSkillAi().setPlayerModel(this);
         });
+    }
+    get BuffCom() {
+        return this.buffCom;
     }
     get CurrSkill() {
         return this.currSkill;

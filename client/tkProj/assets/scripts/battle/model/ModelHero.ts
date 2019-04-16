@@ -1,7 +1,7 @@
 import GameCtrl from "../controller/GameCtrl";
 import {HeroInfo} from "../info/HeroInfo";
+import ModelBase from "../model/ModelBase";
 import LogsManager from "../utils/LogsManager";
-import ModelBase from "./ModelBase";
 
 /**
  * @class ModelHero

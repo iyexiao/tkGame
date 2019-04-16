@@ -65,7 +65,6 @@ export class HeroInfo {
     private heroAttr: IHeroAttr = null;                 // 会随着战斗变化而变化的属性
     private currAtkFrame: number = null;                // 当前攻速
     private skillList: SkillInfo[] = null;         // 英雄身上的技能信息
-    private buffList: {[index: number]: BuffInfo[]} = null; // 英雄身上buff(index其实是EBuffType类型)
     /**
      * - 创建一个英雄模型数据
      * @param user
@@ -77,7 +76,6 @@ export class HeroInfo {
         this.heroDB = DBHero.getInstance().getDBHeroById(hInfo.hId as null);
         this.heroInitAttr = this.loadHeroInitAttr(user, hInfo);
         this.heroAttr = this.heroInitAttr;
-        this.buffList = {};
         this.skillList = this.loadHeroSkillList(hInfo);
         this.setCurrAtkFrame(this.getAttackCDFrame());
     }
@@ -99,50 +97,6 @@ export class HeroInfo {
      */
     public getHeroAtk(): number {
         return (this.heroAttr.phyAtk + this.heroAttr.magicAtk * 2 );
-    }
-    /**
-     * @description 返回符合类型的buff数组
-     * @param buffType EBuffType类型
-     */
-    public getBuffListByEBuffType(buffType: EBuffType): BuffInfo[] {
-        if (this.buffList[buffType]) {
-            return this.buffList[buffType];
-        }
-        return null;
-    }
-    /**
-     * - 添加一个buff
-     * @param buffId
-     */
-    public executeOneBuff(buffId: string, model: ModelBase): boolean {
-        // test
-        const buffDB = DBBuffs.getInstance().getDBBuffsById(buffId);
-        const buffList = this.getBuffListByEBuffType(buffDB.buffType);
-        let canAdd = false;
-        // buff替换
-        if (buffDB.step === 1) {
-            if (buffList) {
-                this.buffList[buffDB.buffType].splice(0,buffList.length);
-            } else {
-                this.buffList[buffDB.buffType] = [];
-            }
-            canAdd = true;
-        } else {
-            if (!buffList ) {
-                canAdd = true;
-                this.buffList[buffDB.buffType] = [];
-            } else if (buffList.length < buffDB.step) {
-                canAdd = true;
-            }
-        }
-        if (canAdd) {
-            const buffAttr: IBuffAttr = {buffId, buffType: buffDB.buffType, buffValue: 0, creaseType: buffDB.creaseType, currRound: buffDB.round};
-            // test
-            buffAttr.buffValue = 0;
-            const buffInfo = new BuffInfo(buffAttr, model);
-            this.buffList[buffDB.buffType].push(buffInfo);
-        }
-        return false;
     }
     /**
      *
@@ -231,18 +185,6 @@ export class HeroInfo {
             default:
                 break;
         }
-    }
-    /**
-     * @returns 检查是否有不可攻击的buff
-     */
-    public checkHaveUnAttackBuff() {
-        // 检查是否有不可攻击的buff
-        for (const key in ConstValue.UN_ATK_BUFF_LIST) {
-            if (this.buffList[key] && this.buffList[key].length > 0 ) {
-                return true;
-            }
-        }
-        return false;
     }
     /**
      * - 检查技能是否解锁
