@@ -1,11 +1,12 @@
+import { DBBuffs } from "../../db/DBBuffs";
 import {DBHero, IDBHero} from "../../db/DBHero";
 import { DBSkill , IDBSkill} from "../../db/DBSkill";
 import ConstValue from "../ConstValue";
 import {IHeroInfo, IUserInfo} from "../info/BattleInfo";
-import {BuffInfo, EBuffType} from "../info/BuffInfo";
+import {BuffInfo, IBuffAttr} from "../info/BuffInfo";
 import {SkillInfo} from "../info/SkillInfo";
-import {ECamp, EPropType, ESkillType} from "../utils/UtilsEnum";
 import ModelBase from "../model/ModelBase";
+import {EBuffType, ECamp, EPropType} from "../utils/UtilsEnum";
 
 /**
  * @interface 英雄战斗属性
@@ -108,6 +109,40 @@ export class HeroInfo {
             return this.buffList[buffType];
         }
         return null;
+    }
+    /**
+     * - 添加一个buff
+     * @param buffId
+     */
+    public executeOneBuff(buffId: string, model: ModelBase): boolean {
+        // test
+        const buffDB = DBBuffs.getInstance().getDBBuffsById(buffId);
+        const buffList = this.getBuffListByEBuffType(buffDB.buffType);
+        let canAdd = false;
+        // buff替换
+        if (buffDB.step === 1) {
+            if (buffList) {
+                this.buffList[buffDB.buffType].splice(0,buffList.length);
+            } else {
+                this.buffList[buffDB.buffType] = [];
+            }
+            canAdd = true;
+        } else {
+            if (!buffList ) {
+                canAdd = true;
+                this.buffList[buffDB.buffType] = [];
+            } else if (buffList.length < buffDB.step) {
+                canAdd = true;
+            }
+        }
+        if (canAdd) {
+            const buffAttr: IBuffAttr = {buffId, buffType: buffDB.buffType, buffValue: 0, creaseType: buffDB.creaseType, currRound: buffDB.round};
+            // test
+            buffAttr.buffValue = 0;
+            const buffInfo = new BuffInfo(buffAttr, model);
+            this.buffList[buffDB.buffType].push(buffInfo);
+        }
+        return false;
     }
     /**
      *

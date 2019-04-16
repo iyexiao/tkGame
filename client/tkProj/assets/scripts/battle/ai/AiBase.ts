@@ -15,6 +15,7 @@ export default abstract class SkillAiBase {
         this.skillName = nameStr;
         EventManager.getInstance().addEventListener(EBattleTrigger.onSkillStart, this.onSkillStart, this);
         EventManager.getInstance().addEventListener(EBattleTrigger.onSkillEnd, this.onSkillEnd, this);
+        EventManager.getInstance().addEventListener(EBattleTrigger.onSkillHurt, this.onSkillHurt, this);
         // LogsManager.getInstance().echo("初始化脚本：" + this.skillName);
     }
     /**
@@ -59,6 +60,11 @@ export default abstract class SkillAiBase {
      * @param {model} 释放技能的英雄
      */
     public onSkillEnd(param: any): void {}
+    /**
+     * - 当英雄受到技能伤害时(一个技能只会触发一次)
+     * @param param 
+     */
+    public onSkillHurt(param: any): void {}
     /**
      * @description 当一个英雄受到攻击时
      * @param model 受击的英雄

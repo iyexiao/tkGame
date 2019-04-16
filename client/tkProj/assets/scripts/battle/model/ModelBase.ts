@@ -180,6 +180,7 @@ export default class ModelBase {
         const atkInfo = this.currSkill.CurrrAtkInfo;
         if (atkInfo.checkIsFirst()) {
             atkInfo.updateIsFirst(); // 第一次命中需要算 buff
+            EventManager.getInstance().dispatchEvent(EBattleTrigger.onSkillHurt, {model: this});
         }
         // 计算伤害
         for (const model of this.lastChooseModelList) {

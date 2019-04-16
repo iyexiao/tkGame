@@ -1,5 +1,5 @@
+import { EBuffType } from "./utils/UtilsEnum";
 
-import {EBuffType} from "./info/BuffInfo";
 /**
  * @class ConstValue
  * @author YeXiao

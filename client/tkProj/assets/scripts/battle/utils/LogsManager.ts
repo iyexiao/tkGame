@@ -31,10 +31,18 @@ export default class LogsManager {
         this.battleCtrl = null;
     }
     /**
+     * - 报错日志
+     * @param log
+     */
+    public error(log: string) {
+// tslint:disable-next-line: no-console
+        console.log("error:" + log);
+    }
+    /**
      * - 普通日志打印
      * @param log
      */
-    public echo(log: string){
+    public echo(log: string) {
 // tslint:disable-next-line: no-console
         console.log("echo:" + log);
     }

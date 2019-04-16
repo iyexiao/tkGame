@@ -1,9 +1,12 @@
+import ModelBase from "../../model/ModelBase";
+import LogsManager from "../../utils/LogsManager";
 import SkillAiBase from "../AiBase";
 
 /**
  * @class CCPassiveSkill
  * @author YeXiao
- * @deprecated 曹操被动
+ * @deprecated 曹操被动，每受到一次攻击，增加5%的防御力，持续2回合，最多可叠加5层
+ * @param skillArr 第一个参数为增加的buffid
  * @since 2019-3-25 11:07:00
  */
 export default class CCPassiveSkill extends SkillAiBase {
@@ -12,6 +15,17 @@ export default class CCPassiveSkill extends SkillAiBase {
         super("CCPassiveSkill");
         if (skillArr) {
             this.skillArr = skillArr;
+        } else {
+            LogsManager.getInstance().error(" 曹操的被动技能未填写参数");
+        }
+    }
+    public onSkillHurt(param: any): void {
+        const model: ModelBase = param.model;
+        if (!super.checkIsSelfModel(model)) {
+            return;
+        }
+        if (model.checkIsAlive()) {
+            model.HeroInfo.executeOneBuff(this.skillArr[0],model);
         }
     }
 }

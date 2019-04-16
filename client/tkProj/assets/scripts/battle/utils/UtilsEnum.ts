@@ -59,8 +59,8 @@ export enum EBattleTrigger {
     onSkillStart = "onSkillStart",  // 技能攻击前
     onSkillEnd = "onSkillEnd",      // 技能攻击后
     onGiveOutAtk = "onGiveOutAtk",  // 攻击包释放
-    onHurt = "onHurt",              // 受击时
-    onPropChange = "onHurt",        // 属性变化时
+    onSkillHurt = "onSkillHurt",    // 受到技能伤害时(第一个攻击包到达)
+    onPropChange = "onPropChange",  // 属性变化时
     onDead = "onDead",              // 角色死亡时
     onKill = "onKill",              // 击杀角色时
 }
@@ -70,4 +70,20 @@ export enum EBattleTrigger {
 export enum ERCType {
     row = 0,        // 行
     column,         // 列
+}
+/**
+ * @enum buff类型
+ */
+export enum EBuffType {
+    hp = 1,      // 血量
+    phyAtk,      // 物攻
+    phyDef,      // 物防
+    magicAtk,    // 魔攻
+    magicDef,    // 魔防
+    crit,        // 暴击
+    atkSpeed,    // 攻速
+    block,       // 格挡
+    silent,                 // 沉默(无法放技能)
+    stun,                   // 击晕(无法攻击)
+    forzen,                 // 冰冻(无法攻击)
 }
