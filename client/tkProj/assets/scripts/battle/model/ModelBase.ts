@@ -5,6 +5,7 @@ import { SkillInfo } from "../info/SkillInfo";
 import LogsManager from "../utils/LogsManager";
 import { EBattleTrigger, EBuffType, ECamp, EPropType, ESkillType } from "../utils/UtilsEnum";
 import BuffComponent from "./componenet/BuffComponent";
+import SkillComponent from "./componenet/SkillComponent";
 
 /**
  * @class ModelBase
@@ -20,15 +21,13 @@ export default class ModelBase {
     private lastChooseModelList: ModelBase[] = null;   // 上次技能选中的敌人
     private isAlive: boolean = null;            // 是否活着
     private buffCom: BuffComponent = null;
+    private skillCom: SkillComponent = null;
     constructor(controler: GameCtrl, heroInfo: HeroInfo) {
         this.isAlive = true;
         this.ctrl = controler;
         this.heroInfo = heroInfo;
         this.buffCom = new BuffComponent(this);
-        // 绑定技能对象数据
-        this.heroInfo.SkillList.forEach((element) => {
-            element.getSkillAi().setPlayerModel(this);
-        });
+        this.skillCom = new SkillComponent(this);
     }
     get BuffCom() {
         return this.buffCom;

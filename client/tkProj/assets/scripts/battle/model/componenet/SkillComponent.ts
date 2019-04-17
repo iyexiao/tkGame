@@ -11,5 +11,9 @@ import BaseComponent from "./BaseComponent";
 export default class SkillComponent extends BaseComponent {
     constructor(model: ModelBase) {
         super(model);
+        // 绑定技能对象数据
+        model.HeroInfo.SkillList.forEach((element) => {
+            element.getSkillAi().setPlayerModel(model);
+        });
     }
 }
