@@ -17,8 +17,6 @@ import SkillComponent from "./componenet/SkillComponent";
 export default class ModelBase {
     private ctrl: GameCtrl = null;
     private heroInfo: HeroInfo = null;
-    private currSkill: SkillInfo = null; // 英雄当前释放的技能
-    private lastChooseModelList: ModelBase[] = null;   // 上次技能选中的敌人
     private isAlive: boolean = null;            // 是否活着
     private buffCom: BuffComponent = null;
     private skillCom: SkillComponent = null;
@@ -32,14 +30,8 @@ export default class ModelBase {
     get BuffCom() {
         return this.buffCom;
     }
-    get CurrSkill() {
-        return this.currSkill;
-    }
     get HeroInfo() {
         return this.heroInfo;
-    }
-    get LastChooseModelList() {
-        return this.lastChooseModelList;
     }
     public getGameCurrFrame() {
         return this.ctrl.CurrentFrame;
@@ -63,15 +55,15 @@ export default class ModelBase {
     public updateHeroFrame() {
         const tmpFrame = this.heroInfo.CurrAtkFrame <= 0 ? 0 : this.heroInfo.CurrAtkFrame - 1;
         this.heroInfo.setCurrAtkFrame(tmpFrame);
-        if (this.currSkill) {
+        if (this.skillCom.CurrSkill) {
             // 还存活的才能做技能逻辑处理
             if (this.isAlive) {
-                const isEnd =  this.currSkill.updateSkillAttr();
+                const isEnd =  this.skillCom.CurrSkill.updateSkillAttr();
                 if (isEnd) {
                     this.giveOutOneSkillEnd();
                 }
             } else {
-                this.resetCurrentSkill();
+                this.skillCom.resetCurrentSkill();
             }
         }
     }
@@ -121,16 +113,7 @@ export default class ModelBase {
     public giveOutOneSkillEnd() {
         EventManager.getInstance().dispatchEvent(EBattleTrigger.onSkillEnd, { model: this});
         LogsManager.getInstance().skilllog( EBattleTrigger.onSkillEnd, this );
-        this.resetCurrentSkill();
-    }
-    /**
-     * - 重置技能，技能被打断了也需要重置
-     */
-    public resetCurrentSkill() {
-        // 重置技能攻击包
-        this.currSkill.resetAtkInfo();
-        this.currSkill = null;
-        this.lastChooseModelList = null;
+        this.skillCom.resetCurrentSkill();
     }
     /**
      * - 真正释放一个技能
@@ -140,7 +123,7 @@ export default class ModelBase {
         EventManager.getInstance().dispatchEvent(EBattleTrigger.onSkillStart, {model: this});
         LogsManager.getInstance().skilllog(EBattleTrigger.onSkillStart,  this );
         // 如果技能没有释放时间、则直接技能释放结束
-        if (this.currSkill.SkillDB.totalFrame === 0) {
+        if (this.skillCom.CurrSkill.SkillDB.totalFrame === 0) {
             this.giveOutOneSkillEnd();
         }
     }
@@ -156,7 +139,7 @@ export default class ModelBase {
             LogsManager.getInstance().log("没有可释放的技能");
             return;
         }
-        if (this.currSkill) {
+        if (this.skillCom.CurrSkill) {
             LogsManager.getInstance().log("有技能在释放中");
             return;
         }
@@ -166,12 +149,7 @@ export default class ModelBase {
             LogsManager.getInstance().log("未存在选敌逻辑");
             return;
         }
-        // 设置选中的敌人
-        this.lastChooseModelList = defList;
-        // 设置释放的技能
-        this.currSkill = skillInfo;
-        // 设置技能释放者
-        this.currSkill.updateSkillAttr(this);
+        this.skillCom.setSkillData(defList, skillInfo);
         // 若技能没有前摇动作，则直接释放
         if (skillInfo.SkillDB.beforeFrame === 0) {
             this.realGiveOneSkill();
@@ -182,13 +160,13 @@ export default class ModelBase {
      * @param atk 攻击包信息
      */
     public giveOutOneSkillAtk() {
-        const atkInfo = this.currSkill.CurrrAtkInfo;
+        const atkInfo = this.skillCom.CurrSkill.CurrrAtkInfo;
         if (atkInfo.checkIsFirst()) {
             atkInfo.updateIsFirst(); // 第一次命中需要算 buff
             EventManager.getInstance().dispatchEvent(EBattleTrigger.onSkillHurt, {model: this});
         }
         // 计算伤害
-        for (const model of this.lastChooseModelList) {
+        for (const model of this.skillCom.LastChooseModelList) {
             let dmg = atkInfo.getDamage() * 5 - (model.heroInfo.HeroAttr.phyDef * 3 + model.heroInfo.HeroAttr.magicDef * 2);
             dmg = dmg <= 0 ? 0 : dmg;
             if (model.getHeroCamp() === this.getHeroCamp()) {
