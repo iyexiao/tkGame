@@ -10,20 +10,14 @@ import { EBattleTrigger } from "../utils/UtilsEnum";
  */
 export default abstract class SkillAiBase {
     private skillName: string = null;
-    private playerModel: ModelBase = null;
-    constructor(nameStr: string) {
+    private readonly playerModel: ModelBase = null;
+    constructor(nameStr: string, model: ModelBase) {
         this.skillName = nameStr;
         EventManager.getInstance().addEventListener(EBattleTrigger.onSkillStart, this.onSkillStart, this);
         EventManager.getInstance().addEventListener(EBattleTrigger.onSkillEnd, this.onSkillEnd, this);
         EventManager.getInstance().addEventListener(EBattleTrigger.onSkillHurt, this.onSkillHurt, this);
-        // LogsManager.getInstance().echo("初始化脚本：" + this.skillName);
-    }
-    /**
-     * - 设置技能的释放者(在model创建的时候设置)
-     * @param model 设置技能释放者
-     */
-    public setPlayerModel(model: ModelBase): void {
         this.playerModel = model;
+        // LogsManager.getInstance().echo("初始化脚本：" + this.skillName);
     }
     get PlayerModel() {
         return this.playerModel;

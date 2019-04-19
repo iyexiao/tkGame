@@ -29,13 +29,14 @@ export class SkillInfo {
     private readonly skillDB: IDBSkill = null;
     private readonly filterDB: IDBFilter = null;
     private readonly skillAi: SkillAi = null;
+    private readonly owner: ModelBase = null;
     private skillAttr: ISkillAttr = null;
-    private owner: ModelBase = null;
     private currAtkInfo: AttackInfo = null;
-    constructor(skillDB: IDBSkill) {
+    constructor(skillDB: IDBSkill, model: ModelBase) {
         this.skillDB = skillDB;
         this.filterDB = DBFilter.getInstance().getDBFilterById(String(skillDB.filter));
-        this.skillAi = new AiConst[skillDB.extScript](skillDB.extInfo);
+        this.owner = model;
+        this.skillAi = new AiConst[this.skillDB.extScript](this.skillDB.extInfo, model);
     }
     get SkillDB(): IDBSkill {
         return this.skillDB;
@@ -47,49 +48,47 @@ export class SkillInfo {
         return this.currAtkInfo;
     }
     /**
+     * - 初始化技能信息(在获取可释放的技能的时候，就装卸这个技能信息了)
+     */
+    public loadSkillAttr() {
+        const currentFrame = this.owner.Ctrl.CurrentFrame;
+        const frame: number[] = [];
+        for (const iterator of this.SkillDB.atkFrame) {
+            const f = Number(iterator);
+            frame.push( f + currentFrame );
+        }
+        this.skillAttr = {atkFrame: frame, beforeFrame: this.skillDB.beforeFrame, totalFrame: this.skillDB.totalFrame};
+    }
+    /**
      * 更新技能释放信息
      * @param isInit
      * @returns 是否是技能释放结束
      */
     public updateSkillAttr(target?: ModelBase): boolean {
-        if (target) {
-            const currentFrame = target.Ctrl.CurrentFrame;
-            this.owner = target;
-            const frame: number[] = [];
-            for (const iterator of this.SkillDB.atkFrame) {
-                const f = Number(iterator);
-                frame.push( f + currentFrame );
-            }
-            this.skillAttr = {atkFrame: frame, beforeFrame: this.skillDB.beforeFrame, totalFrame: this.skillDB.totalFrame};
-        } else {
-            if (this.owner) {
-                const currentFrame = this.owner.Ctrl.CurrentFrame;
-                if (this.skillAttr.beforeFrame > 0) {
-                    this.skillAttr.beforeFrame = this.skillAttr.beforeFrame - 1;
-                    if (this.skillAttr.beforeFrame === 0) {
-                        // 技能释放出去 TODO:检查释放着死亡了没有
-                        this.owner.realGiveOneSkill();
-                    }
-                }
-                for (const iterator of this.skillAttr.atkFrame) {
-                    if (currentFrame === iterator ) {
-                        // 释放攻击包
-                        if (!this.currAtkInfo) {
-                            this.loadAttackInfo();
-                        }
-                        this.owner.giveOutOneSkillAtk();
-                    }
-                }
-            }
-            if (this.skillAttr.totalFrame > 0) {
-                this.skillAttr.totalFrame = this.skillAttr.totalFrame - 1;
-                if (this.skillAttr.totalFrame === 0) {
-                    this.skillAttr = null;
-                    return true;
-                }
+        const currentFrame = this.owner.Ctrl.CurrentFrame;
+        if (this.skillAttr.beforeFrame > 0) {
+            this.skillAttr.beforeFrame = this.skillAttr.beforeFrame - 1;
+            if (this.skillAttr.beforeFrame === 0) {
+                // 技能释放出去 TODO:检查释放着死亡了没有
+                this.owner.realGiveOneSkill();
             }
         }
-        return false;
+        for (const iterator of this.skillAttr.atkFrame) {
+            if (currentFrame === iterator ) {
+                // 释放攻击包
+                if (!this.currAtkInfo) {
+                    this.loadAttackInfo();
+                }
+                this.owner.giveOutOneSkillAtk();
+            }
+        }
+        if (this.skillAttr.totalFrame > 0) {
+            this.skillAttr.totalFrame = this.skillAttr.totalFrame - 1;
+            if (this.skillAttr.totalFrame === 0) {
+                this.skillAttr = null;
+                return true;
+            }
+        }
     }
     /**
      * - 攻击包信息
@@ -115,9 +114,9 @@ export class SkillInfo {
      * - 获取技能的攻击对象数组(有可能为0)
      * @returns Array<ModelBase>
      */
-    public getChooseModelList(owner: ModelBase): ModelBase[] {
-
-        let camp = owner.getHeroCamp();
+    public getChooseModelList(): ModelBase[] {
+        const ctrl = this.owner.Ctrl;
+        let camp = this.owner.getHeroCamp();
         // 选敌方阵营
         if (this.filterDB.camp === ECamp.camp1) {
             camp = camp === ECamp.camp1 ? ECamp.camp2 : ECamp.camp1;
@@ -134,14 +133,14 @@ export class SkillInfo {
                 protList.push(Number((element)));
             });
         }
-        const campList = owner.Ctrl.getModelListByCamp(camp, sTypeList);
+        const campList = ctrl.getModelListByCamp(camp, sTypeList);
         let list: ModelBase[] = new Array<ModelBase>();
         // 根据选敌人数判断是否需要跨条件选敌(补足敌人)
         for (const iterator of protList) {
             const tmpProtList = campList[iterator];
             if (tmpProtList.length >= this.filterDB.num) {
                 // 足够选人了，
-                list = owner.Ctrl.BattleCtrl.RandomCtrl.getRandomsInArrayByCount(tmpProtList, this.filterDB.num);
+                list = ctrl.BattleCtrl.RandomCtrl.getRandomsInArrayByCount(tmpProtList, this.filterDB.num);
                 break;
             } else {
                 const count = list.length;
@@ -150,7 +149,7 @@ export class SkillInfo {
                 } else {
                     if (this.filterDB.needAll === 1 && count < this.filterDB.num) {
                         // 需要补足
-                        const tmpList = owner.Ctrl.BattleCtrl.RandomCtrl.getRandomsInArrayByCount(tmpProtList, this.filterDB.num - count);
+                        const tmpList = ctrl.BattleCtrl.RandomCtrl.getRandomsInArrayByCount(tmpProtList, this.filterDB.num - count);
                         list = list.concat(tmpList);
                         // 补足了
                         if (list.length === this.filterDB.num) {

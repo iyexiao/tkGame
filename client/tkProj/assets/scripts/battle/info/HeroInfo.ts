@@ -6,7 +6,7 @@ import {IHeroInfo, IUserInfo} from "../info/BattleInfo";
 import {BuffInfo, IBuffAttr} from "../info/BuffInfo";
 import {SkillInfo} from "../info/SkillInfo";
 import ModelBase from "../model/ModelBase";
-import {EBuffType, ECamp, EPropType} from "../utils/UtilsEnum";
+import {EBuffType, ECamp, EPropType, ESkillType} from "../utils/UtilsEnum";
 
 /**
  * @interface 英雄战斗属性
@@ -55,8 +55,8 @@ export class HeroInfo {
     get HeroAttr(): IHeroAttr {
         return this.heroAttr;
     }
-    get SkillList(): SkillInfo[] {
-        return this.skillList;
+    get SkillIds(): string[] {
+        return this.skillIds;
     }
     private readonly user: IUserInfo;       // 角色信息
     private readonly hero: IHeroInfo = null; // 战斗基础属性值，用于计算战斗属性值
@@ -64,7 +64,7 @@ export class HeroInfo {
     private readonly heroDB: IDBHero = null;            // 英雄配表数据
     private heroAttr: IHeroAttr = null;                 // 会随着战斗变化而变化的属性
     private currAtkFrame: number = null;                // 当前攻速
-    private skillList: SkillInfo[] = null;         // 英雄身上的技能信息
+    private skillIds: string[] = null;         // 英雄身上的技能id集合
     /**
      * - 创建一个英雄模型数据
      * @param user
@@ -76,7 +76,7 @@ export class HeroInfo {
         this.heroDB = DBHero.getInstance().getDBHeroById(hInfo.hId as null);
         this.heroInitAttr = this.loadHeroInitAttr(user, hInfo);
         this.heroAttr = this.heroInitAttr;
-        this.skillList = this.loadHeroSkillList(hInfo);
+        this.skillIds = this.loadHeroSkillList(hInfo);
         this.setCurrAtkFrame(this.getAttackCDFrame());
     }
     /**
@@ -120,35 +120,30 @@ export class HeroInfo {
      * @param hero
      * @returns Array<SkillInfo>
      */
-    public loadHeroSkillList(hero: IHeroInfo): SkillInfo[] {
-        // test 需要根据登记组装所有的技能及参数
-        const skillArr = [ ]; // 技能根据普攻、小技能、大招、被动、光环顺序存储
+    public loadHeroSkillList(hero: IHeroInfo): string[] {
+        // 技能根据普攻、小技能、大招、被动、光环顺序存储对应的技能id
+        const skillArr = [];
         // 普攻
-        const skillInfo = this.getOneSkillById(String(this.heroDB.normalSkill));
-        skillArr[skillInfo.SkillDB.skillType] = skillInfo;
+        skillArr[ESkillType.normal] = String(this.heroDB.normalSkill);
         // 小技能 [等级、品阶、星级、技能id]
         let tmpArr = this.heroDB.smallSkill;
         if (this.checkSkillIsOpen(hero, tmpArr)) {
-            const skillInfo = this.getOneSkillById(tmpArr[3]);
-            skillArr[skillInfo.SkillDB.skillType] = skillInfo;
+            skillArr[ESkillType.small] = tmpArr[3];
         }
         // 大招
         tmpArr = this.heroDB.bigSkill;
         if (this.checkSkillIsOpen(hero, tmpArr)) {
-            const skillInfo = this.getOneSkillById(tmpArr[3]);
-            skillArr[skillInfo.SkillDB.skillType] = skillInfo;
+            skillArr[ESkillType.big] = tmpArr[3];
         }
         // 被动
         tmpArr = this.heroDB.passiveSkill;
         if (this.checkSkillIsOpen(hero, tmpArr)) {
-            const skillInfo = this.getOneSkillById(tmpArr[3]);
-            skillArr[skillInfo.SkillDB.skillType] = skillInfo;
+            skillArr[ESkillType.passive] = tmpArr[3];
         }
         // 光环
         tmpArr = this.heroDB.auraSkill;
         if (this.checkSkillIsOpen(hero, tmpArr)) {
-            const skillInfo = this.getOneSkillById(tmpArr[3]);
-            skillArr[skillInfo.SkillDB.skillType] = skillInfo;
+            skillArr[ESkillType.aura] = tmpArr[3];
         }
         return skillArr;
     }
@@ -202,15 +197,6 @@ export class HeroInfo {
             return true;
         }
         return false;
-    }
-    /**
-     * - 获取某个技能
-     * @param skillId
-     */
-    private getOneSkillById(skillId: string): SkillInfo {
-        const skillDB: IDBSkill = DBSkill.getInstance().getDBSkillById(skillId);
-        const skillInfo = new SkillInfo(skillDB);
-        return skillInfo;
     }
     /**
      * - 攻速：agility + apt * (level + star * 2 + quality * 3)

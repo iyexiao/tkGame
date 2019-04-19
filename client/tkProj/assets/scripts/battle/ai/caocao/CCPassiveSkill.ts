@@ -11,8 +11,8 @@ import SkillAiBase from "../AiBase";
  */
 export default class CCPassiveSkill extends SkillAiBase {
     private skillArr: string[] = null;
-    constructor(skillArr?: string[]) {
-        super("CCPassiveSkill");
+    constructor(model: ModelBase, skillArr?: string[]) {
+        super("CCPassiveSkill", model);
         if (skillArr) {
             this.skillArr = skillArr;
         } else {

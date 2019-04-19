@@ -1,3 +1,4 @@
+import ModelBase from "../../model/ModelBase";
 import SkillAiBase from "../AiBase";
 
 /**
@@ -8,8 +9,8 @@ import SkillAiBase from "../AiBase";
  */
 export default class CCBigSkill extends SkillAiBase {
     private skillArr: string[] = null;
-    constructor(skillArr?: string[]) {
-        super("CCBigSkill");
+    constructor(model: ModelBase, skillArr?: string[]) {
+        super("CCBigSkill", model);
         if (skillArr) {
             this.skillArr = skillArr;
         }

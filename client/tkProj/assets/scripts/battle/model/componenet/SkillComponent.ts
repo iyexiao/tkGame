@@ -1,4 +1,6 @@
+import { DBSkill, IDBSkill } from "../../../db/DBSkill";
 import { SkillInfo } from "../../info/SkillInfo";
+import LogsManager from "../../utils/LogsManager";
 import ModelBase from "../ModelBase";
 import BaseComponent from "./BaseComponent";
 
@@ -12,11 +14,15 @@ import BaseComponent from "./BaseComponent";
 export default class SkillComponent extends BaseComponent {
     private currSkill: SkillInfo = null; // 英雄当前释放的技能
     private lastChooseModelList: ModelBase[] = null;   // 上次技能选中的敌人
+    private readonly skillList: SkillInfo[] = null;   // 角色技能信息
     constructor(model: ModelBase) {
         super(model);
-        // 绑定技能对象数据
-        model.HeroInfo.SkillList.forEach((element) => {
-            element.getSkillAi().setPlayerModel(model);
+        this.skillList = [];
+        // 初始化角色技能信息
+        model.HeroInfo.SkillIds.forEach((skillId) => {
+            const skillDB: IDBSkill = DBSkill.getInstance().getDBSkillById(skillId);
+            const skillInfo = new SkillInfo(skillDB, model);
+            this.skillList.push(skillInfo);
         });
     }
     get CurrSkill() {
@@ -34,17 +40,35 @@ export default class SkillComponent extends BaseComponent {
         this.currSkill = null;
         this.lastChooseModelList = null;
     }
+    public prepareToGiveOut(skillInfo: SkillInfo) {
+        skillInfo.loadSkillAttr();
+    }
     /**
-     * - 设置技能释放数据
-     * @param defList
-     * @param skillInfo
+     * - 选择一个可释放的技能，然后设置技能释放信息，
+     * @returns 是否能够释放
      */
-    public setSkillData(defList: ModelBase[], skillInfo: SkillInfo) {
+    public checkAndPrepareGiveOutOneSkill(): boolean {
+        // test选择一个可释放的技能
+        const skillInfo = this.skillList[0];
+        const defList = skillInfo.getChooseModelList();
+        if (defList.length === 0) {
+            LogsManager.getInstance().log("无可选中的敌人");
+            return false;
+        }
+        skillInfo.loadSkillAttr();
         // 设置选中的敌人
         this.lastChooseModelList = defList;
         // 设置释放的技能
         this.currSkill = skillInfo;
-        // 设置技能释放者
-        this.currSkill.updateSkillAttr(this.Model);
+        return true;
+    }
+    /**
+     * - 检查当前节能是否有前摇
+     */
+    public checkCurrentHaveBeforeFrame(): boolean {
+        if (this.currSkill.SkillDB.beforeFrame === 0) {
+            return false;
+        }
+        return false;
     }
 }

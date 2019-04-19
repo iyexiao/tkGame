@@ -65,29 +65,30 @@ export default class LogsManager {
     public skilllog(trigger: EBattleTrigger, model: ModelBase) {
         let logStr = "";
         let tmpStr = "";
+        const skillComp = model.SkillCom;
         switch (trigger) {
             case EBattleTrigger.onSkillStart:
                 // 获取技能释放对象
                 tmpStr = "  attack[";
-                for (const element of model.LastChooseModelList) {
+                for (const element of skillComp.LastChooseModelList) {
                     tmpStr  = tmpStr + "camp:" + element.getHeroCamp() + " pos:" + element.getHeroPosIndex() + " hero:" + element.getHeroName() + ",";
                 }
                 tmpStr = tmpStr + "]";
                 logStr = "camp:" + model.getHeroCamp() + " pos:" + model.getHeroPosIndex() + " hero:"
-                            + model.getHeroName() + tmpStr + " skill:" + model.CurrSkill.getSkillAi().SkillName;
+                            + model.getHeroName() + tmpStr + " skill:" + skillComp.CurrSkill.getSkillAi().SkillName;
                 break;
             case EBattleTrigger.onSkillEnd:
                 logStr = "camp:" + model.getHeroCamp() + " pos:" + model.getHeroPosIndex() + " hero:"
-                           + model.getHeroName() + " skill:[" + model.CurrSkill.getSkillAi().SkillName + " ] end";
+                           + model.getHeroName() + " skill:[" + skillComp.CurrSkill.getSkillAi().SkillName + " ] end";
                 break;
             case EBattleTrigger.onGiveOutAtk:
                 tmpStr = "[";
-                for (const element of model.LastChooseModelList) {
+                for (const element of skillComp.LastChooseModelList) {
                     tmpStr  = tmpStr + "camp:" + element.getHeroCamp() + " pos:" + element.getHeroPosIndex() + " hero:" + element.getHeroName() + ",";
                 }
                 tmpStr = tmpStr + "]";
                 logStr =  tmpStr + " from camp:" + model.getHeroCamp() + " pos:" + model.getHeroPosIndex() + " hero:" + model.getHeroName()
-                    + "  attack:[dmg:" + model.CurrSkill.CurrrAtkInfo.getDamage() + " protype:" + model.CurrSkill.CurrrAtkInfo.getPropType()
+                    + "  attack:[dmg:" + skillComp.CurrSkill.CurrrAtkInfo.getDamage() + " protype:" + skillComp.CurrSkill.CurrrAtkInfo.getPropType()
                     + "]";
                 break;
             case EBattleTrigger.onDead:

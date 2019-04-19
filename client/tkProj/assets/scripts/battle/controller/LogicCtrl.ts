@@ -21,17 +21,14 @@ export default class LogicCtrl extends BaseCtrl {
         }
         // 按顺序攻击
         for (const model of arr) {
-            const skillInfo = model.getPlaySkillInfo();
-            if (skillInfo) {
-                model.prepareGiveOutOneSkill(skillInfo);
-            }
+            model.checkToPlaySkill();
         }
     }
     /**
      * - 当一个英雄死亡时触发
      * @param model 死亡的角色
      */
-    public onOneModelDead(model: ModelBase){
+    public onOneModelDead(model: ModelBase) {
         // 从出手顺序中移除它，并把它放入死亡列表(有可能复活)，
         this.BattleCtrl.HandleCtrl.delModelHandle(model);
         this.BattleCtrl.GameCtrl.removeOneModelToDeadArr(model);
