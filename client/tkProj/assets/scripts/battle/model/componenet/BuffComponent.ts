@@ -55,7 +55,7 @@ export default class BuffComponent extends BaseComponent {
         }
         if (canAdd) {
             const buffAttr: IBuffAttr = {buffId, buffType: buffDB.buffType, buffValue: 0, creaseType: buffDB.creaseType, currRound: buffDB.round};
-            // test
+            // test 根据buff计算buff最终产生的值，这个值与需要传给影响的英雄，只计算一次
             buffAttr.buffValue = 0;
             const buffInfo = new BuffInfo(buffAttr, this.Model);
             this.buffList[buffDB.buffType].push(buffInfo);
