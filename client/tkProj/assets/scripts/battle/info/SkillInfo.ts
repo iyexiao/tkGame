@@ -12,6 +12,7 @@ import {AttackInfo} from "./AttackInfo";
  */
 interface ISkillAttr {
     atkFrame: number[];              // 技能伤害帧
+    buffFrame: number;               // 技能buff帧
     beforeFrame?: number;            // 技能前摇帧数(此阶段可以被打断)
     totalFrame?: number;             // 技能释放总时长
 }
@@ -57,7 +58,7 @@ export class SkillInfo {
             const f = Number(iterator);
             frame.push( f + currentFrame );
         }
-        this.skillAttr = {atkFrame: frame, beforeFrame: this.skillDB.beforeFrame, totalFrame: this.skillDB.totalFrame};
+        this.skillAttr = {atkFrame: frame, buffFrame: this.skillDB.buffFrame + currentFrame, beforeFrame: this.skillDB.beforeFrame, totalFrame: this.skillDB.totalFrame};
     }
     /**
      * 更新技能释放信息
@@ -73,6 +74,7 @@ export class SkillInfo {
                 this.owner.realGiveOneSkill();
             }
         }
+        // note:如果攻击包和buff帧同一帧，则先放攻击包才会再放buff
         for (const iterator of this.skillAttr.atkFrame) {
             if (currentFrame === iterator ) {
                 // 释放攻击包
@@ -80,6 +82,11 @@ export class SkillInfo {
                     this.loadAttackInfo();
                 }
                 this.owner.giveOutOneSkillAtk();
+            }
+        }
+        if (currentFrame === this.skillAttr.buffFrame && this.skillDB.buffs.length > 0) {
+            for (const iterator of this.skillDB.buffs) {
+                this.owner.BuffCom.executeOneBuff(iterator);
             }
         }
         if (this.skillAttr.totalFrame > 0) {
