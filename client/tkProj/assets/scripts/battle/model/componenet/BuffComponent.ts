@@ -8,7 +8,7 @@ import BaseComponent from "./BaseComponent";
 /**
  * @class BuffComponent
  * @author YeXiao
- * @deprecated 角色模型中的buff组件
+ * @deprecated 角色模型中的buff组件、主要是buff属性的变化及逻辑处理
  * @since 2019-4-16 18:11:50
  *
  */
