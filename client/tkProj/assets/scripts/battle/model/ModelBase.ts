@@ -9,7 +9,7 @@ import SkillComponent from "./componenet/SkillComponent";
 /**
  * @class ModelBase
  * @author YeXiao
- * @deprecated model基类
+ * @deprecated model基类,采用ces设计模式，buff、skill通过component形式组装
  * @since 2019-3-12 17:15:30
  *
  */
