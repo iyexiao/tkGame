@@ -125,6 +125,18 @@ export default class ModelBase {
      * - 检查角色是否能够攻击
      */
     public checkCanAttack(): boolean {
+        // 角色已经死亡
+        if (!this.checkIsAlive()) {
+            return false;
+        }
+        // 没有技能组件
+        if (!this.skillCom) {
+            return false;
+        }
+        // 有不可攻击的buff
+        if (this.buffCom && this.buffCom.checkHaveUnAttackBuff()) {
+            return false;
+        }
         return true;
     }
     /**
