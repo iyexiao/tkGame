@@ -40,16 +40,19 @@ export default class SkillComponent extends BaseComponent {
         this.currSkill = null;
         this.lastChooseModelList = null;
     }
-    public prepareToGiveOut(skillInfo: SkillInfo) {
-        skillInfo.loadSkillAttr();
+    /**
+     * - 选择一个技能，准备释放
+     */
+    public checkToGiveOutOneSkill(): SkillInfo {
+        // test选择一个可释放的技能
+        return this.skillList[0]
     }
     /**
      * - 选择一个可释放的技能，然后设置技能释放信息，
      * @returns 是否能够释放
      */
     public checkAndPrepareGiveOutOneSkill(): boolean {
-        // test选择一个可释放的技能
-        const skillInfo = this.skillList[0];
+        const skillInfo = this.checkToGiveOutOneSkill();
         const defList = skillInfo.getChooseModelList();
         if (defList.length === 0) {
             LogsManager.getInstance().log("无可选中的敌人");
