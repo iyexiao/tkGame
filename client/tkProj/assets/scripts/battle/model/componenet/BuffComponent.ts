@@ -19,6 +19,18 @@ export default class BuffComponent extends BaseComponent {
         this.buffList = {};
     }
     /**
+     * - 更新buff相关数据
+     */
+    public update() {
+        for (const key in this.buffList) {
+            if (this.buffList[key]) {
+                for (const iterator of this.buffList[key]) {
+                    iterator.updateBuffFrame();
+                }
+            }
+        }
+    }
+    /**
      * @description 返回符合类型的buff数组
      * @param buffType EBuffType类型
      */
@@ -73,5 +85,14 @@ export default class BuffComponent extends BaseComponent {
             }
         }
         return false;
+    }
+    /**
+     * - 清理某种buff类型
+     * @param buffType buff 类型
+     */
+    public clearOneKindOfBuff(buffType: EBuffType) {
+        if (this.buffList[buffType]) {
+            this.buffList[buffType] = null;
+        }
     }
 }

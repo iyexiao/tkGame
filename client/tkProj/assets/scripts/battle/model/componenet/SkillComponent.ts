@@ -32,6 +32,12 @@ export default class SkillComponent extends BaseComponent {
         return this.lastChooseModelList;
     }
     /**
+     * - 更新技能方法，
+     */
+    public update() {
+        // test
+    }
+    /**
      * - 重置技能，技能被打断了也需要重置
      */
     public resetCurrentSkill() {

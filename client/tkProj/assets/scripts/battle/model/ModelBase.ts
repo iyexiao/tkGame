@@ -68,6 +68,14 @@ export default class ModelBase {
                 this.skillCom.resetCurrentSkill();
             }
         }
+        // 更新buff 组件
+        if (this.buffCom) {
+            this.buffCom.update();
+        }
+        // 更新skill 组件
+        if (this.skillCom) {
+            this.skillCom.update();
+        }
     }
     /**
      * - 获取英雄当前攻速

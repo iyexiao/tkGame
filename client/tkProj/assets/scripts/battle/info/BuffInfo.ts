@@ -29,7 +29,7 @@ export class BuffInfo {
     /**
      * 更新buff的回合数
      */
-    public updateBuffRound() {
+    public updateBuffFrame() {
         if (this.buffAttr.currRound > 0) {
             this.buffAttr.currRound = this.buffAttr.currRound - 1;
         }
