@@ -24,8 +24,15 @@ export default class BuffComponent extends BaseComponent {
     public update() {
         for (const key in this.buffList) {
             if (this.buffList[key]) {
-                for (const iterator of this.buffList[key]) {
-                    iterator.updateBuffFrame();
+                // 倒序，方便删除
+                for (let index = this.buffList[key].length -1; index >= 0; index--) {
+                    const element = this.buffList[key][index];
+                    element.updateBuffFrame();
+                    if (!element.checkIsActive()) {
+                        // TODO:移除buff产生的效果
+                        // 然后再从数组里面失效buff
+                        this.buffList[key].splice(index, 1);
+                    }
                 }
             }
         }
@@ -66,10 +73,12 @@ export default class BuffComponent extends BaseComponent {
             }
         }
         if (canAdd) {
-            const buffAttr: IBuffAttr = {buffId, buffType: buffDB.buffType, buffValue: 0, creaseType: buffDB.creaseType, currRound: buffDB.round};
+            const buffAttr: IBuffAttr = {buffId, buffType: buffDB.buffType, buffValue: 0, creaseType: buffDB.creaseType, currFrame: buffDB.round};
             // test 根据buff计算buff最终产生的值，这个值与需要传给影响的英雄，只计算一次
             buffAttr.buffValue = 0;
             const buffInfo = new BuffInfo(buffAttr, this.Model);
+            // TODO:该表角色属性
+
             this.buffList[buffDB.buffType].push(buffInfo);
         }
         return false;
@@ -92,6 +101,7 @@ export default class BuffComponent extends BaseComponent {
      */
     public clearOneKindOfBuff(buffType: EBuffType) {
         if (this.buffList[buffType]) {
+            // TODOt先移除效果
             this.buffList[buffType] = null;
         }
     }
