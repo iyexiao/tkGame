@@ -5,6 +5,8 @@ import LogsManager from "../utils/LogsManager";
 import { EBattleTrigger, EBuffType, ECamp, EPropType, ESkillType } from "../utils/UtilsEnum";
 import BuffComponent from "./componenet/BuffComponent";
 import SkillComponent from "./componenet/SkillComponent";
+import { IBattleInfo } from "../info/BattleInfo";
+import { BuffInfo } from "../info/BuffInfo";
 
 /**
  * @class ModelBase
@@ -196,6 +198,20 @@ export default class ModelBase {
             model.HeroInfo.changePropValue(EHeroAttr.hp, -dmg, atkInfo.getPropType(), model);
         }
         LogsManager.getInstance().skilllog(EBattleTrigger.onGiveOutAtk,  this );
+    }
+    /**
+     * - 添加一个buff产生的的值效果
+     * @param buffInfo 
+     */
+    public addOneBuffValue(buffInfo: BuffInfo) {
+
+    }
+    /**
+     * - 移除一个buff产生的效果
+     * @param buffInfo 
+     */
+    public removeOneBuffValue(buffInfo: BuffInfo) {
+        
     }
     /**
      * - 当英雄死亡时触发

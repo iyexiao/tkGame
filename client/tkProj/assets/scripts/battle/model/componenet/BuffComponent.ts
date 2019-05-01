@@ -29,7 +29,10 @@ export default class BuffComponent extends BaseComponent {
                     const element = this.buffList[key][index];
                     element.updateBuffFrame();
                     if (!element.checkIsActive()) {
-                        // TODO:移除buff产生的效果
+                        // 移除buff产生的效果
+                        if (this.Model.checkIsAlive()) {
+                            this.Model.removeOneBuffValue(element);
+                        }
                         // 然后再从数组里面失效buff
                         this.buffList[key].splice(index, 1);
                     }
@@ -77,8 +80,10 @@ export default class BuffComponent extends BaseComponent {
             // test 根据buff计算buff最终产生的值，这个值与需要传给影响的英雄，只计算一次
             buffAttr.buffValue = 0;
             const buffInfo = new BuffInfo(buffAttr, this.Model);
-            // TODO:该表角色属性
-
+            // 改变角色属性
+            if (this.Model.checkIsAlive()) {
+                this.Model.addOneBuffValue(buffInfo);
+            }
             this.buffList[buffDB.buffType].push(buffInfo);
         }
         return false;
@@ -101,7 +106,12 @@ export default class BuffComponent extends BaseComponent {
      */
     public clearOneKindOfBuff(buffType: EBuffType) {
         if (this.buffList[buffType]) {
-            // TODOt先移除效果
+            // 移除buff效果
+            if (this.Model.checkIsAlive()) {
+                for (const iterator of this.buffList[buffType]) {
+                    this.Model.removeOneBuffValue(iterator);
+                }
+            }
             this.buffList[buffType] = null;
         }
     }
