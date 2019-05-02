@@ -1,6 +1,7 @@
 import { DBBuffs } from "../../db/DBBuffs";
 import ModelBase from "../model/ModelBase";
 import {EBuffType, ECreaseType, EPropType} from "../utils/UtilsEnum";
+import { EHeroAttr } from "./HeroInfo";
 /**
  * @interface buff属性
  */
@@ -29,6 +30,47 @@ export class BuffInfo {
         this.isActive = true;
     }
     /**
+     * - buff产生的最终值
+     */
+    getBuffValue() {
+        return this.buffAttr.buffValue;
+    }
+    /**
+     * - buff产生类型
+     */
+    getBuffType(): EHeroAttr {
+        let result: EHeroAttr = null;
+        switch (this.buffAttr.buffType) {
+            case EBuffType.hp:
+                result = EHeroAttr.hp;
+                break;
+            case EBuffType.phyAtk:
+                result = EHeroAttr.phyAtk;
+                break;
+            case EBuffType.phyDef:
+                result = EHeroAttr.phyDef;
+                break;
+            case EBuffType.magicAtk:
+                result = EHeroAttr.magicAtk;
+                break;
+            case EBuffType.magicDef:
+                result = EHeroAttr.magicDef;
+                break;
+            case EBuffType.atkSpeed:
+                result = EHeroAttr.atkSpeed;
+                break;
+            case EBuffType.crit:
+                result = EHeroAttr.crit;
+                break;
+            case EBuffType.block:
+                result = EHeroAttr.block;
+                break;
+            default:
+                break;
+        }
+        return result;
+    }
+    /**
      * 更新buff的回合数
      */
     public updateBuffFrame() {
@@ -39,14 +81,15 @@ export class BuffInfo {
             this.buffAttr.currFrame = this.buffAttr.currFrame - 1;
         }
         if (this.buffAttr.currFrame === 0) {
-            this.isActive = false;  //结束后就失效
+            // 此处只标记为失效，然后再buffcomponent里面做移除
+            this.isActive = false;
         }
     }
     /**
-     * - 检查buff是否失效 true:失效
+     * - 是否是增益buff true:是
      */
-    public checkBuffIsInvalid(): boolean {
-        return false;
+    public checkBuffIsIncrease(): boolean {
+        return (this.buffAttr.creaseType == ECreaseType.increase);
     }
     /**
      * - 检查buff是否激活

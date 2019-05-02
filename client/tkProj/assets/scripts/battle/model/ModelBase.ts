@@ -204,7 +204,15 @@ export default class ModelBase {
      * @param buffInfo 
      */
     public addOneBuffValue(buffInfo: BuffInfo) {
-
+        let bType = buffInfo.getBuffType();
+        let value = buffInfo.getBuffValue();
+        if (!buffInfo.checkBuffIsIncrease()) {
+            value = -value;
+        }
+        if (this.checkIsAlive()) {
+            // buff产生值最终都转换为叠加方式来计算
+            this.HeroInfo.changePropValue(buffInfo.getBuffType(), value, EPropType.addSub, this);
+        }
     }
     /**
      * - 移除一个buff产生的效果

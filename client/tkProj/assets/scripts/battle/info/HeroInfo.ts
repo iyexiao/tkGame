@@ -34,7 +34,7 @@ export enum EHeroAttr {
     magicDef = "magicDef",
     crit = "crit",
     atkSpeed = "atkSpeed",
-    block = "atkSpeed",
+    block = "block",
 }
 /**
  * @class HeroInfo
