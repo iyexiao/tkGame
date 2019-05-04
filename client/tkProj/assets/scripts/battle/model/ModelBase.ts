@@ -204,6 +204,7 @@ export default class ModelBase {
      * @param buffInfo 
      */
     public addOneBuffValue(buffInfo: BuffInfo) {
+        EventManager.getInstance().dispatchEvent(EBattleTrigger.onBuffExchange, {model: this});
         let bType = buffInfo.getBuffType();
         let value = buffInfo.getBuffValue();
         if (!buffInfo.checkBuffIsIncrease()) {
@@ -211,7 +212,7 @@ export default class ModelBase {
         }
         if (this.checkIsAlive()) {
             // buff产生值最终都转换为叠加方式来计算
-            this.HeroInfo.changePropValue(buffInfo.getBuffType(), value, EPropType.addSub, this);
+            this.HeroInfo.changePropValue(bType, value, EPropType.addSub, this, true);
         }
     }
     /**

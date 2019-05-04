@@ -152,8 +152,9 @@ export class HeroInfo {
      * @param key 改变的值类型
      * @param value 改变的值
      * @param propType 改变类型(值、百分比)
+     * @param isBuff 是否是buff产生的值,(默认没有就不是)
      */
-    public changePropValue(key: EHeroAttr, value: number, propType: EPropType, model: ModelBase) {
+    public changePropValue(key: EHeroAttr, value: number, propType: EPropType, model: ModelBase, isBuff?: boolean) {
         if (!this.heroAttr[key] || !this.heroInitAttr[key]) {
             return;
         }
