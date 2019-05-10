@@ -9,7 +9,7 @@ import RandomCtrl from "./RandomCtrl";
 /**
  * @class BattleCtrl
  * @author YeXiao
- * @deprecated 战斗总控制器
+ * @deprecated 战斗总控制器\用于处理战斗逻辑
  * @since 2019-3-12 17:15:08
  *
  */
