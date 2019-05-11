@@ -5,7 +5,7 @@ import BattleCtrl from "./BattleCtrl";
  * @class LogicCtrl
  * @extends BaseCtrl
  * @author YeXiao
- * @deprecated 游戏逻辑控制器
+ * @deprecated 游戏逻辑控制器、战斗逻辑
  * @since 2019-3-12 17:15:20
  *
  */
