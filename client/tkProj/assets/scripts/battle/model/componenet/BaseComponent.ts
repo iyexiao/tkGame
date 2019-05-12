@@ -3,7 +3,7 @@ import ModelBase from "../ModelBase";
 /**
  * @class BaseComponent
  * @author YeXiao
- * @deprecated 角色模型中的基础组件、采用ecs模式
+ * @deprecated 角色模型中的基础组件、采用ecs模式，使用事件分发
  * @since 2019-4-16 18:11:50
  *
  */
