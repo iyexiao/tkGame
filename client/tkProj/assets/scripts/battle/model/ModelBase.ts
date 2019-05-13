@@ -1,12 +1,11 @@
 import EventManager from "../../../framework/event/EventManager";
 import GameCtrl from "../controller/GameCtrl";
+import { BuffInfo } from "../info/BuffInfo";
 import {EHeroAttr, HeroInfo} from "../info/HeroInfo";
 import LogsManager from "../utils/LogsManager";
 import { EBattleTrigger, EBuffType, ECamp, EPropType, ESkillType } from "../utils/UtilsEnum";
 import BuffComponent from "./componenet/BuffComponent";
 import SkillComponent from "./componenet/SkillComponent";
-import { IBattleInfo } from "../info/BattleInfo";
-import { BuffInfo } from "../info/BuffInfo";
 
 /**
  * @class ModelBase
@@ -201,11 +200,11 @@ export default class ModelBase {
     }
     /**
      * - 添加一个buff产生的的值效果
-     * @param buffInfo 
+     * @param buffInfo
      */
     public addOneBuffValue(buffInfo: BuffInfo) {
         EventManager.getInstance().dispatchEvent(EBattleTrigger.onBuffExchange, {model: this});
-        let bType = buffInfo.getBuffType();
+        const bType = buffInfo.getBuffType();
         let value = buffInfo.getBuffValue();
         if (!buffInfo.checkBuffIsIncrease()) {
             value = -value;
@@ -217,10 +216,10 @@ export default class ModelBase {
     }
     /**
      * - 移除一个buff产生的效果
-     * @param buffInfo 
+     * @param buffInfo
      */
     public removeOneBuffValue(buffInfo: BuffInfo) {
-        
+
     }
     /**
      * - 当英雄死亡时触发

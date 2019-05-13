@@ -54,7 +54,7 @@ export default class SkillComponent extends BaseComponent {
      */
     public checkToGiveOutOneSkill(): SkillInfo {
         // test选择一个可释放的技能
-        return this.skillList[0]
+        return this.skillList[0];
     }
     /**
      * - 选择一个可释放的技能，然后设置技能释放信息，
