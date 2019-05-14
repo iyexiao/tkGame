@@ -199,27 +199,24 @@ export default class ModelBase {
         LogsManager.getInstance().skilllog(EBattleTrigger.onGiveOutAtk,  this );
     }
     /**
-     * - 添加一个buff产生的的值效果
+     * - 添加或者移除一个buff
      * @param buffInfo
+     * @param isAdd
      */
-    public addOneBuffValue(buffInfo: BuffInfo) {
+    public changeHeroInfoByBuff(buffInfo: BuffInfo, isAdd?: boolean) {
         EventManager.getInstance().dispatchEvent(EBattleTrigger.onBuffExchange, {model: this});
         const bType = buffInfo.getBuffType();
         let value = buffInfo.getBuffValue();
         if (!buffInfo.checkBuffIsIncrease()) {
             value = -value;
         }
+        if (!isAdd) {
+            value = -value;// 不是加buff的则移除
+        }
         if (this.checkIsAlive()) {
             // buff产生值最终都转换为叠加方式来计算
             this.HeroInfo.changePropValue(bType, value, EPropType.addSub, this, true);
         }
-    }
-    /**
-     * - 移除一个buff产生的效果
-     * @param buffInfo
-     */
-    public removeOneBuffValue(buffInfo: BuffInfo) {
-
     }
     /**
      * - 当英雄死亡时触发
