@@ -211,7 +211,7 @@ export default class ModelBase {
             value = -value;
         }
         if (!isAdd) {
-            value = -value;// 不是加buff的则移除
+            value = -value; // 不是加buff的则移除
         }
         if (this.checkIsAlive()) {
             // buff产生值最终都转换为叠加方式来计算

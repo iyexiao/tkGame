@@ -52,7 +52,7 @@ export default class SkillComponent extends BaseComponent {
      * - 选择一个技能，准备释放
      */
     public checkToGiveOutOneSkill(): SkillInfo {
-        // test选择一个可释放的技能
+        // test选择一个可释放的技能(循环里面应该剔除普攻，或者这里做技能优先顺序逻辑)
         for (const iterator of this.skillList) {
             if (iterator.SkillCD === 0) {
                 return iterator;
