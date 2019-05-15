@@ -35,10 +35,9 @@ export default class SkillComponent extends BaseComponent {
      * - 更新技能方法用于更新技能CD (现在好像没啥用)
      */
     public update() {
-        // test
-        // for (const iterator of this.skillList) {
-        //     iterator
-        // }
+        for (const iterator of this.skillList) {
+            iterator.updateSkillCD();
+        }
     }
     /**
      * - 重置技能，技能被打断了也需要重置
@@ -54,6 +53,11 @@ export default class SkillComponent extends BaseComponent {
      */
     public checkToGiveOutOneSkill(): SkillInfo {
         // test选择一个可释放的技能
+        for (const iterator of this.skillList) {
+            if (iterator.SkillCD === 0) {
+                return iterator;
+            }
+        }
         return this.skillList[0];
     }
     /**

@@ -33,6 +33,7 @@ export class SkillInfo {
     private readonly owner: ModelBase = null;
     private skillAttr: ISkillAttr = null;
     private currAtkInfo: AttackInfo = null;
+    private skillCD: number = 0; // 技能CD
     constructor(skillDB: IDBSkill, model: ModelBase) {
         this.skillDB = skillDB;
         this.filterDB = DBFilter.getInstance().getDBFilterById(String(skillDB.filter));
@@ -47,6 +48,14 @@ export class SkillInfo {
     }
     get CurrrAtkInfo(): AttackInfo {
         return this.currAtkInfo;
+    }
+    get SkillCD(): number{
+        return this.skillCD;
+    }
+    public updateSkillCD() {
+        if (this.skillCD > 0) {
+            this.skillCD = this.skillCD - 1;
+        }
     }
     /**
      * - 初始化技能信息(在获取可释放的技能的时候，就装卸这个技能信息了)
