@@ -49,7 +49,7 @@ export class SkillInfo {
     get CurrrAtkInfo(): AttackInfo {
         return this.currAtkInfo;
     }
-    get SkillCD(): number{
+    get SkillCD(): number {
         return this.skillCD;
     }
     public updateSkillCD() {
