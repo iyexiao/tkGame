@@ -1,4 +1,7 @@
 import ConstValue from "../../battle/ConstValue";
+import TestManager from "../TestManager";
+import BattleCtrl from "../../battle/controller/BattleCtrl";
+import { EGameType } from "../../battle/utils/UtilsEnum";
 
 const {ccclass, property} = cc._decorator;
 
@@ -8,16 +11,17 @@ export default class NewClass extends cc.Component {
     //游戏速率(回放的时候可能需要调整速率,战斗胜利的慢动作也可以这里处理)
     private updateSpeed: number = 1;
     private updateSpeedCount: number = 0;
-    private gameStep;// 游戏状态
+	private gameStep;// 游戏状态
+	private battleCtrl:BattleCtrl = null;
 
     start () {
-
+		let battleInfo = TestManager.getInstance().getDebugBattleInfo();
+		this.battleCtrl = new BattleCtrl(JSON.parse(battleInfo),EGameType.view);
+		this.battleCtrl.startOneBattle();
     }
     // 真正的更新循环
 	public runBySpeedUpdate() {
-		// 只有战斗状态的时候，frame才会刷新，否则都是在执行无效的frame
-		// this.updateCallFunc()
-		// this.logic.updateFrame();
+		this.battleCtrl.GameCtrl.updateModelFrame();
 	};
 	// 设置游戏速率
 	public setGameSpeed(speed :number) {

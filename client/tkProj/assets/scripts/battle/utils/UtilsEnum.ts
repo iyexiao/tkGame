@@ -1,6 +1,13 @@
 /**
  * @enum 游戏模式
  */
+export enum EGameType {
+    view = 1, //带视图
+    dummy,
+}
+/**
+ * @enum 竞技模式
+ */
 export enum EGameMode {
     pve = 1,
     pvp,
