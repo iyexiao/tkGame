@@ -5,6 +5,7 @@ import HandleCtrl from "./HandleCtrl";
 import LevelCtrl from "./LevelCtrl";
 import LogicCtrl from "./LogicCtrl";
 import RandomCtrl from "./RandomCtrl";
+import { EGameType } from "../utils/UtilsEnum";
 
 /**
  * @class BattleCtrl
@@ -20,8 +21,12 @@ export default class BattleCtrl {
     private levelCtrl: LevelCtrl = null;
     private logicCtrl: LogicCtrl = null;
     private handleCtrl: HandleCtrl = null;
+    private gameType: EGameType = EGameType.dummy;
 
-    constructor(bInfo: IBattleInfo) {
+    constructor(bInfo: IBattleInfo, gType?: EGameType) {
+        if (gType) {
+            this.gameType = gType;
+        }
         this.batleInfo = bInfo;
         // 在日志控制器里面装载battleCtrl
         LogsManager.getInstance().setBattleCtrl( this);
@@ -33,6 +38,12 @@ export default class BattleCtrl {
         this.logicCtrl = new LogicCtrl( this);
         this.handleCtrl = new HandleCtrl( this);
         this.gameCtrl.startBattle();
+    }
+    /**
+     * - 获取游戏模式
+     */
+    get GameType(): EGameType {
+        return this.gameType;
     }
     /**
      * @description 获取进战斗时的数据
