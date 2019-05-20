@@ -2,7 +2,7 @@ import ConstValue from "../ConstValue";
 import {HeroInfo} from "../info/HeroInfo";
 import ModelBase from "../model/ModelBase";
 import LogsManager from "../utils/LogsManager";
-import {ECamp} from "../utils/UtilsEnum";
+import {ECamp, EGameType} from "../utils/UtilsEnum";
 import BaseCtrl from "./BaseCtrl";
 import BattleCtrl from "./BattleCtrl";
 /**
@@ -59,7 +59,11 @@ export default class GameCtrl extends BaseCtrl {
     public startBattle() {
         LogsManager.getInstance().log("开始一场战斗----->>GameCtrl.startBattle");
         this.initModelsAura();
-        this.startGameLoop();
+        this.BattleCtrl.HandleCtrl.sortModelHandle();
+        // 只有跑逻辑的时候才走这个循环
+        if (this.BattleCtrl.GameType === EGameType.dummy) {
+            this.startGameLoopByDummy();
+        }
     }
     /**
      * @description 初始化光环
@@ -73,8 +77,7 @@ export default class GameCtrl extends BaseCtrl {
     /**
      * @description 开始游戏轮询
      */
-    public startGameLoop() {
-        this.BattleCtrl.HandleCtrl.sortModelHandle();
+    public startGameLoopByDummy() {
         for (let index = 0; index < ConstValue.GAME_TOTAL_FRAME; index++) {
             this.currFrame = index;
             const tmpArr = this.BattleCtrl.HandleCtrl.getCurrentAttackModel();
