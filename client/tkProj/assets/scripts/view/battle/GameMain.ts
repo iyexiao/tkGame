@@ -4,9 +4,15 @@ import BattleCtrl from "../../battle/controller/BattleCtrl";
 import { EGameType } from "../../battle/utils/UtilsEnum";
 
 const {ccclass, property} = cc._decorator;
-
+/**
+ * @class GameMain
+ * @author YeXiao
+ * @deprecated 游戏视图主逻辑
+ * @since 2019-5-22 23:56:23
+ *
+ */
 @ccclass
-export default class NewClass extends cc.Component {
+export default class GameMain extends cc.Component {
     private updateDt: number = 0; // 游戏刷新帧率
     //游戏速率(回放的时候可能需要调整速率,战斗胜利的慢动作也可以这里处理)
     private updateSpeed: number = 1;
