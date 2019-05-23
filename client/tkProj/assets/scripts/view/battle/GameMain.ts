@@ -1,7 +1,7 @@
 import ConstValue from "../../battle/ConstValue";
 import TestManager from "../TestManager";
 import BattleCtrl from "../../battle/controller/BattleCtrl";
-import { EGameType } from "../../battle/utils/UtilsEnum";
+import { EGameType, EGameStep } from "../../battle/utils/UtilsEnum";
 
 const {ccclass, property} = cc._decorator;
 /**
@@ -22,6 +22,7 @@ export default class GameMain extends cc.Component {
 
     start () {
 		let battleInfo = TestManager.getInstance().getDebugBattleInfo();
+		this.gameStep = EGameStep.wait;
 		this.battleCtrl = new BattleCtrl(JSON.parse(battleInfo),EGameType.view);
 		this.battleCtrl.startOneBattle();
     }
@@ -51,10 +52,10 @@ export default class GameMain extends cc.Component {
 			let count = Math.floor(this.updateSpeed);
 			for (var i = 1; i <= count; i++) {
 				this.runBySpeedUpdate();
-				// // 如果游戏结束了，就返回
-				// if (this.gameStep == ConstValue.gameStep.result) {
-				// 	break;
-				// };
+				// 如果游戏结束了，就返回
+				if (this.gameStep == EGameStep.result) {
+					break;
+				};
 			};
 			let leftCount = this.updateSpeed - count;
 			this.updateSpeedCount += count;
