@@ -80,6 +80,13 @@ let battleInfo = '                                              \
     ]                                                           \
   }                                                             \
 ';
+/**
+ * @class TestManager
+ * @author YeXiao
+ * @deprecated 游戏测试用例
+ * @since 2019-5-23 23:55:17
+ *
+ */
 export default class TestManager {
     public static getInstance(): TestManager {
         if ( TestManager.instance == null ) {
