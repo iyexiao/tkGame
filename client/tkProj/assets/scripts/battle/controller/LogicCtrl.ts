@@ -33,4 +33,7 @@ export default class LogicCtrl extends BaseCtrl {
         this.BattleCtrl.HandleCtrl.delModelHandle(model);
         this.BattleCtrl.GameCtrl.removeOneModelToDeadArr(model);
     }
+    public onOneModelHurt(model: ModelBase) {
+        //
+    }
 }
