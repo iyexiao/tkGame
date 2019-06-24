@@ -41,9 +41,9 @@
     },
     "_scale": {
       "__type__": "cc.Vec3",
-      "x": 0.4926302083333334,
-      "y": 0.4926302083333334,
-      "z": 0.4926302083333334
+      "x": 1,
+      "y": 1,
+      "z": 1
     },
     "_quat": {
       "__type__": "cc.Quat",
@@ -52,11 +52,10 @@
       "z": 0,
       "w": 1
     },
-    "_zIndex": 0,
     "_is3DNode": true,
     "groupIndex": 0,
     "autoReleaseAssets": false,
-    "_id": "3931a892-42d5-4a91-b06f-eacd94f1c481"
+    "_id": "d5f1c6ee-78fd-4152-87af-96a9d72a84df"
   },
   {
     "__type__": "cc.Node",
@@ -123,7 +122,6 @@
     },
     "_skewX": 0,
     "_skewY": 0,
-    "_zIndex": 0,
     "_is3DNode": false,
     "groupIndex": 0,
     "_id": "4b32GYblhIYaeFHl6rzm95"
@@ -183,7 +181,6 @@
     },
     "_skewX": 0,
     "_skewY": 0,
-    "_zIndex": 0,
     "_is3DNode": false,
     "groupIndex": 0,
     "_id": "77V7L0K2BBLqVzhd2+Q8Ny"
@@ -220,6 +217,7 @@
       "width": 1,
       "height": 1
     },
+    "_renderStages": 1,
     "_id": "d1uZR1o/VNPrTTgP3UHwnb"
   },
   {
@@ -280,7 +278,6 @@
     },
     "_skewX": 0,
     "_skewY": 0,
-    "_zIndex": 0,
     "_is3DNode": false,
     "groupIndex": 0,
     "_rotationX": 0,
@@ -295,11 +292,10 @@
       "__id__": 5
     },
     "_enabled": true,
+    "_materials": [],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_spriteFrame": {
-      "__uuid__": "0cec5fd4-c384-47be-84be-d5ba3be3f7df"
-    },
+    "_spriteFrame": null,
     "_type": 0,
     "_sizeMode": 1,
     "_fillType": 0,
@@ -311,7 +307,6 @@
     "_fillStart": 0,
     "_fillRange": 0,
     "_isTrimmedMode": true,
-    "_state": 0,
     "_atlas": null,
     "_id": "7e1k8mIDhBmqr2KhOpqC1G"
   },
@@ -407,7 +402,6 @@
     },
     "_skewX": 0,
     "_skewY": 0,
-    "_zIndex": 0,
     "_is3DNode": false,
     "groupIndex": 0,
     "_id": "4bALbkdWdEmKcH2pfW58UR"
@@ -467,7 +461,6 @@
     },
     "_skewX": 0,
     "_skewY": 0,
-    "_zIndex": 0,
     "_is3DNode": false,
     "groupIndex": 0,
     "_id": "e96Ne7ThNKc6nGJ5kTfVsR"
@@ -558,7 +551,6 @@
     },
     "_skewX": 0,
     "_skewY": 0,
-    "_zIndex": 0,
     "_is3DNode": false,
     "groupIndex": 0,
     "_id": "d8fxxizwFPRbc7vSSVo9XZ"
@@ -631,7 +623,6 @@
     },
     "_skewX": 0,
     "_skewY": 0,
-    "_zIndex": 0,
     "_is3DNode": false,
     "groupIndex": 0,
     "_rotationX": 0,
@@ -696,7 +687,6 @@
     },
     "_skewX": 0,
     "_skewY": 0,
-    "_zIndex": 0,
     "_is3DNode": false,
     "groupIndex": 0,
     "_rotationX": 0,
@@ -711,8 +701,7 @@
       "__id__": 13
     },
     "_enabled": true,
-    "_srcBlendFactor": 1,
-    "_dstBlendFactor": 771,
+    "_materials": [],
     "_useOriginalSize": false,
     "_string": "匹配",
     "_N$string": "匹配",
@@ -722,10 +711,12 @@
     "_N$file": null,
     "_isSystemFontUsed": true,
     "_spacingX": 0,
+    "_batchAsBitmap": false,
     "_N$horizontalAlign": 1,
     "_N$verticalAlign": 1,
     "_N$fontFamily": "Arial",
     "_N$overflow": 1,
+    "_N$cacheMode": 0,
     "_id": "0a4TmKHfpIDIKopPGWu72g"
   },
   {
@@ -754,6 +745,7 @@
       "__id__": 12
     },
     "_enabled": true,
+    "_materials": [],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_spriteFrame": {
@@ -770,7 +762,6 @@
     "_fillStart": 0,
     "_fillRange": 0,
     "_isTrimmedMode": true,
-    "_state": 0,
     "_atlas": null,
     "_id": "b1t1CByk9Jqaie15eRcBMc"
   },
@@ -864,7 +855,7 @@
       "__id__": 12
     },
     "component": "",
-    "_componentId": "6147cYw+f9FYJxoMOpkQa0f",
+    "_componentId": "3e689tYOEBAIZx9JcHxHsb7",
     "handler": "matchGameClick",
     "customEventData": ""
   },
@@ -896,14 +887,14 @@
     "_id": "68Xcqo0HBIHJZxdD1KRnRS"
   },
   {
-    "__type__": "6147cYw+f9FYJxoMOpkQa0f",
+    "__type__": "3e689tYOEBAIZx9JcHxHsb7",
     "_name": "",
     "_objFlags": 0,
     "node": {
       "__id__": 12
     },
     "_enabled": true,
-    "_id": "2bxxv/Wl5AUYDcrbBxFikg"
+    "_id": "93KT0a0bpC4bigEiAXjen/"
   },
   {
     "__type__": "cc.Widget",
@@ -987,7 +978,6 @@
     },
     "_skewX": 0,
     "_skewY": 0,
-    "_zIndex": 0,
     "_is3DNode": false,
     "groupIndex": 0,
     "_id": "b1ROsDwr5OYpBu26S+ri+P"
