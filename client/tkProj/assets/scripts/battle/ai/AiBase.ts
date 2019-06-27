@@ -13,6 +13,7 @@ export default abstract class SkillAiBase {
     private readonly playerModel: ModelBase = null;
     constructor(nameStr: string, model: ModelBase) {
         this.skillName = nameStr;
+        EventManager.getInstance().addEventListener(EBattleTrigger.onBeforeChooseTarget, this.onBeforeChooseTarget, this);
         EventManager.getInstance().addEventListener(EBattleTrigger.onSkillStart, this.onSkillStart, this);
         EventManager.getInstance().addEventListener(EBattleTrigger.onSkillEnd, this.onSkillEnd, this);
         EventManager.getInstance().addEventListener(EBattleTrigger.onSkillHurt, this.onSkillHurt, this);
@@ -34,6 +35,11 @@ export default abstract class SkillAiBase {
         }
         return false;
     }
+    /**
+     * @description 技能开始做选敌逻辑前
+     * @param model 攻击的英雄
+     */
+    public onBeforeChooseTarget(model:ModelBase): void {}
     /**
      * @description 当一个英雄开始攻击时
      * @param model 攻击的英雄

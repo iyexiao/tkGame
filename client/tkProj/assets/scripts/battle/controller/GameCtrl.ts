@@ -100,7 +100,23 @@ export default class GameCtrl extends BaseCtrl {
      * @returns Array<ModelBase>
      * @param camp 阵营
      */
-    public getModelListByCamp(camp: ECamp, protList: number[][]): ModelBase[][] {
+    public getModelListByCamp(camp: ECamp): ModelBase[] {
+        const tmpList = [];
+        this.aliveModelArr.forEach((model) => {
+            const posIdx = model.getHeroPosIndex();
+            if (model.checkIsAlive() && model.getHeroCamp() === camp) {
+                tmpList.push(model);
+            }
+        });
+        return tmpList;
+    }
+    /**
+     * - 根据阵营获取归属当前阵营的英雄
+     * @returns Array<ModelBase>
+     * @param camp 阵营
+     * @param protList 阵营数组选敌顺序
+     */
+    public getProtModelListByCamp(camp: ECamp, protList: number[][]): ModelBase[][] {
         const tmpList = [[], [], []];
         this.aliveModelArr.forEach((model) => {
             const posIdx = model.getHeroPosIndex();

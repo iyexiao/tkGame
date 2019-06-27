@@ -2,15 +2,15 @@ import ModelBase from "../../model/ModelBase";
 import SkillAiBase from "../AiBase";
 
 /**
- * @class CCNormalSkill
+ * @class DWSmallSkill
  * @author YeXiao
- * @deprecated 典韦普攻技能
- * @since 2019-5-17 19:04:07
+ * @deprecated 曹操小技能
+ * @since 2019-3-23 22:04:26
  */
-export default class CCNormalSkill extends SkillAiBase {
+export default class DWSmallSkill extends SkillAiBase {
     private skillArr: string[] = null;
     constructor(model: ModelBase, skillArr?: string[]) {
-        super("CCNormalSkill", model);
+        super("DWSmallSkill", model);
         if (skillArr) {
             this.skillArr = skillArr;
         }

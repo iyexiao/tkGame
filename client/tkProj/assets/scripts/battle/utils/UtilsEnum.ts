@@ -63,6 +63,7 @@ export enum ESkillType {
  * @enum 战斗时机事件
  */
 export enum EBattleTrigger {
+    onBeforeChooseTarget = "onBeforeChooseTarget",  // 技能选敌前
     onSkillStart = "onSkillStart",  // 技能攻击前
     onSkillEnd = "onSkillEnd",      // 技能攻击后
     onGiveOutAtk = "onGiveOutAtk",  // 攻击包释放
@@ -96,4 +97,5 @@ export enum EBuffType {
     silent,                 // 沉默(无法放技能)
     stun,                   // 击晕(无法攻击)
     forzen,                 // 冰冻(无法攻击)
+    sign,        // 标记
 }

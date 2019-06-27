@@ -98,6 +98,13 @@ export default class ModelBase {
         return this.HeroInfo.HeroAttr.camp;
     }
     /**
+     * @description 获取英雄的敌对阵营
+     */
+    public getHeroTargetCamp(): ECamp {
+        const camp = this.HeroInfo.HeroAttr.camp === ECamp.camp1 ? ECamp.camp2 : ECamp.camp1;
+        return camp;
+    }
+    /**
      * - 获取英雄的位置信息
      * @returns posIdx 位置信息
      */
@@ -188,7 +195,7 @@ export default class ModelBase {
             EventManager.getInstance().dispatchEvent(EBattleTrigger.onSkillHurt, {model: this});
         }
         // 计算伤害
-        for (const model of this.skillCom.LastChooseModelList) {
+        for (const model of this.skillCom.getChooseModelList()) {
             let dmg = atkInfo.getDamage() * 5 - (model.heroInfo.HeroAttr.phyDef * 3 + model.heroInfo.HeroAttr.magicDef * 2);
             dmg = dmg <= 0 ? 0 : dmg;
             if (model.getHeroCamp() === this.getHeroCamp()) {

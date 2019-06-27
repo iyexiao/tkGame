@@ -138,7 +138,7 @@ export class SkillInfo {
             camp = camp === ECamp.camp1 ? ECamp.camp2 : ECamp.camp1;
         }
         const protList = [];
-        let sTypeList = ConstValue.GAME_ROW_LIST; // 默认按行选敌
+        let sTypeList = ConstValue.GAME_ROW_LIST; // 默认按排选敌
         if (this.filterDB.sType === ERCType.column) {
             sTypeList = ConstValue.GAME_COL_LIST;
             this.filterDB.cProt.forEach((element) => {
@@ -149,7 +149,7 @@ export class SkillInfo {
                 protList.push(Number((element)));
             });
         }
-        const campList = ctrl.getModelListByCamp(camp, sTypeList);
+        const campList = ctrl.getProtModelListByCamp(camp, sTypeList);
         let list: ModelBase[] = new Array<ModelBase>();
         // 根据选敌人数判断是否需要跨条件选敌(补足敌人)
         for (const iterator of protList) {

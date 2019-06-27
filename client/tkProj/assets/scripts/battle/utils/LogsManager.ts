@@ -70,7 +70,7 @@ export default class LogsManager {
             case EBattleTrigger.onSkillStart:
                 // 获取技能释放对象
                 tmpStr = "  attack[";
-                for (const element of skillComp.LastChooseModelList) {
+                for (const element of skillComp.getChooseModelList()) {
                     tmpStr  = tmpStr + "camp:" + element.getHeroCamp() + " pos:" + element.getHeroPosIndex() + " hero:" + element.getHeroName() + ",";
                 }
                 tmpStr = tmpStr + "]";
@@ -83,7 +83,7 @@ export default class LogsManager {
                 break;
             case EBattleTrigger.onGiveOutAtk:
                 tmpStr = "[";
-                for (const element of skillComp.LastChooseModelList) {
+                for (const element of skillComp.getChooseModelList()) {
                     tmpStr  = tmpStr + "camp:" + element.getHeroCamp() + " pos:" + element.getHeroPosIndex() + " hero:" + element.getHeroName() + ",";
                 }
                 tmpStr = tmpStr + "]";

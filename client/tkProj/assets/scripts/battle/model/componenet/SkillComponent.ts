@@ -13,7 +13,7 @@ import BaseComponent from "./BaseComponent";
  */
 export default class SkillComponent extends BaseComponent {
     private currSkill: SkillInfo = null; // 英雄当前释放的技能
-    private lastChooseModelList: ModelBase[] = null;   // 上次技能选中的敌人
+    private chooseModelList: ModelBase[] = null;   // 技能选中的敌人
     private readonly skillList: SkillInfo[] = null;   // 角色技能信息
     constructor(model: ModelBase) {
         super(model);
@@ -28,8 +28,8 @@ export default class SkillComponent extends BaseComponent {
     get CurrSkill() {
         return this.currSkill;
     }
-    get LastChooseModelList() {
-        return this.lastChooseModelList;
+    getChooseModelList() {
+        return this.chooseModelList;
     }
     /**
      * - 更新技能方法用于更新技能CD (现在好像没啥用)
@@ -46,7 +46,14 @@ export default class SkillComponent extends BaseComponent {
         // 重置技能攻击包
         this.currSkill.resetAtkInfo();
         this.currSkill = null;
-        this.lastChooseModelList = null;
+        this.chooseModelList = null;
+    }
+    /**
+     * - 设置技能选中的敌人列表
+     * @param list 
+     */
+    public setChooseModelList(list: ModelBase[]) {
+        this.chooseModelList = list;
     }
     /**
      * - 选择一个技能，准备释放
@@ -66,14 +73,20 @@ export default class SkillComponent extends BaseComponent {
      */
     public checkAndPrepareGiveOutOneSkill(): boolean {
         const skillInfo = this.checkToGiveOutOneSkill();
-        const defList = skillInfo.getChooseModelList();
-        if (defList.length === 0) {
+        let defList = null;
+        if (this.chooseModelList) {
+            defList = this.chooseModelList;// 技能已经有选择的敌人了
+        }else {
+            defList = skillInfo.getChooseModelList();
+        }
+        if (defList === null || defList.length === 0) {
             LogsManager.getInstance().log("无可选中的敌人");
+            this.chooseModelList = null;
             return false;
         }
         skillInfo.loadSkillAttr();
         // 设置选中的敌人
-        this.lastChooseModelList = defList;
+        this.setChooseModelList(defList);
         // 设置释放的技能
         this.currSkill = skillInfo;
         return true;
