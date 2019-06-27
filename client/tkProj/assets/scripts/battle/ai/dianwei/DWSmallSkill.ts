@@ -4,13 +4,13 @@ import SkillAiBase from "../AiBase";
 /**
  * @class DWSmallSkill
  * @author YeXiao
- * @deprecated 曹操小技能
+ * @deprecated 典韦小技能
  * @since 2019-3-23 22:04:26
  */
 export default class DWSmallSkill extends SkillAiBase {
     private skillArr: string[] = null;
-    constructor(model: ModelBase, skillArr?: string[]) {
-        super("DWSmallSkill", model);
+    constructor(model: ModelBase,skillName: string, skillArr?: string[]) {
+        super(model,skillName);
         if (skillArr) {
             this.skillArr = skillArr;
         }

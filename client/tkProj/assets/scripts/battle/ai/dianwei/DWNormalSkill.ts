@@ -1,6 +1,7 @@
 import ModelBase from "../../model/ModelBase";
 import SkillAiBase from "../AiBase";
-import { EBuffType } from "../../utils/UtilsEnum";
+import { EBuffType, EBattleTrigger } from "../../utils/UtilsEnum";
+import EventManager from "../../../../framework/event/EventManager";
 
 /**
  * @class DWNormalSkill
@@ -12,8 +13,9 @@ import { EBuffType } from "../../utils/UtilsEnum";
  */
 export default class DWNormalSkill extends SkillAiBase {
     private skillArr: string[] = null;
-    constructor(model: ModelBase, skillArr?: string[]) {
-        super("DWNormalSkill", model);
+    constructor(model: ModelBase,skillName: string, skillArr?: string[]) {
+        super(model,skillName);
+        EventManager.getInstance().addEventListener(EBattleTrigger.onBeforeChooseTarget, this.onBeforeChooseTarget, this);
         if (skillArr) {
             this.skillArr = skillArr;
         }

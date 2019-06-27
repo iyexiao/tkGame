@@ -11,8 +11,8 @@ import SkillAiBase from "../AiBase";
  */
 export default class DWPassiveSkill extends SkillAiBase {
     private skillArr: string[] = null;
-    constructor(model: ModelBase, skillArr?: string[]) {
-        super("DWPassiveSkill", model);
+    constructor(model: ModelBase,skillName: string, skillArr?: string[]) {
+        super(model,skillName);
         if (skillArr) {
             this.skillArr = skillArr;
         } else {

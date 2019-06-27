@@ -38,7 +38,12 @@ export class SkillInfo {
         this.skillDB = skillDB;
         this.filterDB = DBFilter.getInstance().getDBFilterById(String(skillDB.filter));
         this.owner = model;
-        this.skillAi = new AiConst[this.skillDB.extScript](this.skillDB.extInfo, model);
+        const script = this.skillDB.extScript;
+        if (AiConst[script]) {
+            this.skillAi = new AiConst[script](model, script, this.skillDB.extInfo, model);
+        }else {
+            console.error("not have aiscript: ",skillDB.name);
+        }
     }
     get SkillDB(): IDBSkill {
         return this.skillDB;

@@ -11,13 +11,12 @@ import { EBattleTrigger } from "../utils/UtilsEnum";
 export default abstract class SkillAiBase {
     private skillName: string = null;
     private readonly playerModel: ModelBase = null;
-    constructor(nameStr: string, model: ModelBase) {
+    constructor(model: ModelBase, nameStr: string) {
         this.skillName = nameStr;
-        EventManager.getInstance().addEventListener(EBattleTrigger.onBeforeChooseTarget, this.onBeforeChooseTarget, this);
-        EventManager.getInstance().addEventListener(EBattleTrigger.onSkillStart, this.onSkillStart, this);
-        EventManager.getInstance().addEventListener(EBattleTrigger.onSkillEnd, this.onSkillEnd, this);
-        EventManager.getInstance().addEventListener(EBattleTrigger.onSkillHurt, this.onSkillHurt, this);
         this.playerModel = model;
+        // EventManager.getInstance().addEventListener(EBattleTrigger.onSkillStart, this.onSkillStart, this);
+        // EventManager.getInstance().addEventListener(EBattleTrigger.onSkillEnd, this.onSkillEnd, this);
+        // EventManager.getInstance().addEventListener(EBattleTrigger.onSkillHurt, this.onSkillHurt, this);
         // LogsManager.getInstance().echo("初始化脚本：" + this.skillName);
     }
     get PlayerModel() {
@@ -26,6 +25,10 @@ export default abstract class SkillAiBase {
     get SkillName(): string {
         return this.skillName;
     }
+    /**
+     * @description 判断传入角色是否是自身
+     * @param otherModel 
+     */
     public checkIsSelfModel(otherModel: ModelBase): boolean {
         if (!otherModel || !this.playerModel) {
             return false;

@@ -9,8 +9,8 @@ import SkillAiBase from "../AiBase";
  */
 export default class DWBigSkill extends SkillAiBase {
     private skillArr: string[] = null;
-    constructor(model: ModelBase, skillArr?: string[]) {
-        super("DWBigSkill", model);
+    constructor(model: ModelBase,skillName: string, skillArr?: string[]) {
+        super(model,skillName);
         if (skillArr) {
             this.skillArr = skillArr;
         }
