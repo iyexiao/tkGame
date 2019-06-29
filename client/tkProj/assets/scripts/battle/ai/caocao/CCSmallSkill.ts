@@ -1,5 +1,6 @@
 import ModelBase from "../../model/ModelBase";
 import SkillAiBase from "../AiBase";
+import { IDBSkill } from "../../../db/DBSkill";
 
 /**
  * @class CCSmallSkill
@@ -8,22 +9,14 @@ import SkillAiBase from "../AiBase";
  * @since 2019-3-23 22:04:26
  */
 export default class CCSmallSkill extends SkillAiBase {
-    private skillArr: string[] = null;
-    constructor(model: ModelBase,skillName: string, skillArr?: string[]) {
-        super(model,skillName);
-        if (skillArr) {
-            this.skillArr = skillArr;
-        }
-    }
-    public onAttackStart(model: ModelBase): void {
-        super.onAttackStart(model);
-    }
-    public onSkillStart(param: any): void {
-        if (super.checkIsSelfModel(param.model)) {
-            return;
-        }
+    constructor(model: ModelBase, skillDB: IDBSkill) {
+        super(model, skillDB);
     }
     public onSkillEnd(param: any): void {
+        if (!super.checkHaveExtInfo()) {
+            return;
+        }
+        const extInfo = super.getSkillExtInfo();
         const model: ModelBase = param.model;
         if (super.checkIsSelfModel(model)) {
             return;
@@ -31,7 +24,7 @@ export default class CCSmallSkill extends SkillAiBase {
         const list = this.PlayerModel.SkillCom.getChooseModelList();
         list.forEach(element => {
             if (element.checkIsAlive()) {
-                element.BuffCom.executeOneBuff(this.skillArr[0]);
+                element.BuffCom.executeOneBuff(extInfo[0]);
             }
         });
     }

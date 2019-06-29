@@ -1,6 +1,7 @@
 import ModelBase from "../../model/ModelBase";
 import LogsManager from "../../utils/LogsManager";
 import SkillAiBase from "../AiBase";
+import { IDBSkill } from "../../../db/DBSkill";
 
 /**
  * @class CCPassiveSkill
@@ -10,22 +11,20 @@ import SkillAiBase from "../AiBase";
  * @since 2019-3-25 11:07:00
  */
 export default class CCPassiveSkill extends SkillAiBase {
-    private skillArr: string[] = null;
-    constructor(model: ModelBase,skillName: string, skillArr?: string[]) {
-        super(model,skillName);
-        if (skillArr) {
-            this.skillArr = skillArr;
-        } else {
-            LogsManager.getInstance().error(" 曹操的被动技能未填写参数");
-        }
+    constructor(model: ModelBase, skillDB: IDBSkill) {
+        super(model, skillDB);
     }
     public onSkillHurt(param: any): void {
+        if (!super.checkHaveExtInfo()) {
+            return;
+        }
+        const extInfo = super.getSkillExtInfo();
         const model: ModelBase = param.model;
         if (!super.checkIsSelfModel(model)) {
             return;
         }
         if (model.checkIsAlive()) {
-            model.BuffCom.executeOneBuff(this.skillArr[0]);
+            model.BuffCom.executeOneBuff(extInfo[0]);
         }
     }
 }

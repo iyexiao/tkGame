@@ -1,5 +1,6 @@
 import ModelBase from "../../model/ModelBase";
 import SkillAiBase from "../AiBase";
+import { IDBSkill } from "../../../db/DBSkill";
 
 /**
  * @class CCBigSkill
@@ -8,14 +9,14 @@ import SkillAiBase from "../AiBase";
  * @since 2019-3-25 11:07:00
  */
 export default class CCBigSkill extends SkillAiBase {
-    private skillArr: string[] = null;
-    constructor(model: ModelBase,skillName: string, skillArr?: string[]) {
-        super(model,skillName);
-        if (skillArr) {
-            this.skillArr = skillArr;
-        }
+    constructor(model: ModelBase, skillDB: IDBSkill) {
+        super(model, skillDB);
     }
     public onSkillEnd(param: any): void {
+        if (!super.checkHaveExtInfo()) {
+            return;
+        }
+        const extInfo = super.getSkillExtInfo();
         const model: ModelBase = param.model;
         if (!super.checkIsSelfModel(model)) {
             return;
@@ -23,7 +24,7 @@ export default class CCBigSkill extends SkillAiBase {
         const list = this.PlayerModel.SkillCom.getChooseModelList();
         list.forEach(element => {
             if (element.checkIsAlive()) {
-                element.BuffCom.executeOneBuff(this.skillArr[0]);
+                element.BuffCom.executeOneBuff(extInfo[0]);
             }
         });
     }

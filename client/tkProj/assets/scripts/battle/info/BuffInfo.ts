@@ -71,7 +71,7 @@ export class BuffInfo {
         return result;
     }
     /**
-     * 更新buff的回合数
+     * 更新buff的时间
      */
     public updateBuffFrame() {
         if (!this.isActive) {

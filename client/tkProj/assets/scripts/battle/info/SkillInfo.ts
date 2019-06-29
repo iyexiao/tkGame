@@ -1,10 +1,7 @@
-import { DBFilter, IDBFilter } from "../../db/DBFilter";
 import { IDBSkill } from "../../db/DBSkill";
 import SkillAi from "../ai/AiBase";
 import AiConst from "../ai/AiConst";
-import ConstValue from "../ConstValue";
 import ModelBase from "../model/ModelBase";
-import {ECamp, ERCType} from "../utils/UtilsEnum";
 import {AttackInfo} from "./AttackInfo";
 
 /**
@@ -28,7 +25,6 @@ interface ISkillAttr {
 // let skillAttr:ISkillAttr = {skillId:1,skillType:2,skillAtkId:3,filterId:1,skillAi:skillAi,totalFrame:5};
 export class SkillInfo {
     private readonly skillDB: IDBSkill = null;
-    private readonly filterDB: IDBFilter = null;
     private readonly skillAi: SkillAi = null;
     private readonly owner: ModelBase = null;
     private skillAttr: ISkillAttr = null;
@@ -36,11 +32,10 @@ export class SkillInfo {
     private skillCD: number = 0; // 技能CD
     constructor(skillDB: IDBSkill, model: ModelBase) {
         this.skillDB = skillDB;
-        this.filterDB = DBFilter.getInstance().getDBFilterById(String(skillDB.filter));
         this.owner = model;
         const script = this.skillDB.extScript;
         if (AiConst[script]) {
-            this.skillAi = new AiConst[script](model, script, this.skillDB.extInfo, model);
+            this.skillAi = new AiConst[script](model, this.skillDB);
         }else {
             console.error("not have aiscript: ",skillDB.name);
         }
@@ -130,60 +125,5 @@ export class SkillInfo {
      */
     public getSkillAi(): SkillAi {
         return this.skillAi;
-    }
-    /**
-     * - 获取技能的攻击对象数组(有可能为0)
-     * @returns Array<ModelBase>
-     */
-    public getChooseModelList(): ModelBase[] {
-        const ctrl = this.owner.Ctrl;
-        let camp = this.owner.getHeroCamp();
-        // 选敌方阵营
-        if (this.filterDB.camp === ECamp.camp1) {
-            camp = camp === ECamp.camp1 ? ECamp.camp2 : ECamp.camp1;
-        }
-        const protList = [];
-        let sTypeList = ConstValue.GAME_ROW_LIST; // 默认按排选敌
-        if (this.filterDB.sType === ERCType.column) {
-            sTypeList = ConstValue.GAME_COL_LIST;
-            this.filterDB.cProt.forEach((element) => {
-                protList.push(Number((element)));
-            });
-        } else {
-            this.filterDB.rProt.forEach((element) => {
-                protList.push(Number((element)));
-            });
-        }
-        const campList = ctrl.getProtModelListByCamp(camp, sTypeList);
-        let list: ModelBase[] = new Array<ModelBase>();
-        // 根据选敌人数判断是否需要跨条件选敌(补足敌人)
-        for (const iterator of protList) {
-            const tmpProtList = campList[iterator];
-            if (tmpProtList.length >= this.filterDB.num) {
-                // 足够选人了，
-                list = ctrl.BattleCtrl.RandomCtrl.getRandomsInArrayByCount(tmpProtList, this.filterDB.num);
-                break;
-            } else {
-                const count = list.length;
-                if (count === 0) {
-                    list = tmpProtList;
-                } else {
-                    if (this.filterDB.needAll === 1 && count < this.filterDB.num) {
-                        // 需要补足
-                        const tmpList = ctrl.BattleCtrl.RandomCtrl.getRandomsInArrayByCount(tmpProtList, this.filterDB.num - count);
-                        list = list.concat(tmpList);
-                        // 补足了
-                        if (list.length === this.filterDB.num) {
-                            break;
-                        }
-                    }
-                }
-                // 不需要补足并且已经存在选的敌人了，则返回
-                if (list.length > 0 && this.filterDB.needAll === 0) {
-                    break;
-                }
-            }
-        }
-        return list;
     }
 }

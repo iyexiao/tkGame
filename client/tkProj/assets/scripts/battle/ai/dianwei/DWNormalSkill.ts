@@ -1,7 +1,7 @@
 import ModelBase from "../../model/ModelBase";
 import SkillAiBase from "../AiBase";
-import { EBuffType, EBattleTrigger } from "../../utils/UtilsEnum";
-import EventManager from "../../../../framework/event/EventManager";
+import { EBuffType } from "../../utils/UtilsEnum";
+import { IDBSkill } from "../../../db/DBSkill";
 
 /**
  * @class DWNormalSkill
@@ -12,21 +12,12 @@ import EventManager from "../../../../framework/event/EventManager";
  * @since 2019-5-17 19:04:07
  */
 export default class DWNormalSkill extends SkillAiBase {
-    private skillArr: string[] = null;
-    constructor(model: ModelBase,skillName: string, skillArr?: string[]) {
-        super(model,skillName);
-        EventManager.getInstance().addEventListener(EBattleTrigger.onBeforeChooseTarget, this.onBeforeChooseTarget, this);
-        if (skillArr) {
-            this.skillArr = skillArr;
-        }
+    constructor(model: ModelBase, skillDB: IDBSkill) {
+        super(model, skillDB);
     }
-    public onBeforeChooseTarget(model:ModelBase) {
-        super.onBeforeChooseTarget(model);
-        if (!super.checkIsSelfModel(model)) {
-            return;
-        }
-        //获取地方阵营，然后选择有buff的角色进行攻击
-        const campList = model.Ctrl.getModelListByCamp(model.getHeroTargetCamp());
+    public chooseTarget(): ModelBase[] {
+        // 获取地方阵营，然后选择有buff的角色进行攻击
+        const campList = this.PlayerModel.Ctrl.getModelListByCamp(this.PlayerModel.getHeroTargetCamp());
         let list:ModelBase[] = [];
         campList.forEach(element => {
             if (element.BuffCom.getBuffListByEBuffType(EBuffType.sign)) {
@@ -34,20 +25,9 @@ export default class DWNormalSkill extends SkillAiBase {
             }
         });
         if (list.length > 0) {
-            model.SkillCom.setChooseModelList(list);
+            return list;
         }
-    }
-    public onAttackStart(model: ModelBase): void {
-        super.onAttackStart(model);
-    }
-    public onSkillStart(param: any): void {
-        if (super.checkIsSelfModel(param.model)) {
-            return;
-        }
-    }
-    public onSkillEnd(param: any): void {
-        if (super.checkIsSelfModel(param.model)) {
-            return;
-        }
+        // 没有获取到有标记的敌人，则调用父类选敌逻辑
+        return super.chooseTarget();
     }
 }

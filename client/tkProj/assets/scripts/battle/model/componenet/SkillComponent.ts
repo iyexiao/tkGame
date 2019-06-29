@@ -73,12 +73,7 @@ export default class SkillComponent extends BaseComponent {
      */
     public checkAndPrepareGiveOutOneSkill(): boolean {
         const skillInfo = this.checkToGiveOutOneSkill();
-        let defList = null;
-        if (this.chooseModelList) {
-            defList = this.chooseModelList;// 技能已经有选择的敌人了
-        }else {
-            defList = skillInfo.getChooseModelList();
-        }
+        let defList = skillInfo.getSkillAi().chooseTarget();
         if (defList === null || defList.length === 0) {
             LogsManager.getInstance().log("无可选中的敌人");
             this.chooseModelList = null;

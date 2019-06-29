@@ -1,5 +1,6 @@
 import ModelBase from "../../model/ModelBase";
 import SkillAiBase from "../AiBase";
+import { IDBSkill } from "../../../db/DBSkill";
 
 /**
  * @class DWSmallSkill
@@ -8,12 +9,8 @@ import SkillAiBase from "../AiBase";
  * @since 2019-3-23 22:04:26
  */
 export default class DWSmallSkill extends SkillAiBase {
-    private skillArr: string[] = null;
-    constructor(model: ModelBase,skillName: string, skillArr?: string[]) {
-        super(model,skillName);
-        if (skillArr) {
-            this.skillArr = skillArr;
-        }
+    constructor(model: ModelBase, skillDB: IDBSkill) {
+        super(model, skillDB);
     }
     public onAttackStart(model: ModelBase): void {
         super.onAttackStart(model);
