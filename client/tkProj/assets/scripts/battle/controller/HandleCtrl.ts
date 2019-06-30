@@ -20,15 +20,18 @@ export default class HandleCtrl extends BaseCtrl {
      */
     public sortModelHandle() {
         LogsManager.getInstance().log("======>>>>>>根据攻速排序对所有英雄出手顺序");
+        // 这个排序在nodejs 和前端有点问题
         this.handleArr = this.BattleCtrl.GameCtrl.ModelArr.slice().sort((a, b) => {
             const aSpeed = a.getHeroAtkFrame();
             const bSpeed = b.getHeroAtkFrame();
-            if (aSpeed > bSpeed) {
-                return 1;
-            } else if (aSpeed === bSpeed) {
-                if (a.getHeroCamp() >= b.getHeroCamp() ) { return 1; }
-            }
-            return 0;
+            // if (aSpeed === bSpeed) {
+            //     if (a.getHeroCamp() >= b.getHeroCamp() ) { 
+            //         return 1;
+            //     }
+            // }else if (aSpeed > bSpeed) {
+            //     return 1;
+            // }
+            return aSpeed - bSpeed;
         });
         if (this.handleArr.length <= 0) {
             return;

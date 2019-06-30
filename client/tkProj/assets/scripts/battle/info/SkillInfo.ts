@@ -110,7 +110,10 @@ export class SkillInfo {
      * - 攻击包信息
      */
     public loadAttackInfo() {
-        const damage = this.owner.HeroInfo.getHeroAtk();
+        // const damage = this.owner.HeroInfo.getHeroAtk();
+        // TODO:这里拿的是假数据
+        const damage :any = (this.owner.Ctrl.BattleCtrl.RandomCtrl.getNext() * 100 ).toFixed(0);
+        // console.log("随机一个攻击包的伤害：",damage);
         this.currAtkInfo = new AttackInfo(this.skillDB.atk, damage);
     }
     /**

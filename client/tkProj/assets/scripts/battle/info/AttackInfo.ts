@@ -21,7 +21,7 @@ export class AttackInfo {
 
     constructor(atkId: number, dmg: number) {
         this.atkDB = DBAttack.getInstance().getDBAttackById(String(atkId));
-        this.atkAttr = {damage: dmg + this.atkDB.dmg, isFirst: true};
+        this.atkAttr = {damage: dmg, isFirst: true};
     }
     /**
      * - 检查是否是第一次命中

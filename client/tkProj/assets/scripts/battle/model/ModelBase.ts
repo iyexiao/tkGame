@@ -196,7 +196,8 @@ export default class ModelBase {
         }
         // 计算伤害
         for (const model of this.skillCom.getChooseModelList()) {
-            let dmg = atkInfo.getDamage() * 5 - (model.heroInfo.HeroAttr.phyDef * 3 + model.heroInfo.HeroAttr.magicDef * 2);
+            // let dmg = atkInfo.getDamage() * 5 - (model.heroInfo.HeroAttr.phyDef * 3 + model.heroInfo.HeroAttr.magicDef * 2);
+            let dmg = atkInfo.getDamage();
             dmg = dmg <= 0 ? 0 : dmg;
             if (model.getHeroCamp() === this.getHeroCamp()) {
                 dmg = -dmg; // 这个是加血

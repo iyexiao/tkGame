@@ -84,6 +84,7 @@ export default class BattleHeroTmpl extends cc.Component {
         }
         if (params.key === EHeroAttr.hp) {
             const heroInfo:HeroInfo = this.heroModel.HeroInfo;
+            cc.log("camp:" + this.heroModel.getHeroCamp()," posIdx:" + this.heroModel.getHeroPosIndex() + "hp:",heroInfo.HeroAttr.hp);
             const per = Math.ceil(heroInfo.HeroAttr.hp / heroInfo.HeroAttr.maxHp * 100 )/100;
             this.hpPb.progress = per;
         }

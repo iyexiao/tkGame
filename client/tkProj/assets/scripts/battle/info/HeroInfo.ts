@@ -108,10 +108,10 @@ export class HeroInfo {
      * @returns IHeroAttr
      */
     public loadHeroInitAttr(user: IUserInfo, hero: IHeroInfo): IHeroAttr {
-        // test
+        // TODO:这里拿的是假数据
         let heroAttr: IHeroAttr;
         heroAttr = {hp: 100,maxHp: 100, phyAtk: 100, phyDef: 100, magicAtk: 100, magicDef: 100, crit: 100, atkSpeed: 100, block: 10, camp: user.camp, posIdx: hero.posIdx};
-        heroAttr.hp = this.getHp(hero);
+        heroAttr.hp = 100;
         heroAttr.phyAtk = this.getAtk(hero);
         heroAttr.magicAtk = heroAttr.phyAtk;
         heroAttr.phyDef = this.getDef(hero);

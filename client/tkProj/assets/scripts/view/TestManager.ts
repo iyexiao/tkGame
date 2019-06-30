@@ -1,7 +1,7 @@
 let battleInfo = '                                              \
 {                                                               \
     "battleId": 1,                                              \
-    "randomSeed": 123456,                                       \
+    "randomSeed": 123455,                                       \
     "gameMode": 1,                                              \
     "userId": 1000,                                             \
     "users": [                                                  \
