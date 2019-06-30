@@ -30,13 +30,14 @@ export default class BattleCtrl {
         this.batleInfo = bInfo;
         // 在日志控制器里面装载battleCtrl
         LogsManager.getInstance().setBattleCtrl( this);
-    }
-    public startOneBattle() {
+        
         this.randomCtrl = new RandomCtrl( this.batleInfo.randomSeed);
         this.levelCtrl = new LevelCtrl( this);
         this.gameCtrl = new GameCtrl( this);
         this.logicCtrl = new LogicCtrl( this);
         this.handleCtrl = new HandleCtrl( this);
+    }
+    public startOneBattle() {
         this.gameCtrl.startBattle();
     }
     /**

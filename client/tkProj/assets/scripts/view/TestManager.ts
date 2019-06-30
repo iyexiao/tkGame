@@ -19,8 +19,8 @@ let battleInfo = '                                              \
               "posIdx": 0                                       \
             },                                                  \
             {                                                   \
-              "hId": 1,                                         \
-              "level": 3,                                       \
+              "hId": 2,                                         \
+              "level": 5,                                       \
               "star": 1,                                        \
               "quality": 1,                                     \
               "posIdx": 1                                       \
@@ -52,28 +52,28 @@ let battleInfo = '                                              \
               "level": 1,                                       \
               "star": 1,                                        \
               "quality": 1,                                     \
-              "posIdx": 3                                       \
+              "posIdx": 0                                       \
             },                                                  \
             {                                                   \
               "hId": 1,                                         \
               "level": 3,                                       \
               "star": 1,                                        \
               "quality": 1,                                     \
-              "posIdx": 6                                       \
+              "posIdx": 1                                       \
             },                                                  \
             {                                                   \
-              "hId": 1,                                         \
+              "hId": 2,                                         \
               "level": 5,                                       \
               "star": 2,                                        \
               "quality": 2,                                     \
-              "posIdx": 7                                       \
+              "posIdx": 2                                       \
             },                                                  \
             {                                                   \
               "hId": 1,                                         \
               "level": 6,                                       \
               "star": 3,                                        \
               "quality": 3,                                     \
-              "posIdx": 8                                       \
+              "posIdx": 5                                       \
             }                                                   \
         ]                                                       \
       }                                                         \

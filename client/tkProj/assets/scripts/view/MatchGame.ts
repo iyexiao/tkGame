@@ -1,5 +1,6 @@
-import BattleCtrl from "../battle/controller/BattleCtrl";
 import TestManager from "./TestManager";
+import { EGameType } from "../battle/utils/UtilsEnum";
+import BattleView from "./battle/BattleView";
 
 const {ccclass, property} = cc._decorator;
 
@@ -29,7 +30,15 @@ export default class MatchGame extends cc.Component {
 
     // update (dt) {}
     public matchGameClick() {
-        let bCtrl = new BattleCtrl(JSON.parse(TestManager.getInstance().getDebugBattleInfo()));
-        bCtrl.startOneBattle();
+        const onSceneLaunched = function() {
+            const canvas = cc.find("Canvas");
+            if (!canvas) {
+                return;
+            }
+            // 添加战斗界面控制脚本
+            const script:BattleView = canvas.addComponent("BattleView");
+            script.loadAndRunBattle(JSON.parse(TestManager.getInstance().getDebugBattleInfo()),EGameType.view);
+        }
+        cc.director.loadScene("BattleScene",onSceneLaunched);
     }
 }

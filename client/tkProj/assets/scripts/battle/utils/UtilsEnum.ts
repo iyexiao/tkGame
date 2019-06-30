@@ -87,6 +87,7 @@ export enum ERCType {
  */
 export enum EBuffType {
     hp = 1,      // 血量
+    maxHp,       // 血量上限
     phyAtk,      // 物攻
     phyDef,      // 物防
     magicAtk,    // 魔攻

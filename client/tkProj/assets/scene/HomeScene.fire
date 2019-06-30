@@ -55,7 +55,7 @@
     "_is3DNode": true,
     "groupIndex": 0,
     "autoReleaseAssets": false,
-    "_id": "d5f1c6ee-78fd-4152-87af-96a9d72a84df"
+    "_id": "ac375e8d-39e0-49a0-b755-13c3a6e4ebfe"
   },
   {
     "__type__": "cc.Node",
@@ -250,7 +250,7 @@
     "_contentSize": {
       "__type__": "cc.Size",
       "width": 640,
-      "height": 1136
+      "height": 1200
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -855,7 +855,7 @@
       "__id__": 12
     },
     "component": "",
-    "_componentId": "3e689tYOEBAIZx9JcHxHsb7",
+    "_componentId": "f996aNmP/JHOLPYbNNFD2b+",
     "handler": "matchGameClick",
     "customEventData": ""
   },
@@ -887,14 +887,14 @@
     "_id": "68Xcqo0HBIHJZxdD1KRnRS"
   },
   {
-    "__type__": "3e689tYOEBAIZx9JcHxHsb7",
+    "__type__": "f996aNmP/JHOLPYbNNFD2b+",
     "_name": "",
     "_objFlags": 0,
     "node": {
       "__id__": 12
     },
     "_enabled": true,
-    "_id": "93KT0a0bpC4bigEiAXjen/"
+    "_id": "606vWd8+1DU4FHqTGkW7DZ"
   },
   {
     "__type__": "cc.Widget",

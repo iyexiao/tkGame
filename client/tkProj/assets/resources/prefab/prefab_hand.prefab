@@ -13,7 +13,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "Nd_Hand",
+    "_name": "prefab_hand",
     "_objFlags": 0,
     "_parent": null,
     "_children": [
@@ -72,7 +72,6 @@
     },
     "_skewX": 0,
     "_skewY": 0,
-    "_zIndex": 0,
     "_is3DNode": false,
     "groupIndex": 0,
     "_id": ""
@@ -134,7 +133,6 @@
     },
     "_skewX": 0,
     "_skewY": 0,
-    "_zIndex": 0,
     "_is3DNode": false,
     "groupIndex": 0,
     "_id": ""
@@ -147,10 +145,11 @@
       "__id__": 2
     },
     "_enabled": true,
+    "_materials": [],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_spriteFrame": {
-      "__uuid__": "098f149c-8858-4fb5-90d8-3c85eda28473"
+      "__uuid__": "c7d9cb9d-077f-488a-91ab-58ba0933628a"
     },
     "_type": 0,
     "_sizeMode": 1,
@@ -163,7 +162,6 @@
     "_fillStart": 0,
     "_fillRange": 0,
     "_isTrimmedMode": true,
-    "_state": 0,
     "_atlas": null,
     "_id": ""
   },
@@ -173,7 +171,7 @@
       "__id__": 1
     },
     "asset": {
-      "__id__": 0
+      "__uuid__": "ef0ad16e-9041-4f54-be65-9f380d27c992"
     },
     "fileId": "e7NWnwZwRLmJUAYqoykG9m",
     "sync": false
@@ -235,7 +233,6 @@
     },
     "_skewX": 0,
     "_skewY": 0,
-    "_zIndex": 0,
     "_is3DNode": false,
     "groupIndex": 0,
     "_id": ""
@@ -248,10 +245,11 @@
       "__id__": 5
     },
     "_enabled": true,
+    "_materials": [],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_spriteFrame": {
-      "__uuid__": "b593b439-2b9a-4293-b9ce-2ae2635203a5"
+      "__uuid__": "8924a661-1e95-4fad-9f02-5df22ab03310"
     },
     "_type": 0,
     "_sizeMode": 1,
@@ -264,7 +262,6 @@
     "_fillStart": 0,
     "_fillRange": 0,
     "_isTrimmedMode": true,
-    "_state": 0,
     "_atlas": null,
     "_id": ""
   },
@@ -274,7 +271,7 @@
       "__id__": 1
     },
     "asset": {
-      "__id__": 0
+      "__uuid__": "ef0ad16e-9041-4f54-be65-9f380d27c992"
     },
     "fileId": "55eIR515lHvJSwXhMv4zKu",
     "sync": false
@@ -308,7 +305,7 @@
     "_contentSize": {
       "__type__": "cc.Size",
       "width": 48,
-      "height": 24
+      "height": 30.24
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -336,7 +333,6 @@
     },
     "_skewX": 0,
     "_skewY": 0,
-    "_zIndex": 0,
     "_is3DNode": false,
     "groupIndex": 0,
     "_rotationX": 0,
@@ -351,8 +347,7 @@
       "__id__": 8
     },
     "_enabled": true,
-    "_srcBlendFactor": 1,
-    "_dstBlendFactor": 771,
+    "_materials": [],
     "_useOriginalSize": false,
     "_string": "曹操",
     "_N$string": "曹操",
@@ -362,10 +357,12 @@
     "_N$file": null,
     "_isSystemFontUsed": true,
     "_spacingX": 0,
+    "_batchAsBitmap": false,
     "_N$horizontalAlign": 1,
     "_N$verticalAlign": 1,
     "_N$fontFamily": "Arial",
     "_N$overflow": 0,
+    "_N$cacheMode": 0,
     "_id": ""
   },
   {
@@ -374,7 +371,7 @@
       "__id__": 1
     },
     "asset": {
-      "__id__": 0
+      "__uuid__": "ef0ad16e-9041-4f54-be65-9f380d27c992"
     },
     "fileId": "b4QQy7/zJB8JIene7VLXfu",
     "sync": false
@@ -385,7 +382,7 @@
       "__id__": 1
     },
     "asset": {
-      "__id__": 0
+      "__uuid__": "ef0ad16e-9041-4f54-be65-9f380d27c992"
     },
     "fileId": "93FYpQKC5D3pz4rrbAaaEn",
     "sync": false

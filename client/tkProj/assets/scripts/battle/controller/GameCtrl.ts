@@ -2,7 +2,7 @@ import ConstValue from "../ConstValue";
 import {HeroInfo} from "../info/HeroInfo";
 import ModelBase from "../model/ModelBase";
 import LogsManager from "../utils/LogsManager";
-import {ECamp, EGameType} from "../utils/UtilsEnum";
+import {ECamp, EGameType, EGameStep} from "../utils/UtilsEnum";
 import BaseCtrl from "./BaseCtrl";
 import BattleCtrl from "./BattleCtrl";
 /**
@@ -17,12 +17,14 @@ export default class GameCtrl extends BaseCtrl {
     private aliveModelArr: ModelBase[] = null; // 战场上的英雄数组
     private currFrame: number = null;  // 当前运行的帧数
     private deadModelArr: ModelBase[] = null;  // 死亡的英雄数组
+    private gameStep: EGameStep = null;
 
     constructor(ctrl: BattleCtrl) {
         super(ctrl);
         this.aliveModelArr = [];
         this.deadModelArr = [];
         this.currFrame = 0;
+        this.gameStep = EGameStep.wait;
         this.initModelList();
     }
     get ModelArr() {
@@ -30,6 +32,9 @@ export default class GameCtrl extends BaseCtrl {
     }
     get CurrentFrame() {
         return this.currFrame;
+    }
+    get GameStep(): EGameStep {
+        return this.gameStep;
     }
     /**
      * @description 初始化战场上模型
@@ -60,6 +65,7 @@ export default class GameCtrl extends BaseCtrl {
         LogsManager.getInstance().log("开始一场战斗----->>GameCtrl.startBattle");
         this.initModelsAura();
         this.BattleCtrl.HandleCtrl.sortModelHandle();
+        this.updateGameStep(EGameStep.ready);
         // 只有跑逻辑的时候才走这个循环
         if (this.BattleCtrl.GameType === EGameType.dummy) {
             this.startGameLoopByDummy();
@@ -79,13 +85,26 @@ export default class GameCtrl extends BaseCtrl {
      */
     public startGameLoopByDummy() {
         for (let index = 0; index < ConstValue.GAME_TOTAL_FRAME; index++) {
-            this.currFrame = index;
-            const tmpArr = this.BattleCtrl.HandleCtrl.getCurrentAttackModel();
-            if (tmpArr.length > 0 ) {
-                this.BattleCtrl.LogicCtrl.doAttackByHeroList(tmpArr);
-            }
-            this.updateModelFrame();
+            this.doBattleLockStep();
         }
+    }
+    /**
+     * @description 做游戏的帧循环
+     */
+    public doBattleLockStep() {
+        this.currFrame = this.currFrame + 1;
+        const tmpArr = this.BattleCtrl.HandleCtrl.getCurrentAttackModel();
+        if (tmpArr.length > 0 ) {
+            this.BattleCtrl.LogicCtrl.doAttackByHeroList(tmpArr);
+        }
+        this.updateModelFrame();
+    }
+    /**
+     * @description 更新游戏状态
+     * @param gStep 
+     */
+    public updateGameStep(gStep:EGameStep) {
+        this.gameStep = gStep;
     }
     /**
      * @description 更新战场上所有英雄的攻击时间
@@ -96,6 +115,26 @@ export default class GameCtrl extends BaseCtrl {
         }
     }
     /**
+     * @description 根据阵营及位置获取英雄模型(不论死亡与否)
+     * @param camp 
+     * @param posIdx 
+     */
+    public getHeroModelByCampPos(camp: ECamp,posIdx: number): ModelBase {
+        for (let index = 0; index < this.aliveModelArr.length; index++) {
+            const model = this.aliveModelArr[index];
+            if (model.getHeroCamp() === camp && model.getHeroPosIndex() === posIdx) {
+                return model;
+            }
+        }
+        for (let index = 0; index < this.deadModelArr.length; index++) {
+            const model = this.deadModelArr[index];
+            if (model.getHeroCamp() === camp && model.getHeroPosIndex() === posIdx) {
+                return model;
+            }
+        }
+        return null;
+    }
+    /**
      * - 根据阵营获取归属当前阵营的英雄
      * @returns Array<ModelBase>
      * @param camp 阵营
@@ -103,7 +142,6 @@ export default class GameCtrl extends BaseCtrl {
     public getModelListByCamp(camp: ECamp): ModelBase[] {
         const tmpList = [];
         this.aliveModelArr.forEach((model) => {
-            const posIdx = model.getHeroPosIndex();
             if (model.checkIsAlive() && model.getHeroCamp() === camp) {
                 tmpList.push(model);
             }

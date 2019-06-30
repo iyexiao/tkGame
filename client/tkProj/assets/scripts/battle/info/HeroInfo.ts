@@ -6,13 +6,15 @@ import {IHeroInfo, IUserInfo} from "../info/BattleInfo";
 import {BuffInfo, IBuffAttr} from "../info/BuffInfo";
 import {SkillInfo} from "../info/SkillInfo";
 import ModelBase from "../model/ModelBase";
-import {EBuffType, ECamp, EPropType, ESkillType} from "../utils/UtilsEnum";
+import {EBuffType, ECamp, EPropType, ESkillType, EBattleTrigger} from "../utils/UtilsEnum";
+import EventManager from "../../../framework/event/EventManager";
 
 /**
  * @interface 英雄战斗属性
  */
 export interface IHeroAttr {
     hp: number;          // 血量
+    maxHp: number;       // 最大血量
     phyAtk: number;      // 物攻
     phyDef: number;      // 物防
     magicAtk: number;    // 魔攻
@@ -28,6 +30,7 @@ export interface IHeroAttr {
  */
 export enum EHeroAttr {
     hp = "hp",
+    maxHp = "maxHp",
     phyAtk = "phyAtk",
     phyDef = "phyDef",
     magicAtk = "magicAtk",
@@ -46,7 +49,7 @@ export class HeroInfo {
     get HeroDB() {
         return this.heroDB;
     }
-    get HeroInfo() {
+    get IHeroInfo() {
         return this.hero;
     }
     get CurrAtkFrame() {
@@ -107,7 +110,7 @@ export class HeroInfo {
     public loadHeroInitAttr(user: IUserInfo, hero: IHeroInfo): IHeroAttr {
         // test
         let heroAttr: IHeroAttr;
-        heroAttr = {hp: 100, phyAtk: 100, phyDef: 100, magicAtk: 100, magicDef: 100, crit: 100, atkSpeed: 100, block: 10, camp: user.camp, posIdx: hero.posIdx};
+        heroAttr = {hp: 100,maxHp: 100, phyAtk: 100, phyDef: 100, magicAtk: 100, magicDef: 100, crit: 100, atkSpeed: 100, block: 10, camp: user.camp, posIdx: hero.posIdx};
         heroAttr.hp = this.getHp(hero);
         heroAttr.phyAtk = this.getAtk(hero);
         heroAttr.magicAtk = heroAttr.phyAtk;
@@ -181,6 +184,8 @@ export class HeroInfo {
             default:
                 break;
         }
+        
+        EventManager.getInstance().dispatchEvent(EBattleTrigger.onPropChange, { model: model,key: key});
     }
     /**
      * - 检查技能是否解锁
