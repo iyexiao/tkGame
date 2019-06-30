@@ -190,12 +190,15 @@ export default class ModelBase {
      */
     public giveOutOneSkillAtk() {
         const atkInfo = this.skillCom.CurrSkill.CurrrAtkInfo;
-        if (atkInfo.checkIsFirst()) {
+        let isFirst = atkInfo.checkIsFirst();
+        if (isFirst) {
             atkInfo.updateIsFirst(); // 第一次命中需要算 buff
-            EventManager.getInstance().dispatchEvent(EBattleTrigger.onSkillHurt, {model: this});
         }
         // 计算伤害
         for (const model of this.skillCom.getChooseModelList()) {
+            if (isFirst) {
+                EventManager.getInstance().dispatchEvent(EBattleTrigger.onSkillHurt, {model: model});
+            }
             // let dmg = atkInfo.getDamage() * 5 - (model.heroInfo.HeroAttr.phyDef * 3 + model.heroInfo.HeroAttr.magicDef * 2);
             let dmg = atkInfo.getDamage();
             dmg = dmg <= 0 ? 0 : dmg;

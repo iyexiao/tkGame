@@ -104,6 +104,7 @@ export default class LogsManager {
             const heroList:[] = report[index];
             let tmpStr = " camp:" + index + "{";
             heroList.forEach(hero => {
+                // @ts-ignore
                 tmpStr = tmpStr + " [hid: " + hero.hid + " posIdx: " + hero.posIdx +" hp: " + hero.hp + "],";
             });
             this.log(tmpStr + "}");

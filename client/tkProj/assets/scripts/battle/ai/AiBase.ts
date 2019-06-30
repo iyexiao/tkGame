@@ -134,7 +134,7 @@ export default abstract class SkillAiBase {
     public onSkillEnd(param: any): void {}
     /**
      * - 当英雄受到技能伤害时(一个技能只会触发一次)
-     * @param param 
+     * @param {model} 收到伤害的英雄
      */
     public onSkillHurt(param: any): void {}
     /**

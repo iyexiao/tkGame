@@ -35,6 +35,9 @@ export default class BattleHeroTmpl extends cc.Component {
         
         EventManager.getInstance().addEventListener(EBattleTrigger.onPropChange,this.onPropChange,this);
         EventManager.getInstance().addEventListener(EBattleTrigger.onDead,this.onDead,this);
+        EventManager.getInstance().addEventListener(EBattleTrigger.onSkillStart,this.onSkillStart,this);
+        EventManager.getInstance().addEventListener(EBattleTrigger.onSkillHurt,this.onSkillHurt,this);
+        
     }
 
     /**
@@ -94,10 +97,39 @@ export default class BattleHeroTmpl extends cc.Component {
             return;
         }
         // 图片置灰
-        this.heroSp.setMaterial(0, cc.Material.getBuiltinMaterial('gray-sprite');
+        // @ts-ignore
+        this.heroSp.setMaterial(0, cc.Material.getBuiltinMaterial('gray-sprite'));
 
         EventManager.getInstance().removeEventListener(EBattleTrigger.onPropChange,this.onPropChange,this);
         EventManager.getInstance().removeEventListener(EBattleTrigger.onDead,this.onDead,this);
+    }
+    /**
+     * 角色开始攻击
+     * @param params 
+     */
+    public onSkillStart(params: any) {
+        if (params.model !== this.heroModel) {
+            return;
+        }
+        const scale = this.node.scale;
+        const tmpScale = 1.2 * scale;
+        const a1 = cc.scaleTo(0.2,tmpScale,tmpScale);
+        const a2 = cc.scaleTo(0.2,scale,scale);
+        this.node.runAction(cc.sequence(a1,a2));
+    }
+    public onSkillHurt(params: any) {
+        if (params.model !== this.heroModel) {
+            return;
+        }
+        const self = this;
+        const a1 = cc.callFunc(()=>{
+            self.heroSp.node.color = new cc.Color(255, 0, 0);
+        });
+        const a2 = cc.delayTime(0.5);
+        const a3 = cc.callFunc(()=>{
+            self.heroSp.node.color = new cc.Color(255, 255, 255);
+        });
+        this.node.runAction(cc.sequence(a1,a2,a3));
     }
     
 }
