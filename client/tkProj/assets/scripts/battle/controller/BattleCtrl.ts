@@ -5,7 +5,7 @@ import HandleCtrl from "./HandleCtrl";
 import LevelCtrl from "./LevelCtrl";
 import LogicCtrl from "./LogicCtrl";
 import RandomCtrl from "./RandomCtrl";
-import { EGameType } from "../utils/UtilsEnum";
+import { EGameType, EGameResult } from "../utils/UtilsEnum";
 
 /**
  * @class BattleCtrl
@@ -22,6 +22,7 @@ export default class BattleCtrl {
     private logicCtrl: LogicCtrl = null;
     private handleCtrl: HandleCtrl = null;
     private gameType: EGameType = EGameType.dummy;
+    private battleResult: EGameResult = null; //战斗结束与否
 
     constructor(bInfo: IBattleInfo, gType?: EGameType) {
         if (gType) {
@@ -39,6 +40,19 @@ export default class BattleCtrl {
     }
     public startOneBattle() {
         this.gameCtrl.startBattle();
+    }
+    /**
+     * - 更新战斗结束状态
+     * @params bResult
+     */
+    updateBattleResult(bResult: EGameResult) {
+        this.battleResult = bResult;
+    }
+    /**
+     * @description 存储战报
+     */
+    saveBattleReport(rtList: any) {
+        LogsManager.getInstance().dumpBattleReport(rtList);
     }
     /**
      * - 获取游戏模式

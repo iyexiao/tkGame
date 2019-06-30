@@ -232,7 +232,8 @@ export default class ModelBase {
         // 角色死亡
         if (this.isAlive) {
             this.isAlive = false;
-            this.ctrl.BattleCtrl.LogicCtrl.onOneModelDead(this);
+            this.ctrl.onOneModelDead(this);
+            EventManager.getInstance().dispatchEvent(EBattleTrigger.onDead, { model: this});
             LogsManager.getInstance().skilllog(EBattleTrigger.onDead,  this );
         }
     }

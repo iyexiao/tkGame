@@ -1,6 +1,6 @@
 interface IEvent {
     eventType: string;
-    thisObject?: any;
+    thisObject: any;
     callback: (data: any) => void;
 }
 
@@ -21,15 +21,18 @@ export default class EventManager {
      * - 添加一个事件监听
      * @param eventType 事件类型
      * @param callback 回调方法
+     * @param thisObject 监听对象
      */
-    public addEventListener(eventType: string, callback: any, thisObject?: any) {
+    public addEventListener(eventType: string, callback: any, thisObject: any) {
         if (!eventType || !callback) {
             return;
         }
         const tmpArr: IEvent[] = this.eventList[eventType] || [];
         for (const iterator of tmpArr) {
-            if (iterator.callback === callback) {
-                return;
+            if (iterator.thisObject && thisObject) {
+                if (iterator.thisObject === thisObject) {
+                    return
+                }
             }
         }
         const ievent: IEvent = {
@@ -52,8 +55,6 @@ export default class EventManager {
             if (iterator.thisObject) {
                 // 在回调的时候, 不要直接func(agrs) 而是改成 func.call(目标对象, args)
                 iterator.callback.call(iterator.thisObject, params);
-            } else {
-                iterator.callback(params);
             }
         }
     }
@@ -61,15 +62,16 @@ export default class EventManager {
      * - 移除一个事件监听
      * @param eventType
      * @param callback
+     * @param thisObject 监听对象
      */
-    public removeEventListener(eventType: string, callback: any) {
+    public removeEventListener(eventType: string, callback: any, thisObject: any) {
         if (!eventType || !callback) {
             return;
          }
         const tmpArr: IEvent[]  = this.eventList[eventType] || [];
 
         for (let i = 0; i < tmpArr.length; i++) {
-             if (tmpArr[i].callback === callback) {
+             if (tmpArr[i].thisObject === thisObject) {
                 tmpArr.splice(i, 1);
                 break;
              }

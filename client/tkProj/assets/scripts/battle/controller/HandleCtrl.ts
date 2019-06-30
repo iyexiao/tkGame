@@ -53,6 +53,12 @@ export default class HandleCtrl extends BaseCtrl {
         return false;
     }
     /**
+     * @description 清空出售顺序
+     */
+    public clearModelHandle() {
+        this.handleArr = [];
+    }
+    /**
      * 向出手队列里面添加一个英雄,此时也已经做的排序，并且是从后往前排序，也就是说，如果遇到相同atkspeed的时候，只会排在最后面
      * @param model
      * @returns 添加是否成功

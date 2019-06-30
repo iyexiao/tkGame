@@ -99,4 +99,14 @@ export default class LogsManager {
         }
         this.log(logStr);
     }
+    public dumpBattleReport(report:[]) {
+        for (let index = 0; index < report.length; index++) {
+            const heroList:[] = report[index];
+            let tmpStr = " camp:" + index + "{";
+            heroList.forEach(hero => {
+                tmpStr = tmpStr + " [hid: " + hero.hid + " posIdx: " + hero.posIdx +" hp: " + hero.hp + "],";
+            });
+            this.log(tmpStr + "}");
+        };
+    }
 }

@@ -50,6 +50,13 @@ export enum ECreaseType {
     decrease,            // 减益
 }
 /**
+ * @enum 战斗结果
+ */
+export enum EGameResult {
+    win = 0,
+    lose,
+}
+/**
  * @enum 技能类型
  */
 export enum ESkillType {
@@ -72,8 +79,6 @@ export enum EBattleTrigger {
     onBuffExchange = "onBuffExchange", // buff产生变化(增加或者减少)
     onDead = "onDead",              // 角色死亡时
     onKill = "onKill",              // 击杀角色时
-    onRoundStart= "onRoundStart",    // 当一个回合开始
-    onRoundEnd= "onRoundEnd",        // 当一个回合结束
 }
 /**
  * @enum 选敌行列方式

@@ -1,6 +1,7 @@
 import ModelBase from "../model/ModelBase";
 import BaseCtrl from "./BaseCtrl";
 import BattleCtrl from "./BattleCtrl";
+import { ECamp } from "../utils/UtilsEnum";
 /**
  * @class LogicCtrl
  * @extends BaseCtrl
@@ -23,15 +24,6 @@ export default class LogicCtrl extends BaseCtrl {
         for (const model of arr) {
             model.checkToPlaySkill();
         }
-    }
-    /**
-     * - 当一个英雄死亡时触发
-     * @param model 死亡的角色
-     */
-    public onOneModelDead(model: ModelBase) {
-        // 从出手顺序中移除它，并把它放入死亡列表(有可能复活)，
-        this.BattleCtrl.HandleCtrl.delModelHandle(model);
-        this.BattleCtrl.GameCtrl.removeOneModelToDeadArr(model);
     }
     public onOneModelHurt(model: ModelBase) {
         //

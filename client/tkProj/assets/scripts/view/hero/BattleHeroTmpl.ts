@@ -31,7 +31,10 @@ export default class BattleHeroTmpl extends cc.Component {
         this.nameLab = cc.find("Lab_Name",this.node).getComponent(cc.Label);
         this.starNd = cc.find("Nd_Star",this.node);
         this.hpPb = cc.find("PB_HP",this.node).getComponent(cc.ProgressBar);
-        EventManager.getInstance().addEventListener(EBattleTrigger.onPropChange,this.onPropChange,this)
+
+        
+        EventManager.getInstance().addEventListener(EBattleTrigger.onPropChange,this.onPropChange,this);
+        EventManager.getInstance().addEventListener(EBattleTrigger.onDead,this.onDead,this);
     }
 
     /**
@@ -76,16 +79,24 @@ export default class BattleHeroTmpl extends cc.Component {
      * @param params {model,key}
      */
     public onPropChange(params:any) {
-        cc.log("aa===",params.model != this.heroModel,params.model !== this.heroModel)
         if (params.model !== this.heroModel) {
             return;
         }
         if (params.key === EHeroAttr.hp) {
-            cc.log("血量变化====");
             const heroInfo:HeroInfo = this.heroModel.HeroInfo;
             const per = Math.ceil(heroInfo.HeroAttr.hp / heroInfo.HeroAttr.maxHp * 100 )/100;
             this.hpPb.progress = per;
         }
+    }
+    public onDead(params:any) {
+        if (params.model !== this.heroModel) {
+            return;
+        }
+        // 图片置灰
+        this.heroSp.setMaterial(0, cc.Material.getBuiltinMaterial('gray-sprite');
+
+        EventManager.getInstance().removeEventListener(EBattleTrigger.onPropChange,this.onPropChange,this);
+        EventManager.getInstance().removeEventListener(EBattleTrigger.onDead,this.onDead,this);
     }
     
 }

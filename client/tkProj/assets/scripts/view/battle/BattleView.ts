@@ -74,6 +74,11 @@ export default class BattleView extends cc.Component {
 	// *************************游戏更新相关逻辑******************************************
     // 真正的更新循环
 	public runBySpeedUpdate() {
+		// 如果游戏结束了，就返回
+		if (this.gameStep == EGameStep.result) {
+			cc.log("战斗结束了");
+			return;
+		};
 		this.battleCtrl.GameCtrl.doBattleLockStep();
 	};
 	// 设置游戏速率
@@ -98,10 +103,6 @@ export default class BattleView extends cc.Component {
 			let count = Math.floor(this.updateSpeed);
 			for (var i = 1; i <= count; i++) {
 				this.runBySpeedUpdate();
-				// 如果游戏结束了，就返回
-				if (this.gameStep == EGameStep.result) {
-					break;
-				};
 			};
 			let leftCount = this.updateSpeed - count;
 			this.updateSpeedCount += count;

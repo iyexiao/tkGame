@@ -2,7 +2,7 @@ import ConstValue from "../ConstValue";
 import {HeroInfo} from "../info/HeroInfo";
 import ModelBase from "../model/ModelBase";
 import LogsManager from "../utils/LogsManager";
-import {ECamp, EGameType, EGameStep} from "../utils/UtilsEnum";
+import {ECamp, EGameType, EGameStep, EGameResult} from "../utils/UtilsEnum";
 import BaseCtrl from "./BaseCtrl";
 import BattleCtrl from "./BattleCtrl";
 /**
@@ -85,6 +85,9 @@ export default class GameCtrl extends BaseCtrl {
      */
     public startGameLoopByDummy() {
         for (let index = 0; index < ConstValue.GAME_TOTAL_FRAME; index++) {
+            if (this.gameStep ===  EGameStep.result) {
+                break;
+            }
             this.doBattleLockStep();
         }
     }
@@ -171,11 +174,68 @@ export default class GameCtrl extends BaseCtrl {
         return tmpList;
     }
     /**
+     * @description 根据阵营检查是否有存活角色
+     * @param camp 
+     */
+    public checkHaveAliveModelByCamp(camp: ECamp) {
+        for (let index = 0; index < this.aliveModelArr.length; index++) {
+            const model = this.aliveModelArr[index];
+            if (model.getHeroCamp() === camp && model.checkIsAlive()) {
+                return true;
+            }
+        }
+        return false;
+    }
+    /**
      * - 从可行动的数组里移除一个英雄
      * @param model 将要移除的英雄
      */
-    public removeOneModelToDeadArr(model: ModelBase) {
+    public onOneModelDead(model: ModelBase) {
+        // 从出手顺序中移除它，并把它放入死亡列表(有可能复活)，
+        this.BattleCtrl.HandleCtrl.delModelHandle(model);
         this.aliveModelArr.filter((item) => item !== model);
         this.deadModelArr.push(model);
+        this.checkEndBattle();
+    }
+    /**
+     * @description 检查游戏是否结束
+     */
+    public checkEndBattle() {
+        const self = this;
+        let doEndBattleLogic = function(gResult: EGameResult) {
+            if (self.gameStep == EGameStep.result) {
+                return;
+            }
+            self.gameStep = EGameStep.result;
+            self.BattleCtrl.updateBattleResult(gResult);
+            // 清空出手顺序
+            self.BattleCtrl.HandleCtrl.clearModelHandle();
+            // 存储战报
+            self.BattleCtrl.saveBattleReport(self.getBattleHeroReport());
+        }
+        // 每死亡一个人，都需要检查战斗是否结束 TODO:需要校验我方阵营归属
+        if(!this.checkHaveAliveModelByCamp(ECamp.camp1)) {
+            doEndBattleLogic(EGameResult.lose);
+        }
+        if(!this.checkHaveAliveModelByCamp(ECamp.camp2)) {
+            doEndBattleLogic(EGameResult.win);
+        }
+    }
+    /**
+     * @description 获取战斗结果的英雄数据
+     */
+    getBattleHeroReport() {
+        const rtList = [[],[]];
+        for (let index = 0; index < this.aliveModelArr.length; index++) {
+            const model = this.aliveModelArr[index];
+            // hid、posIdx、hp
+            const rtObj = {
+                hid:model.HeroInfo.HeroDB.id,
+                posIdx:model.getHeroPosIndex(),
+                hp: model.HeroInfo.HeroAttr.hp
+            }
+            rtList[model.getHeroCamp()].push(rtObj);
+        }
+        return rtList;
     }
 }
